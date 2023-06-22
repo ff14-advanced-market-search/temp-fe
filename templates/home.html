@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <!-- Favicon -->
+    <!--link rel="shortcut icon" href="{{url_for('static', filename='images/favicon.ico')}}"-->
+
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script type = "text/javascript"  src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script type = "text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script type = "text/javascript"  src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Datatable -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+    <script type = "text/javascript"  src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script type = "text/javascript"  src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script type = "text/javascript"  src="https://cdn.datatables.net/plug-ins/1.10.15/dataRender/datetime.js"></script>
+
+    <meta charset="UTF-8">
+    <title>Saddlebag Exchange Search</title>
+    <meta charset="description" content="Shows the results of any of our searches to help you master the marketboard and earn major gil!">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Ads -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7398832994051812"
+     crossorigin="anonymous"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J22872QEWM"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-J22872QEWM');
+    </script>
+  </head>
+  <body>
+    <div class="card">
+      <div class="card-body">
+        <!-- results -->
+        <div class="mt-4">
+          {% if request.method == 'POST'%}
+            <table id="proxies" class="display table nowrap responsive" style="width: 100%">
+              <thead>
+                <tr>
+                  {% for header in results[0].keys() %}
+                    <th>{{header}}</th>
+                  {% endfor %}
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in results %}
+                  <tr>
+                    {% for index in range(0, len(fieldnames)) %}
+                      <td>{{row[fieldnames[index]]}}</td>
+                    {% endfor %}
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% endif %}
+        </div>
+        <!-- input commands -->
+        <form method="POST" action="/" target="_blank" class="scanform">
+                <p><b>The time period to search over.</b> ex: `24` is the past 24 hours. For more items to sell choose a higher number.</p>
+                <div class="input-row flex">
+                    <label>scan_hours:</label>
+                    <input name="scan_hours" type="text" value="24">
+                </div>
+
+                <p><b>Number of sales in that time.</b> ex: `5` is 5 sales in that selected time period. For more items to sell choose a lower number.</p>
+                <div class="input-row flex">
+                    <label>sale_amt:</label>
+                    <input name="sale_amt" type="text" value="5">
+                </div>
+
+                <p><b>Desired R.O.I (return on investment):</b> ex: `50` means that 50% of the revenue you get from a sale should be all profit (after tax). For <b>more profit</b>, choose a higher number from 1 to 100.</p>
+                <div class="input-row flex">
+                    <label>roi:</label>
+                    <input name="roi" type="text" value="50">
+                </div>
+
+                <p><b>The Home server of your character that you want to sell items on.</b> ex: `Famfrit`</p>
+                <div class="input-row flex">
+                    <label>home_server:</label>
+                    <select id="home_server" name="home_server">
+                        <option value="Adamantoise">Adamantoise</option>
+                        <option value="Aegis">Aegis</option>
+                        <option value="Alexander">Alexander</option>
+                        <option value="Anima">Anima</option>
+                        <option value="Asura">Asura</option>
+                        <option value="Atomos">Atomos</option>
+                        <option value="Bahamut">Bahamut</option>
+                        <option value="Balmung">Balmung</option>
+                        <option value="Behemoth">Behemoth</option>
+                        <option value="Belias">Belias</option>
+                        <option value="Bismarck">Bismarck</option>
+                        <option value="Brynhildr">Brynhildr</option>
+                        <option value="Cactuar">Cactuar</option>
+                        <option value="Carbuncle">Carbuncle</option>
+                        <option value="Cerberus">Cerberus</option>
+                        <option value="Chocobo">Chocobo</option>
+                        <option value="Coeurl">Coeurl</option>
+                        <option value="Diabolos">Diabolos</option>
+                        <option value="Durandal">Durandal</option>
+                        <option value="Excalibur">Excalibur</option>
+                        <option value="Exodus">Exodus</option>
+                        <option value="Faerie">Faerie</option>
+                        <option value="Famfrit">Famfrit</option>
+                        <option value="Fenrir">Fenrir</option>
+                        <option value="Garuda">Garuda</option>
+                        <option value="Gilgamesh">Gilgamesh</option>
+                        <option value="Goblin">Goblin</option>
+                        <option value="Gungnir">Gungnir</option>
+                        <option value="Hades">Hades</option>
+                        <option value="Hyperion">Hyperion</option>
+                        <option value="Ifrit">Ifrit</option>
+                        <option value="Ixion">Ixion</option>
+                        <option value="Jenova">Jenova</option>
+                        <option value="Kujata">Kujata</option>
+                        <option value="Lamia">Lamia</option>
+                        <option value="Leviathan">Leviathan</option>
+                        <option value="Lich">Lich</option>
+                        <option value="Louisoix">Louisoix</option>
+                        <option value="Malboro">Malboro</option>
+                        <option value="Mandragora">Mandragora</option>
+                        <option value="Masamune">Masamune</option>
+                        <option value="Mateus">Mateus</option>
+                        <option value="Midgardsormr">Midgardsormr</option>
+                        <option value="Moogle">Moogle</option>
+                        <option value="Odin">Odin</option>
+                        <option value="Omega">Omega</option>
+                        <option value="Pandaemonium">Pandaemonium</option>
+                        <option value="Phoenix">Phoenix</option>
+                        <option value="Ragnarok">Ragnarok</option>
+                        <option value="Ramuh">Ramuh</option>
+                        <option value="Ravana">Ravana</option>
+                        <option value="Ridill">Ridill</option>
+                        <option value="Sargatanas">Sargatanas</option>
+                        <option value="Sephirot">Sephirot</option>
+                        <option value="Shinryu">Shinryu</option>
+                        <option value="Shiva">Shiva</option>
+                        <option value="Siren">Siren</option>
+                        <option value="Sophia">Sophia</option>
+                        <option value="Spriggan">Spriggan</option>
+                        <option value="Tiamat">Tiamat</option>
+                        <option value="Titan">Titan</option>
+                        <option value="Tonberry">Tonberry</option>
+                        <option value="Twintania">Twintania</option>
+                        <option value="Typhon">Typhon</option>
+                        <option value="Ultima">Ultima</option>
+                        <option value="Ultros">Ultros</option>
+                        <option value="Unicorn">Unicorn</option>
+                        <option value="Valefor">Valefor</option>
+                        <option value="Yojimbo">Yojimbo</option>
+                        <option value="Zalera">Zalera</option>
+                        <option value="Zeromus">Zeromus</option>
+                        <option value="Zodiark">Zodiark</option>
+                        <option value="Zurvan">Zurvan</option>
+                        <option value="BaiJinHuanXiang">BaiJinHuanXiang</option>
+                        <option value="ChaoFengTing">ChaoFengTing</option>
+                        <option value="FuXiaoZhiJian">FuXiaoZhiJian</option>
+                        <option value="HaiMaoChaWu">HaiMaoChaWu</option>
+                        <option value="HongChaChuan">HongChaChuan</option>
+                        <option value="HongYuHai">HongYuHai</option>
+                        <option value="HuPoYuan">HuPoYuan</option>
+                        <option value="HuanYingQunDao">HuanYingQunDao</option>
+                        <option value="HuangJinGu">HuangJinGu</option>
+                        <option value="JingYuZhuangYuan">JingYuZhuangYuan</option>
+                        <option value="LaNuoXiYa">LaNuoXiYa</option>
+                        <option value="Longchaoshendian">Longchaoshendian</option>
+                        <option value="LvRenZhanQiao">LvRenZhanQiao</option>
+                        <option value="MengYaChi">MengYaChi</option>
+                        <option value="MengYuBaoJing">MengYuBaoJing</option>
+                        <option value="MoDuNa">MoDuNa</option>
+                        <option value="RouFengHaiWan">RouFengHaiWan</option>
+                        <option value="ShenQuanHen">ShenQuanHen</option>
+                        <option value="ShenYiZhiDi">ShenYiZhiDi</option>
+                        <option value="ShuiJingTa">ShuiJingTa</option>
+                        <option value="TaiYangHaiAn">TaiYangHaiAn</option>
+                        <option value="WoXianXiRan">WoXianXiRan</option>
+                        <option value="XueSongYuan">XueSongYuan</option>
+                        <option value="YanXia">YanXia</option>
+                        <option value="YiXiuJiaDe">YiXiuJiaDe</option>
+                        <option value="YinLeiHu">YinLeiHu</option>
+                        <option value="YuZhouHeYin">YuZhouHeYin</option>
+                        <option value="YueYaWan">YueYaWan</option>
+                        <option value="ZiShuiZhanQiao">ZiShuiZhanQiao</option>
+                        <option value="Alpha">Alpha</option>
+                        <option value="Raiden">Raiden</option>
+                        <option value="Phantom">Phantom</option>
+                        <option value="Sagittarius">Sagittarius</option>
+                    </select>
+                </div>
+
+                <p><b>Filter item category.</b> ex: `Armor` will only show items from armor item types</p>
+                <div class="input-row flex">
+                    <label>filters:</label>
+                    <select id="filters" name="filters">
+                        <option value="0">Show All Items</option>
+                        <option value="-1">Items Sold by Vendors</option>
+                        <option value="1">Arms</option>
+                        <option value="2">Tools</option>
+                        <option value="3">Armor</option>
+                        <option value="4">Accessories</option>
+                        <option value="5">Medicines & Meals</option>
+                        <option value="6">Materials</option>
+                        <option value="7">Other</option>
+                        <option value="9">Pugilist's Arms</option>
+                        <option value="10">Gladiator's Arms</option>
+                        <option value="11">Marauder's Arms</option>
+                        <option value="12">Archer's Arms</option>
+                        <option value="13">Lancer's Arms</option>
+                        <option value="14">Thaumaturge's Arms</option>
+                        <option value="15">Conjurer's Arms</option>
+                        <option value="16">Arcanist's Arms</option>
+                        <option value="17">Shields</option>
+                        <option value="19">Carpenter's Tools</option>
+                        <option value="20">Blacksmith's Tools</option>
+                        <option value="21">Armorer's Tools</option>
+                        <option value="22">Goldsmith's Tools</option>
+                        <option value="23">Leatherworker's Tools</option>
+                        <option value="24">Weaver's Tools</option>
+                        <option value="25">Alchemist's Tools</option>
+                        <option value="26">Culinarian's Tools</option>
+                        <option value="27">Miner's Tools</option>
+                        <option value="28">Botanist's Tools</option>
+                        <option value="29">Fisher's Tools</option>
+                        <option value="30">Fishing Tackle</option>
+                        <option value="31">Head</option>
+                        <option value="33">Body</option>
+                        <option value="35">Legs</option>
+                        <option value="36">Hands</option>
+                        <option value="37">Feet</option>
+                        <option value="39">Necklaces</option>
+                        <option value="40">Earrings</option>
+                        <option value="41">Bracelets</option>
+                        <option value="42">Rings</option>
+                        <option value="43">Medicine</option>
+                        <option value="44">Ingredients</option>
+                        <option value="45">Meals</option>
+                        <option value="46">Seafood</option>
+                        <option value="47">Stone</option>
+                        <option value="48">Metal</option>
+                        <option value="49">Lumber</option>
+                        <option value="50">Cloth</option>
+                        <option value="51">Leather</option>
+                        <option value="52">Bone</option>
+                        <option value="53">Reagents</option>
+                        <option value="54">Dyes</option>
+                        <option value="55">Weapon Parts</option>
+                        <option value="56">Furnishings</option>
+                        <option value="57">Materia</option>
+                        <option value="58">Crystals</option>
+                        <option value="59">Catalysts</option>
+                        <option value="60">Miscellany</option>
+                        <option value="65">Exterior Fixtures</option>
+                        <option value="66">Interior Fixtures</option>
+                        <option value="67">Outdoor Furnishings</option>
+                        <option value="68">Chairs and Beds</option>
+                        <option value="69">Tables</option>
+                        <option value="70">Tabletop</option>
+                        <option value="71">Wall-mounted</option>
+                        <option value="72">Rugs</option>
+                        <option value="73">Rogue's Arms</option>
+                        <option value="74">Seasonal Miscellany</option>
+                        <option value="75">Minions</option>
+                        <option value="76">Dark Knight's Arms</option>
+                        <option value="77">Machinist's Arms</option>
+                        <option value="78">Astrologian's Arms</option>
+                        <option value="79">Airship/Submersible Components</option>
+                        <option value="80">Orchestrion Components</option>
+                        <option value="81">Gardening Items</option>
+                        <option value="82">Paintings</option>
+                        <option value="83">Samurai's Arms</option>
+                        <option value="84">Red Mage's Arms</option>
+                        <option value="85">Scholar's Arms</option>
+                        <option value="86">Gunbreaker's Arms</option>
+                        <option value="87">Dancer's Arms</option>
+                        <option value="88">Reaper's Arms</option>
+                        <option value="89">Sage's Arms</option>
+                        <option value="90">Registrable Miscellany</option>
+                    </select>
+                </div>
+
+                <p><b>Desired Min Stack Size.</b> ex: `10` is only show deals you can get in stacks of 10 or greater. For more items to sell choose a lower number.</p>
+                <div class="input-row flex">
+                    <label>stack_size:</label>
+                    <input name="stack_size" type="text" value="1">
+                </div>
+
+                <p><b>HQ only?</b> Only search for hq prices?</p>
+                <div class="input-row flex">
+                    <label>HQ only:</label>
+                    <select id="hq_only" name="hq_only">
+                        <option value="False">False</option>
+                        <option value="True">True</option>
+                    </select>
+                </div>
+
+                <p><b>Desired Min Profit Amount.</b> ex: `10000` is only show deals that yields 10000 gil profit or greater. For more items to sell choose a lower number.</p>
+                <div class="input-row flex">
+                    <label>profit_amt:</label>
+                    <input name="profit_amt" type="text" value="10000">
+                </div>
+
+                <p><b>Desired Average Price Per Unit.</b> ex: `10000` is only show deals that sell on average for 10000 gil or greater. For more items to sell choose a lower number.</p>
+                <div class="input-row flex">
+                    <label>average_price:</label>
+                    <input name="min_desired_avg_ppu" type="text" value="10000">
+                </div>
+
+                <!-- <p><b>Language:</b> change language for item names.</p>
+                <div class="input-row flex">
+                    <label>lang:</label>
+                    <select id="language" name="language">
+                        <option value="en">english</option>
+                        <option value="de">german</option>
+                        <option value="fr">french</option>
+                        <option value="ja">japanese</option>
+                    </select>
+                </div> -->
+
+                <p><b>Region Wide Search:</b> `True` will search all servers in all datacenters in your region. `False` will just search the local DC.</p>
+                <div class="input-row flex">
+                    <label>region wide:</label>
+                    <select id="game_wide" name="game_wide">
+                        <option value="False">False</option>
+                        <option value="True">True</option>
+                    </select>
+                </div>
+
+                <p><b>Show Vendor Prices:</b> `True` will compare market prices vs vendor prices on NQ items that can be purchased from vendors.</p>
+                <div class="input-row flex">
+                    <label>include_vendor:</label>
+                    <select id="include_vendor" name="include_vendor">
+                        <option value="False">False</option>
+                        <option value="True">True</option>
+                    </select>
+                </div>
+
+                <p><b>Show Out of Stock:</b> `False` will remove out of stock items from the list which show up as having 100% profit margins and 1 bil gil profit.</p>
+                <div class="input-row flex">
+                    <label>out_stock:</label>
+                    <select id="out_stock" name="out_stock">
+                        <option value="True">True</option>
+                        <option value="False">False</option>
+                    </select>
+                </div>
+                
+                <button type="submit" value="submit" class="primary-btn">Submit</button>
+        </form>
+
+      </div>
+    </div>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7398832994051812"
+     crossorigin="anonymous"></script>
+  </body>
+  <script type="text/javascript">
+    $('#proxies').DataTable();
+  </script>
+  
+</html>
+
+
+
+
+
+

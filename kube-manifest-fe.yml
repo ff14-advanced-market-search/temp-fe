@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-test
+spec:
+  selector:
+    matchLabels:
+      run: flask-test
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: flask-test
+    spec:
+      containers:
+      - name: flask-test
+        image: cohenaj194/flask_test
+        ports:
+        - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: http-lb-flask
+spec:
+  selector:
+    run: flask-test
+  ports:
+    - port: 80
+      targetPort: 5000
+  type: LoadBalancer
+
