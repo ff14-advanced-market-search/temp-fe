@@ -16,6 +16,12 @@ def str_to_bool(bool_str):
 def root(): 
     return render_template('index.html', len=len)
 
+@app.route('/wow/uploadtimers', methods=['GET', 'POST'])
+def uploadtimers():
+    if request.method == 'GET':
+        return render_template('uploadtimers.html')
+    elif request.method == 'POST':
+        results = []
 
 @app.route('/scan', methods=['GET', 'POST'])
 def scan(): 
@@ -114,12 +120,12 @@ def scan():
             } for item in list(response.values())
         ]
 
-        return render_template('home.html', results=item_list, fieldnames=fieldnames, len=len)
+        return render_template('oldscan.html', results=item_list, fieldnames=fieldnames, len=len)
 
 
 if __name__ == '__main__':
     ## http
-    app.run(host='0.0.0.0',debug=True)
+    app.run(host='0.0.0.0', debug=True)
 
     # ## https
     # app.run(host='0.0.0.0',port=443,debug=True, ssl_context=("./certs/full_chain.crt","./certs/private.key"))
