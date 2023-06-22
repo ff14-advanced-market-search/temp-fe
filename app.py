@@ -20,7 +20,7 @@ def root():
 @app.route('/scan', methods=['GET', 'POST'])
 def scan(): 
     if request.method == 'GET':
-        return render_template('home.html')
+        return render_template('oldscan.html')
     elif request.method == 'POST':
         results = []
         
