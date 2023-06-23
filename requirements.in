@@ -1,0 +1,10 @@
+Flask
+flask_cors
+gunicorn
+requests
+tenacity
+mysqlclient
+wcwidth
+ipython
+python-dotenv
+Flask-Limiter
