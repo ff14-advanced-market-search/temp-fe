@@ -6,7 +6,7 @@ spec:
   selector:
     matchLabels:
       run: flask-test
-  replicas: 1
+  replicas: 4
   template:
     metadata:
       labels:
