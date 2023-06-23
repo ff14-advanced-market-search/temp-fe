@@ -29,7 +29,11 @@ def uploadtimers():
             "http://api.saddlebagexchange.com/api/wow/uploadtimers",
             headers=headers,
             json=json_data,
-        ).json()["data"]
+        ).json()
+
+        if "data" not in response:
+            return f"Error no matching data with given inputs {response}"
+        response = response["data"]
 
         fieldnames = list(response[0].keys())
 
@@ -78,7 +82,11 @@ def petshoppinglist():
             "http://api.saddlebagexchange.com/api/wow/petshoppinglist",
             headers=headers,
             json=json_data,
-        ).json()["data"]
+        ).json()
+
+        if "data" not in response:
+            return f"Error no matching data with given inputs {response}"
+        response = response["data"]
 
         fieldnames = list(response[0].keys())
 
@@ -126,7 +134,11 @@ def scan():
             "http://api.saddlebagexchange.com/api/scan/",
             headers=headers,
             json=json_data,
-        ).json()["data"]
+        ).json()
+
+        if "data" not in response:
+            return f"Error no matching data with given inputs {response}"
+        response = response["data"]
 
         fieldnames = list(response[0].keys())
 
