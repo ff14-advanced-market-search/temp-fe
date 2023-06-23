@@ -12,9 +12,11 @@ spec:
       labels:
         run: flask-test
     spec:
+      imagePullSecrets:
+      - name: regcred
       containers:
       - name: flask-test
-        image: cohenaj194/flask_test
+        image: cohenaj194/flask-test
         ports:
         - containerPort: 5000
 ---
