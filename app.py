@@ -72,7 +72,6 @@ def scan():
         )
 
 
-
 @app.route("/uploadtimers", methods=["GET", "POST"])
 def uploadtimers():
     if request.method == "GET":
@@ -271,7 +270,7 @@ def regionundercut():
         addonData = request.form.get("addonData")
         json_data = {
             "region": request.form.get("region"),
-            "homeRealmID":  int(request.form.get("homeRealmID")),
+            "homeRealmID": int(request.form.get("homeRealmID")),
             "addonData": json.loads(addonData),
         }
 
@@ -283,9 +282,9 @@ def regionundercut():
 
         if "undercut_list" not in response:
             return f"Error no matching data with given inputs {response}"
-        response = response["undercut_list"]
+        undercuts = response["undercut_list"]
 
-        for row in response:
+        for row in undercuts:
             del row["connectedRealmId"]
             realmName = row["realmName"]
             del row["realmName"]
@@ -294,11 +293,30 @@ def regionundercut():
             del row["link"]
             row["undermineLink"] = undermineLink
 
+        undercuts_fieldnames = list(undercuts[0].keys())
 
-        fieldnames = list(response[0].keys())
+        if "not_found_list" not in response:
+            return f"Error no matching data with given inputs {response}"
+        not_found = response["not_found_list"]
+
+        for row in not_found:
+            del row["connectedRealmId"]
+            realmName = row["realmName"]
+            del row["realmName"]
+            row["realmName"] = realmName
+            undermineLink = row["link"]
+            del row["link"]
+            row["undermineLink"] = undermineLink
+
+        not_found_fieldnames = list(not_found[0].keys())
 
         return render_template(
-            "regionundercut.html", results=response, fieldnames=fieldnames, len=len
+            "regionundercut.html",
+            results=undercuts,
+            fieldnames=undercuts_fieldnames,
+            results_n=not_found,
+            fieldnames_n=not_found_fieldnames,
+            len=len,
         )
 
 
