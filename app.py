@@ -37,6 +37,11 @@ def uploadtimers():
             return f"Error no matching data with given inputs {response}"
         response = response["data"]
 
+        for row in response:
+            pop = row["dataSetName"]
+            del row["dataSetName"]
+            row["dataSetName"] = pop
+
         fieldnames = list(response[0].keys())
 
         return render_template(
@@ -90,6 +95,11 @@ def petshoppinglist():
             return f"Error no matching data with given inputs {response}"
         response = response["data"]
 
+        for row in response:
+            pop = row["link"]
+            del row["link"]
+            row["undermineLink"] = pop
+
         fieldnames = list(response[0].keys())
 
         return render_template(
@@ -123,6 +133,28 @@ def petmarketshare():
         if "data" not in response:
             return f"Error no matching data with given inputs {response}"
         response = response["data"]
+
+        for row in response:
+            avgTSMPrice = row["avgTSMPrice"]
+            estimatedRegionMarketValue = row["estimatedRegionMarketValue"]
+            homeMinPrice = row["homeMinPrice"]
+            itemID = row["itemID"]
+            undermineLink = row["link"]
+            warcraftPetsLink = row["warcraftPetsLink"]
+
+            del row["avgTSMPrice"]
+            del row["estimatedRegionMarketValue"]
+            del row["homeMinPrice"]
+            del row["itemID"]
+            del row["link"]
+            del row["warcraftPetsLink"]
+
+            row["avgTSMPrice"] = avgTSMPrice
+            row["estimatedRegionMarketValue"] = estimatedRegionMarketValue
+            row["homeMinPrice"] = homeMinPrice
+            row["itemID"] = itemID
+            row["undermineLink"] = undermineLink
+            row["warcraftPetsLink"] = warcraftPetsLink
 
         fieldnames = list(response[0].keys())
 
@@ -163,8 +195,11 @@ def petexport():
         for row in response:
             del row["connectedRealmID"]
             del row["realmPopulationInt"]
+            row["allRealms"] = row["connectedRealmNames"]
             row["connectedRealmNames"] = row["connectedRealmNames"][0]
+            link = row["link"]
             del row["link"]
+            row["undermineLink"] = link
 
         fieldnames = list(response[0].keys())
 
