@@ -353,6 +353,7 @@ def petimport():
 
         for row in response:
             del row["itemID"]
+            del row["lowestPriceRealmID"]
             realm = row["lowestPriceRealmName"]
             del row["lowestPriceRealmName"]
             row["lowestPriceRealmName"] = realm
@@ -361,9 +362,9 @@ def petimport():
             del row["link"]
             row["undermineLink"] = undermineLink
 
-            undermineLink = row["warcraftPetsLink"]
+            warcraftPetsLink = row["warcraftPetsLink"]
             del row["warcraftPetsLink"]
-            row["warcraftPetsLink"] = undermineLink
+            row["warcraftPetsLink"] = warcraftPetsLink
 
         fieldnames = list(response[0].keys())
 
