@@ -1,9 +1,2 @@
 Flask
-flask_cors
-gunicorn
 requests
-tenacity
-wcwidth
-ipython
-python-dotenv
-Flask-Limiter
