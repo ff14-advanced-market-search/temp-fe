@@ -280,8 +280,8 @@ def regionundercut():
             json=json_data,
         ).json()
 
-        if "undercut_list" not in response:
-            return f"Error no matching data with given inputs {response}"
+        if "undercut_list" not in response or "not_found_list" not in response:
+            return f"Error no matching data with given inputs, did you pick the right server? {response}"
         undercuts = response["undercut_list"]
 
         for row in undercuts:
