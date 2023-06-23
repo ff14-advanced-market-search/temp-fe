@@ -18,12 +18,24 @@ def root():
     return render_template("index.html", len=len)
 
 
-@app.route("/wow/uploadtimers", methods=["GET", "POST"])
+@app.route("/uploadtimers", methods=["GET", "POST"])
 def uploadtimers():
     if request.method == "GET":
         return render_template("uploadtimers.html")
     elif request.method == "POST":
-        results = []
+        headers = {"Accept": "application/json"}
+        json_data = {}
+        response = requests.post(
+            "http://api.saddlebagexchange.com/api/wow/uploadtimers",
+            headers=headers,
+            json=json_data,
+        ).json()["data"]
+
+        fieldnames = list(response[0].keys())
+
+        return render_template(
+            "uploadtimers.html", results=response, fieldnames=fieldnames, len=len
+        )
 
 
 @app.route("/scan", methods=["GET", "POST"])

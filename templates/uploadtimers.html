@@ -40,13 +40,45 @@
     </script>
   </head>
   <body>
-    <div class="col card">
-      <h1>Here are links to the temporary pages for our api.</h1></br>
-      <p>If you are a React JS Dev please reach out and help us move these to our real FE!</p></br>
-      <!--<a href="/scan" target="_blank" class="primary-btn">FFXIV reselling</a></br>-->
-      <a href="/uploadtimers" target="_blank" class="primary-btn">WoW Blizzard API AH Upload Timers</a></br>
+    <div class="card">
+      <div class="card-body">
+        <!-- results -->
+        <div class="mt-4">
+          {% if request.method == 'POST'%}
+            <table id="proxies" class="display table nowrap responsive" style="width: 100%">
+              <thead>
+                <tr>
+                  {% for header in results[0].keys() %}
+                    <th>{{header}}</th>
+                  {% endfor %}
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in results %}
+                  <tr>
+                    {% for index in range(0, len(fieldnames)) %}
+                      <td>{{row[fieldnames[index]]}}</td>
+                    {% endfor %}
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% endif %}
+        </div>
+        <!-- input commands -->
+        <form method="POST" action="/uploadtimers" target="_blank" class="scanform">
+                <button type="submit" value="submit" class="primary-btn">Submit</button>
+        </form>
+
+      </div>
     </div>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7398832994051812"
+     crossorigin="anonymous"></script>
   </body>
+  <script type="text/javascript">
+    $('#proxies').DataTable();
+  </script>
+  
 </html>
 
 
