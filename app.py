@@ -271,7 +271,7 @@ def regionundercut():
         addonData = request.form.get("addonData")
         json_data = {
             "region": request.form.get("region"),
-            "homeRealmID":  76, #int(request.form.get("homeRealmID")),
+            "homeRealmID":  int(request.form.get("homeRealmID")),
             "addonData": json.loads(addonData),
         }
 
@@ -284,6 +284,16 @@ def regionundercut():
         if "undercut_list" not in response:
             return f"Error no matching data with given inputs {response}"
         response = response["undercut_list"]
+
+        for row in response:
+            del row["connectedRealmId"]
+            realmName = row["realmName"]
+            del row["realmName"]
+            row["realmName"] = realmName
+            undermineLink = row["link"]
+            del row["link"]
+            row["undermineLink"] = undermineLink
+
 
         fieldnames = list(response[0].keys())
 
