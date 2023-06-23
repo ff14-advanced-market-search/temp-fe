@@ -129,6 +129,42 @@ def petmarketshare():
         )
 
 
+@app.route("/petexport", methods=["GET", "POST"])
+def petexport():
+    if request.method == "GET":
+        return render_template("petexport.html")
+    elif request.method == "POST":
+        headers = {"Accept": "application/json"}
+
+        json_data = {
+            "region": request.form.get("region"),
+            "petID": int(request.form.get("petID")),
+            "populationWP": int(request.form.get("populationWP")),
+            "populationBlizz": int(request.form.get("populationBlizz")),
+            "rankingWP": int(request.form.get("rankingWP")),
+            "minPrice": int(request.form.get("minPrice")),
+            "maxQuantity": int(request.form.get("maxQuantity")),
+            "sortBy": "minPrice",
+            "connectedRealmIDs": {},
+        }
+
+        response = requests.post(
+            "http://api.saddlebagexchange.com/api/wow/petservers",
+            headers=headers,
+            json=json_data,
+        ).json()
+
+        if "data" not in response:
+            return f"Error no matching data with given inputs {response}"
+        response = response["data"]
+
+        fieldnames = list(response[0].keys())
+
+        return render_template(
+            "petexport.html", results=response, fieldnames=fieldnames, len=len
+        )
+
+
 @app.route("/scan", methods=["GET", "POST"])
 def scan():
     if request.method == "GET":
