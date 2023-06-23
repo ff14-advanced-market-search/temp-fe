@@ -23,7 +23,7 @@
     <script type = "text/javascript"  src="https://cdn.datatables.net/plug-ins/1.10.15/dataRender/datetime.js"></script>
 
     <meta charset="UTF-8">
-    <title>wow pet marketshare</title>
+    <title>wow pet export</title>
     <meta charset="description" content="Shows the results of any of our searches to help you master the marketboard and earn major gil!">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Ads -->
@@ -66,7 +66,8 @@
           {% endif %}
         </div>
         <!-- input commands -->
-        <form method="POST" action="/petmarketshare" target="_blank" class="scanform">
+        <form method="POST" action="/petexport" target="_blank" class="scanform">
+
                 <p><b>Pick a region.</b> ex: `US`</p>
                 <div class="input-row flex">
                     <label>region:</label>
@@ -76,23 +77,42 @@
                     </select>
                 </div>
 
-                <p><b>homeRealmName.</b> ex: `Thrall`.</p>
+                <p><b>Pick a PetID.</b> ex: `3390`.</p>
                 <div class="input-row flex">
-                    <label>homeRealmName:</label>
-                    <input name="homeRealmName" type="text" value="Thrall">
+                    <label>petID:</label>
+                    <input name="petID" type="text" value="3390">
                 </div>
 
-                <p><b>minPrice.</b> ex: `3000`.</p>
+                <p><b>populationWP.</b> Pick a minimum server population size (via wowprogress). ex: `3000`.</p>
+                <div class="input-row flex">
+                    <label>populationWP:</label>
+                    <input name="populationWP" type="text" value="3000">
+                </div>
+
+                <p><b>populationBlizz.</b> Pick a minimum server population size (via blizzard). only allowed values: 0,1,2,3,4.</p>
+                <div class="input-row flex">
+                    <label>populationWP:</label>
+                    <input name="populationBlizz" type="text" value="1">
+                </div>
+
+                <p><b>rankingWP.</b> Pick a min wowprogress ranking. ex: `90`.</p>
+                <div class="input-row flex">
+                    <label>rankingWP:</label>
+                    <input name="rankingWP" type="text" value="90">
+                </div>
+
+                <p><b>minPrice.</b> exclude servers with a min price lower than this value. ex: `3000`.</p>
                 <div class="input-row flex">
                     <label>minPrice:</label>
-                    <input name="minPrice" type="text" value="1000">
+                    <input name="minPrice" type="text" value="3000">
                 </div>
 
-                <p><b>salesPerDay.</b>ex: `10`.</p>
+                <p><b>maxQuantity.</b> exclude servers with a min price lower than this value. ex: `100`.</p>
                 <div class="input-row flex">
-                    <label>salesPerDay:</label>
-                    <input name="salesPerDay" type="text" value="10">
+                    <label>maxQuantity:</label>
+                    <input name="maxQuantity" type="text" value="100">
                 </div>
+
 
                 
                 <button type="submit" value="submit" class="primary-btn">Submit</button>
