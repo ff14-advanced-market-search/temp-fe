@@ -23,7 +23,7 @@
     <script type = "text/javascript"  src="https://cdn.datatables.net/plug-ins/1.10.15/dataRender/datetime.js"></script>
 
     <meta charset="UTF-8">
-    <title>WoW pet names and ids</title>
+    <title>WoW pet marketshare</title>
     <meta charset="description" content="Shows the results of any of our searches to help you master the marketboard and earn major gil!">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Ads -->
@@ -66,7 +66,35 @@
           {% endif %}
         </div>
         <!-- input commands -->
-        <form method="POST" action="/petnames" target="_blank" class="scanform">
+        <form method="POST" action="/petmarketshare" target="_blank" class="scanform">
+                <p><b>Pick a region.</b> ex: `US`</p>
+                <div class="input-row flex">
+                    <label>region:</label>
+                    <select id="region" name="region">
+                        <option value="NA">US</option>
+                        <option value="EU">EU</option>
+                    </select>
+                </div>
+
+                <p><b>homeRealmName.</b> ex: `Thrall`.</p>
+                <div class="input-row flex">
+                    <label>homeRealmName:</label>
+                    <input name="homeRealmName" type="text" value="Thrall">
+                </div>
+
+                <p><b>minPrice.</b> ex: `3000`.</p>
+                <div class="input-row flex">
+                    <label>minPrice:</label>
+                    <input name="minPrice" type="text" value="1000">
+                </div>
+
+                <p><b>salesPerDay.</b>ex: `10`.</p>
+                <div class="input-row flex">
+                    <label>salesPerDay:</label>
+                    <input name="salesPerDay" type="text" value="10">
+                </div>
+
+                
                 <button type="submit" value="submit" class="primary-btn">Submit</button>
         </form>
 
