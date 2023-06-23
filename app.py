@@ -1,3 +1,5 @@
+import json
+
 from flask import Flask
 from flask import render_template
 from flask import request
@@ -157,6 +159,12 @@ def petexport():
         if "data" not in response:
             return f"Error no matching data with given inputs {response}"
         response = response["data"]
+
+        for row in response:
+            del row["connectedRealmID"]
+            del row["realmPopulationInt"]
+            row["connectedRealmNames"] = row["connectedRealmNames"][0]
+            del row["link"]
 
         fieldnames = list(response[0].keys())
 
