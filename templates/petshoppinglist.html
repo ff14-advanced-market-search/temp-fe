@@ -23,7 +23,7 @@
     <script type = "text/javascript"  src="https://cdn.datatables.net/plug-ins/1.10.15/dataRender/datetime.js"></script>
 
     <meta charset="UTF-8">
-    <title>Saddlebag Exchange Temp Home</title>
+    <title>Saddlebag Exchange Search</title>
     <meta charset="description" content="Shows the results of any of our searches to help you master the marketboard and earn major gil!">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Ads -->
@@ -40,25 +40,66 @@
     </script>
   </head>
   <body>
-    <div class="col card">
-      <h1>
-        <a href="https://github.com/ff14-advanced-market-search/saddlebag-with-pockets" target="_blank" class="primary-btn">
-          If you are a React JS Dev please reach out!</br> We need help us move these to our real FE!
-        </a>
-      </h1></br>
+    <div class="card">
+      <div class="card-body">
+        <!-- results -->
+        <div class="mt-4">
+          {% if request.method == 'POST'%}
+            <table id="proxies" class="display table nowrap responsive" style="width: 100%">
+              <thead>
+                <tr>
+                  {% for header in results[0].keys() %}
+                    <th>{{header}}</th>
+                  {% endfor %}
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in results %}
+                  <tr>
+                    {% for index in range(0, len(fieldnames)) %}
+                      <td>{{row[fieldnames[index]]}}</td>
+                    {% endfor %}
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% endif %}
+        </div>
+        <!-- input commands -->
+        <form method="POST" action="/petshoppinglist" target="_blank" class="scanform">
+                <p><b>Pick a PetID.</b> ex: `3390`.</p>
+                <div class="input-row flex">
+                    <label>petID:</label>
+                    <input name="petID" type="text" value="3390">
+                </div>
 
-      <h2>
-        <a href="https://discord.gg/836C8wDVNq" target="_blank" class="primary-btn">
-          You can reach out to us on our discord here!
-        </a>
-      </h2></br>
+                <p><b>Max Purchase Price.</b> Pick the most amount of gold you want to spend. ex: `3000`.</p>
+                <div class="input-row flex">
+                    <label>maxPurchasePrice:</label>
+                    <input name="maxPurchasePrice" type="text" value="10000">
+                </div>
 
-      <h3>Here are links to the temporary pages for our api.</h3></br>
-      <!--<a href="/scan" target="_blank" class="primary-btn">FFXIV reselling</a></br>-->
-      <a href="/uploadtimers" target="_blank" class="primary-btn">WoW Blizzard API AH Upload Timers</a></br>
-      <a href="/petshoppinglist" target="_blank" class="primary-btn">WoW Pet Shopping List</a></br>
+                <p><b>Pick a region.</b> ex: `US`</p>
+                <div class="input-row flex">
+                    <label>region:</label>
+                    <select id="region" name="region">
+                        <option value="NA">US</option>
+                        <option value="EU">EU</option>
+                    </select>
+                </div>
+                
+                <button type="submit" value="submit" class="primary-btn">Submit</button>
+        </form>
+
+      </div>
     </div>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7398832994051812"
+     crossorigin="anonymous"></script>
   </body>
+  <script type="text/javascript">
+    $('#proxies').DataTable();
+  </script>
+  
 </html>
 
 

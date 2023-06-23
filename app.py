@@ -37,7 +37,67 @@ def uploadtimers():
             "uploadtimers.html", results=response, fieldnames=fieldnames, len=len
         )
 
+@app.route("/petshoppinglist", methods=["GET", "POST"])
+def petshoppinglist():
+    if request.method == "GET":
+        return render_template("petshoppinglist.html")
+    elif request.method == "POST":
+        headers = {"Accept": "application/json"}
 
+        json_data = {
+            "region": request.form.get("region"),
+            "petID": int(request.form.get("petID")),
+            "maxPurchasePrice": int(request.form.get("maxPurchasePrice")),
+            "connectedRealmIDs": {}
+        }
+
+        response = requests.post(
+            "http://api.saddlebagexchange.com/api/wow/petshoppinglist",
+            headers=headers,
+            json=json_data,
+        ).json()["data"]
+
+        fieldnames = list(response[0].keys())
+
+        return render_template(
+            "petshoppinglist.html", results=response, fieldnames=fieldnames, len=len
+        )
+
+# {
+#     "region": "NA",
+#     "petID": 183,
+#     "maxPurchasePrice": 950000,
+#     "connectedRealmIDs": {
+#         "5": "Proudmoore",
+#         "9": "Kil'jaeden",
+#         "11": "Tichondrius",
+#         "57": "Illidan",
+#         "60": "Stormrage",
+#         "61": "Zul'jin",
+#         "71": "Alterac Mountains",
+#         "73": "Bleeding Hollow",
+#         "86": "Borean Tundra",
+#         "96": "Black Dragonflight",
+#         "104": "Burning Blade",
+#         "106": "Aggramar",
+#         "121": "Azjol-Nerub",
+#         "127": "Vashj",
+#         "160": "Staghelm",
+#         "162": "Emerald Dream",
+#         "1129": "Agamaggan",
+#         "1168": "Cairne",
+#         "1171": "Wyrmrest Accord",
+#         "1175": "Grizzly Hills",
+#         "1185": "Bloodscalp",
+#         "3676": "Area 52",
+#         "3678": "Thrall",
+#         "3683": "Dalaran",
+#         "3684": "Mal'Ganis",
+#         "3693": "Kel'Thuzad",
+#         "3723": "Barthilas",
+#         "3725": "Gundrak"
+#     }
+# }
 @app.route("/scan", methods=["GET", "POST"])
 def scan():
     if request.method == "GET":
