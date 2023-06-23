@@ -320,6 +320,60 @@ def regionundercut():
         )
 
 
+@app.route("/petimport", methods=["GET", "POST"])
+def petimport():
+    if request.method == "GET":
+        return render_template("petimport.html")
+    elif request.method == "POST":
+        headers = {"Accept": "application/json"}
+
+        json_data = {
+            "region": request.form.get("region"),
+            "homeRealmID": int(request.form.get("homeRealmID")),
+            "ROI": int(request.form.get("ROI")),
+            "avgPrice": int(request.form.get("avgPrice")),
+            "maxPurchasePrice": int(request.form.get("maxPurchasePrice")),
+            "profitAmount": int(request.form.get("profitAmount")),
+            "salesPerDay": int(request.form.get("salesPerDay")),
+            "includeCategories": [],
+            "excludeCategories": [],
+            "sortBy": "lowestPrice",
+            "connectedRealmIDs": {}
+        }
+
+        response = requests.post(
+            "http://api.saddlebagexchange.com/api/wow/petimport",
+            headers=headers,
+            json=json_data,
+        ).json()
+
+        if "data" not in response:
+            return f"Error no matching data with given inputs {response}"
+        response = response["data"]
+
+        for row in response:
+            del row["itemID"]
+            realm = row["lowestPriceRealmName"]
+            del row["lowestPriceRealmName"]
+            row["lowestPriceRealmName"] = realm
+
+            undermineLink = row["link"]
+            del row["link"]
+            row["undermineLink"] = undermineLink
+
+            undermineLink = row["warcraftPetsLink"]
+            del row["warcraftPetsLink"]
+            row["warcraftPetsLink"] = undermineLink
+
+        fieldnames = list(response[0].keys())
+
+        return render_template(
+            "petimport.html",
+            results=response,
+            fieldnames=fieldnames,
+            len=len,
+        )
+
 if __name__ == "__main__":
     ## http
     app.run(host="0.0.0.0", debug=True)
