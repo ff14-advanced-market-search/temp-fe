@@ -338,7 +338,7 @@ def petimport():
             "includeCategories": [],
             "excludeCategories": [],
             "sortBy": "lowestPrice",
-            "connectedRealmIDs": {}
+            "connectedRealmIDs": {},
         }
 
         response = requests.post(
@@ -374,6 +374,7 @@ def petimport():
             fieldnames=fieldnames,
             len=len,
         )
+
 
 if __name__ == "__main__":
     ## http
