@@ -23,7 +23,7 @@
     <script type = "text/javascript"  src="https://cdn.datatables.net/plug-ins/1.10.15/dataRender/datetime.js"></script>
 
     <meta charset="UTF-8">
-    <title>Saddlebag Exchange Temp Home</title>
+    <title>WoW pet names and ids</title>
     <meta charset="description" content="Shows the results of any of our searches to help you master the marketboard and earn major gil!">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Ads -->
@@ -40,37 +40,49 @@
     </script>
   </head>
   <body>
-    <div class="col card">
-      <h1>Alpha Builds</h1></br>
-      <h1>
-        <a href="https://saddlebagexchange.com" target="_blank" class="primary-btn">
-          Main Website: Saddlebag Exchange
-        </a>
-      </h1></br>
-      <h1>
-        <a href="https://github.com/ff14-advanced-market-search/saddlebag-with-pockets" target="_blank" class="primary-btn">
-          github: Currently in need of React JS Devs!
-        </a>
-      </h1></br>
+    <div class="card">
+      <div class="card-body">
+        <!-- results -->
+        <h1>Item Names by Item ID</h1>
+        <div class="mt-4">
+          {% if request.method == 'POST'%}
+            <table id="proxies" class="display table nowrap responsive" style="width: 100%">
+              <thead>
+                <tr>
+                  {% for header in results[0].keys() %}
+                    <th>{{header}}</th>
+                  {% endfor %}
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in results %}
+                  <tr>
+                    {% for index in range(0, len(fieldnames)) %}
+                      <td>{{row[fieldnames[index]]}}</td>
+                    {% endfor %}
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% endif %}
+        </div>
+        <!-- input commands -->
+        <form method="POST" action="/itemnames" target="_blank" class="scanform">
+          <button type="submit" value="submit" class="primary-btn">Submit</button>
+          </br><a href="/" target="_blank" class="primary-btn">
+            Go back to home page
+          </a>
+        </form>
 
-      <h2>
-        <a href="https://discord.gg/836C8wDVNq" target="_blank" class="primary-btn">
-          discord
-        </a>
-      </h2></br>
-
-      <h3>Links to temporary pages on brand new searches:</h3></br>
-      <a href="/petnames" target="_blank" class="primary-btn">WoW Pet ID and Name List</a></br>
-      <a href="/itemnames" target="_blank" class="primary-btn">WoW Regular Item ID and Name List</a></br>
-      <a href="/petmarketshare" target="_blank" class="primary-btn">WoW Pet Marketshare</a></br>
-      <a href="/petshoppinglist" target="_blank" class="primary-btn">WoW Pet Shopping List</a></br>
-      <a href="/petexport" target="_blank" class="primary-btn">WoW Pet Export Search</a></br>
-      <a href="/petimport" target="_blank" class="primary-btn">WoW Pet Import Search</a></br>
-      <a href="/regionundercut" target="_blank" class="primary-btn">WoW Regionwide Undercut Check</a></br>
-      <a href="/uploadtimers" target="_blank" class="primary-btn">WoW Blizzard API AH Upload Timers</a></br>
-      <!--<a href="/scan" target="_blank" class="primary-btn">FFXIV reselling</a></br>-->
+      </div>
     </div>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7398832994051812"
+     crossorigin="anonymous"></script>
   </body>
+  <script type="text/javascript">
+    $('#proxies').DataTable();
+  </script>
+  
 </html>
 
 

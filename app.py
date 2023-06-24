@@ -122,6 +122,26 @@ def petnames():
             "petnames.html", results=resp_list, fieldnames=["id", "name"], len=len
         )
 
+@app.route("/itemnames", methods=["GET", "POST"])
+def itemnames():
+    if request.method == "GET":
+        return render_template("itemnames.html")
+    elif request.method == "POST":
+        headers = {"Accept": "application/json"}
+        json_data = {}
+        response = requests.post(
+            "http://api.saddlebagexchange.com/api/wow/itemnames",
+            headers=headers,
+            json=json_data,
+        ).json()
+
+        resp_list = []
+        for k, v in response.items():
+            resp_list.append({"id": k, "name": v})
+
+        return render_template(
+            "itemnames.html", results=resp_list, fieldnames=["id", "name"], len=len
+        )
 
 @app.route("/petshoppinglist", methods=["GET", "POST"])
 def petshoppinglist():
