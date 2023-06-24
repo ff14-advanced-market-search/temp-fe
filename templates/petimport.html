@@ -70,6 +70,15 @@
         </div>
         <!-- input commands -->
         <form method="POST" action="/petimport" target="_blank" class="scanform">
+            <p><b>Search for pets or normal items?</b> ex: `Pets`</p>
+            <div class="input-row flex">
+                <label>petsOnly:</label>
+                <select id="petsOnly" name="petsOnly">
+                    <option value="True">Pets</option>
+                    <option value="False">Normal Items</option>
+                </select>
+            </div>
+
             <p><b>Pick a region.</b> ex: `US`</p>
             <div class="input-row flex">
                 <label>region:</label>

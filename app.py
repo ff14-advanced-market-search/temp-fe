@@ -327,6 +327,11 @@ def petimport():
     elif request.method == "POST":
         headers = {"Accept": "application/json"}
 
+        petsOnly = request.form.get("petsOnly")
+        if petsOnly == "False":
+            petsOnly = False
+        else:
+            petsOnly = True
         json_data = {
             "region": request.form.get("region"),
             "homeRealmID": int(request.form.get("homeRealmID")),
@@ -338,6 +343,7 @@ def petimport():
             "includeCategories": [],
             "excludeCategories": [],
             "sortBy": "lowestPrice",
+            "petsOnly": petsOnly,
             "connectedRealmIDs": {},
         }
 
