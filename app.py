@@ -271,7 +271,10 @@ def petexport():
             row["connectedRealmNames"] = row["connectedRealmNames"][0]
             link = row["link"]
             del row["link"]
-            row["undermineLink"] = link
+            row["link"] = link
+            undermineLink = row["undermineLink"]
+            del row["undermineLink"]
+            row["undermineLink"] = undermineLink
 
         fieldnames = list(response[0].keys())
 
