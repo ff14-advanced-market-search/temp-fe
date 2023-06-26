@@ -168,9 +168,9 @@ def petshoppinglist():
         response = response["data"]
 
         for row in response:
-            pop = row["link"]
+            link = row["link"]
             del row["link"]
-            row["undermineLink"] = pop
+            row["link"] = link
 
         fieldnames = list(response[0].keys())
 
@@ -384,8 +384,12 @@ def petimport():
             del row["lowestPriceRealmName"]
             row["lowestPriceRealmName"] = realm
 
-            undermineLink = row["link"]
+            link = row["link"]
             del row["link"]
+            row["link"] = link
+
+            undermineLink = row["undermineLink"]
+            del row["undermineLink"]
             row["undermineLink"] = undermineLink
 
             warcraftPetsLink = row["warcraftPetsLink"]
