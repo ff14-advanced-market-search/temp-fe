@@ -211,8 +211,9 @@ def petmarketshare():
             estimatedRegionMarketValue = row["estimatedRegionMarketValue"]
             homeMinPrice = row["homeMinPrice"]
             itemID = row["itemID"]
-            undermineLink = row["link"]
+            undermineLink = row["undermineLink"]
             warcraftPetsLink = row["warcraftPetsLink"]
+            link = row["link"]
 
             del row["avgTSMPrice"]
             del row["estimatedRegionMarketValue"]
@@ -220,11 +221,13 @@ def petmarketshare():
             del row["itemID"]
             del row["link"]
             del row["warcraftPetsLink"]
+            del row["undermineLink"]
 
             row["avgTSMPrice"] = avgTSMPrice
-            row["estimatedRegionMarketValue"] = estimatedRegionMarketValue
+            row["estimatedRevenue"] = estimatedRegionMarketValue
             row["homeMinPrice"] = homeMinPrice
             row["itemID"] = itemID
+            row["link"] = link
             row["undermineLink"] = undermineLink
             row["warcraftPetsLink"] = warcraftPetsLink
 
