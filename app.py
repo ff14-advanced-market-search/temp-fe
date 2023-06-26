@@ -90,6 +90,9 @@ def uploadtimers():
         response = response["data"]
 
         for row in response:
+            del row["tableName"]
+            del row["lastUploadUnix"]
+
             pop = row["dataSetName"]
             del row["dataSetName"]
             row["dataSetName"] = pop
