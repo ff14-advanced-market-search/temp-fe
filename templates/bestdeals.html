@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <!-- Favicon -->
+    <!--link rel="shortcut icon" href="{{url_for('static', filename='images/favicon.ico')}}"-->
+
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script type = "text/javascript"  src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script type = "text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script type = "text/javascript"  src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Datatable -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+    <script type = "text/javascript"  src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script type = "text/javascript"  src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script type = "text/javascript"  src="https://cdn.datatables.net/plug-ins/1.10.15/dataRender/datetime.js"></script>
+
+    <meta charset="UTF-8">
+    <title>WoW Best Deals Anywhere</title>
+    <meta charset="description" content="Shows the results of any of our searches to help you master the marketboard and earn major gil!">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Ads -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7398832994051812"
+     crossorigin="anonymous"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J22872QEWM"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-J22872QEWM');
+    </script>
+  </head>
+  <body>
+    <div class="card">
+      <div class="card-body">
+        <!-- results -->
+        <h1>For finding the best deals based on discount percent vs TSM Average Price</h1>
+        <p>Sort by Highest Dicount Perecent</p>
+        <div class="mt-4">
+          {% if request.method == 'POST'%}
+            <table id="proxies" class="display table nowrap responsive" style="width: 100%">
+              <thead>
+                <tr>
+                  {% for header in results[0].keys() %}
+                    <th>{{header}}</th>
+                  {% endfor %}
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in results %}
+                  <tr>
+                    {% for index in range(0, len(fieldnames)) %}
+                      <td>{{row[fieldnames[index]]}}</td>
+                    {% endfor %}
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% endif %}
+        </div>
+
+        </div>
+        <!-- input commands -->
+        <form method="POST" action="/bestdeals" target="_blank" class="scanform">
+            <p><b>Search for deals on all items, Pets, Dragonflight, or Legacy items?</b> ex: `All`</p>
+            <div class="input-row flex">
+                <label>Item Type:</label>
+                <select id="type" name="type">
+                    <option value="all">All</option>
+                    <option value="pets">Pets Only</option>
+                    <option value="df">Dragonflight Only</option>
+                    <option value="legacy">Legacy Only</option>
+                </select>
+            </div>
+
+            <p><b>Pick a region.</b> ex: `US`</p>
+            <div class="input-row flex">
+                <label>region:</label>
+                <select id="region" name="region">
+                    <option value="NA">US</option>
+                    <option value="EU">EU</option>
+                </select>
+            </div>
+
+            <p><b>Discount Percent</b> ex: `90`</p>
+            <div class="input-row flex">
+                <label>discount:</label>
+                <input name="discount" type="text" value="90">
+            </div>
+
+            <p><b>Minimum TSM Average Price</b> ex: `1000`.</p>
+            <div class="input-row flex">
+                <label>minPrice:</label>
+                <input name="minPrice" type="text" value="1000">
+            </div>
+
+            <p><b>salesPerDay.</b>ex: `10`</p>
+            <div class="input-row flex">
+                <label>salesPerDay:</label>
+                <input name="salesPerDay" type="text" value="5">
+            </div>
+
+
+            <button type="submit" value="submit" class="primary-btn">Submit</button>
+            </br><a href="/" target="_blank" class="primary-btn">
+              Go back to home page
+            </a>
+        </form>
+
+      </div>
+    </div>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7398832994051812"
+     crossorigin="anonymous"></script>
+  </body>
+  <script type="text/javascript">
+    $('#proxies').DataTable();
+  </script>
+  
+</html>
+
+
+
+
+
+

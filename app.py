@@ -125,6 +125,7 @@ def itemnames():
             "itemnames.html", results=resp_list, fieldnames=["id", "name"], len=len
         )
 
+
 @app.route("/petshoppinglist", methods=["GET", "POST"])
 def petshoppinglist():
     if request.method == "GET":
@@ -388,6 +389,48 @@ def petimport():
 
         return render_template(
             "petimport.html",
+            results=response,
+            fieldnames=fieldnames,
+            len=len,
+        )
+
+
+@app.route("/bestdeals", methods=["GET", "POST"])
+def bestdeals():
+    if request.method == "GET":
+        return render_template("bestdeals.html")
+    elif request.method == "POST":
+        headers = {"Accept": "application/json"}
+
+        json_data = {
+            "region": request.form.get("region"),
+            "type": request.form.get("type"),
+            "discount": int(request.form.get("discount")),
+            "minPrice": int(request.form.get("minPrice")),
+            "salesPerDay": int(request.form.get("salesPerDay")),
+        }
+
+        response = requests.post(
+            "http://api.saddlebagexchange.com/api/wow/bestdeals",
+            headers=headers,
+            json=json_data,
+        ).json()
+
+        if "data" not in response:
+            return f"Error no matching data with given inputs {response}"
+        response = response["data"]
+
+        for row in response:
+            del row["itemID"]
+            del row["connectedRealmId"]
+            link = row["link"]
+            del row["link"]
+            row["link"] = link
+
+        fieldnames = list(response[0].keys())
+
+        return render_template(
+            "bestdeals.html",
             results=response,
             fieldnames=fieldnames,
             len=len,
