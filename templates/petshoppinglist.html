@@ -1,49 +1,10 @@
-<!DOCTYPE html>
+{% include '_header.html' %}
 
-<html>
-  <head>
-    <!-- Favicon -->
-    <!--link rel="shortcut icon" href="{{url_for('static', filename='images/favicon.ico')}}"-->
-
-    <!-- JQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-    <!-- Bootstrap -->
-    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script type = "text/javascript"  src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script type = "text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script type = "text/javascript"  src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Datatable -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
-    <script type = "text/javascript"  src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-    <script type = "text/javascript"  src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-    <script type = "text/javascript"  src="https://cdn.datatables.net/plug-ins/1.10.15/dataRender/datetime.js"></script>
-
-    <meta charset="UTF-8">
-    <title>wow regional shopping list</title>
-    <meta charset="description" content="Shows the results of any of our searches to help you master the marketboard and earn major gil!">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Ads -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7398832994051812"
-     crossorigin="anonymous"></script>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J22872QEWM"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-J22872QEWM');
-    </script>
-  </head>
-  <body>
-    <div class="card">
-      <div class="card-body">
+<body>
+  {% include '_navbar.html' %}
+  <div class="container-fluid">
         <!-- results -->
-        <h1>Servers with lowest price for selected pet</h1>
+        <h2>Servers with lowest price for selected pet</h2>
         <div class="mt-4">
           {% if request.method == 'POST'%}
             <table id="proxies" class="display table nowrap responsive" style="width: 100%">
@@ -68,35 +29,37 @@
         </div>
         <!-- input commands -->
         <form method="POST" action="/petshoppinglist" target="_blank" class="scanform">
-                <p><b>Pick a PetID or ItemID.</b> 
-                  <a href="/petnames" target="_blank" class="primary-btn">this list shows all pet ids </a> and 
-                  <a href="/itemnames" target="_blank" class="primary-btn">this list shows all other dragonflight item ids </a> 
-                  ex: `3390`.
-                </p>
-                <div class="input-row flex">
-                    <label>petID or itemID:</label>
-                    <input name="petID" type="text" value="3390">
-                </div>
+          <hr>
+     
+          <div class="mb-3">
+            <label class="form-label">
+              petID or itemID
+            </label>
+            <input name="petID" type="number" class="form-control" value="3390">
+            <div class="form-text">
+              <a href="/petnames" target="_blank">This list shows all petIDs</a> and 
+              <a href="/itemnames" target="_blank">this list shows all other Dragonflight itemIDs</a>.
+              ex: <code>3390</code>.
+            </div>
+          </div>
 
-                <p><b>Max Purchase Price.</b> Pick the most amount of gold you want to spend. ex: `3000`.</p>
-                <div class="input-row flex">
-                    <label>maxPurchasePrice:</label>
-                    <input name="maxPurchasePrice" type="text" value="10000">
-                </div>
 
-                <p><b>Pick a region.</b> ex: `US`</p>
-                <div class="input-row flex">
-                    <label>region:</label>
-                    <select id="region" name="region">
-                        <option value="NA">US</option>
-                        <option value="EU">EU</option>
-                    </select>
-                </div>
+          <div class="mb-3">
+            <label class="form-label">Max Purchase Price</label>
+            <input class="form-control" name="maxPurchasePrice" type="number" value="10000">
+            <div class="form-text">maxPurchasePrice. Pick the most amount of gold you want to spend. ex: <code>3000</code></div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Region</label>
+            <select class="form-select" id="region" name="region">
+                <option value="NA">US</option>
+                <option value="EU">EU</option>
+            </select>
+            <div class="form-text">Pick a region.</b> ex: <code>US</code></div>
+          </div>
                 
-                <button type="submit" value="submit" class="primary-btn">Submit</button>
-                </br><a href="/" target="_blank" class="primary-btn">
-                    Go back to home page
-                </a>
+          <button type="submit" value="submit" class="btn btn-primary btn-lg">Submit</button>
         </form>
 
       </div>
