@@ -1,80 +1,46 @@
-<!DOCTYPE html>
+{% include '_header.html' %}
 
-<html>
-  <head>
-    <!-- Favicon -->
-    <!--link rel="shortcut icon" href="{{url_for('static', filename='images/favicon.ico')}}"-->
+<body>
+  {% include '_navbar.html' %}
 
-    <!-- JQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-    <!-- Bootstrap -->
-    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script type = "text/javascript"  src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script type = "text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script type = "text/javascript"  src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Datatable -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
-    <script type = "text/javascript"  src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-    <script type = "text/javascript"  src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-    <script type = "text/javascript"  src="https://cdn.datatables.net/plug-ins/1.10.15/dataRender/datetime.js"></script>
-
-    <meta charset="UTF-8">
-    <title>Saddlebag Exchange Temp Home</title>
-    <meta charset="description" content="Shows the results of any of our searches to help you master the marketboard and earn major gil!">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Ads -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7398832994051812"
-     crossorigin="anonymous"></script>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J22872QEWM"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-J22872QEWM');
-    </script>
-  </head>
-  <body>
-    <div class="col card">
-      <h1>Alpha Builds</h1></br>
-      <h1>
-        <a href="https://saddlebagexchange.com" target="_blank" class="primary-btn">
-          Main Website: Saddlebag Exchange
-        </a>
-      </h1></br>
-      <h1>
-        <a href="https://github.com/ff14-advanced-market-search/saddlebag-with-pockets" target="_blank" class="primary-btn">
-          github: Currently in need of React JS Devs!
-        </a>
-      </h1></br>
-
-      <h2>
-        <a href="https://discord.gg/836C8wDVNq" target="_blank" class="primary-btn">
-          discord
-        </a>
-      </h2></br>
-
-      <h3>Links to temporary pages on brand new searches:</h3></br>
-      <a href="/itemnames" target="_blank" class="primary-btn">WoW Pets and Dragonflight Item ID and Name List</a></br>
-      <a href="/bestdeals" target="_blank" class="primary-btn">WoW Best Deals Anywhere!!!</a></br>
-      <a href="/petmarketshare" target="_blank" class="primary-btn">WoW Pet Marketshare</a></br>
-      <a href="/petshoppinglist" target="_blank" class="primary-btn">WoW Regional Shopping List</a></br>
-      <a href="/petexport" target="_blank" class="primary-btn">WoW Regional Export Search</a></br>
-      <a href="/petimport" target="_blank" class="primary-btn">WoW Regional Import Search</a></br>
-      <a href="/regionundercut" target="_blank" class="primary-btn">WoW Regionwide Undercut Check</a></br>
-      <a href="/uploadtimers" target="_blank" class="primary-btn">WoW Blizzard API AH Upload Timers</a></br>
-      <!--<a href="/scan" target="_blank" class="primary-btn">FFXIV reselling</a></br>-->
+  <div class="container">
+    <div class="alert alert-primary" role="alert">
+      We're currently in need of React JS Devs! If you're interested in helping out, <a href="https://github.com/ff14-advanced-market-search/saddlebag-with-pockets" target="_blank" class="primary-btn">check out our GitHub</a>!
     </div>
-  </body>
-</html>
 
+    <h2>Saddlebag Exchange Temp Home</h2>
+    <h3 class="h5 text-secondary mb-5">Links to temporary pages on brand new searches.</h3>
 
+    <div class="container">
+      <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="col">
+          <a href="/itemnames" class="btn btn-secondary w-100 h-100 p-5 ">WoW Pets and Dragonflight Item ID and Name List</a>
+        </div>
+        <div class="col">
+          <a href="/bestdeals" class="btn btn-warning w-100 h-100 p-5 ">WoW Best Deals Anywhere!!!</a>
+        </div>
+        <div class="col">
+          <a href="/petmarketshare" class="btn btn-secondary w-100 h-100 p-5 ">WoW Pet Marketshare</a>
+        </div>
+        <div class="col">
+          <a href="/petshoppinglist" class="btn btn-secondary w-100 h-100 p-5 ">WoW Regional Shopping List</a>
+        </div>
+        <div class="col">
+          <a href="/petexport" class="btn btn-secondary w-100 h-100 p-5 ">WoW Regional Export Search</a>
+        </div>
+        <div class="col">
+          <a href="/petimport" class="btn btn-secondary w-100 h-100 p-5 ">WoW Regional Import Search</a>
+        </div>
+        <div class="col">
+          <a href="/regionundercut" class="btn btn-secondary w-100 h-100 p-5 ">WoW Regionwide Undercut Check</a>
+        </div>
+        <div class="col">
+          <a href="/uploadtimers" class="btn btn-secondary w-100 h-100 p-5 ">WoW Blizzard API AH Upload Timers</a>
+        </div>
 
-
-
-
+        <!--
+        <div class="col">
+          <a href="/scan" class="btn btn-secondary w-100 h-100">FFXIV reselling</a>
+        </div> -->
+      </div>
+    </div>

@@ -1,53 +1,17 @@
-<!DOCTYPE html>
+{% include '_header.html' %}
 
-<html>
-  <head>
-    <!-- Favicon -->
-    <!--link rel="shortcut icon" href="{{url_for('static', filename='images/favicon.ico')}}"-->
-
-    <!-- JQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-    <!-- Bootstrap -->
-    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script type = "text/javascript"  src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script type = "text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script type = "text/javascript"  src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Datatable -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
-    <script type = "text/javascript"  src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-    <script type = "text/javascript"  src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-    <script type = "text/javascript"  src="https://cdn.datatables.net/plug-ins/1.10.15/dataRender/datetime.js"></script>
-
-    <meta charset="UTF-8">
-    <title>WoW import search</title>
-    <meta charset="description" content="Shows the results of any of our searches to help you master the marketboard and earn major gil!">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Ads -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7398832994051812"
-     crossorigin="anonymous"></script>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J22872QEWM"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-J22872QEWM');
-    </script>
-  </head>
-  <body>
-    <div class="card">
-      <div class="card-body">
+<body>
+  {% include '_navbar.html' %}
+  <div class="container-fluid">
         <!-- results -->
-        <h1>For finding items to buy on other servers and sell on your home realm</h1>
-        <p>minPrice is the lowest price on your home realm, you should sort by highest minPrice</p>
+        <h2>For finding items to buy on other servers and sell on your home realm</h2>
+        <div class="alert alert-warning" role="alert">
+          minPrice is the lowest price on your home realm, you should sort by highest minPrice.
+        </div>
+
         <div class="mt-4">
           {% if request.method == 'POST'%}
-            <table id="proxies" class="display table nowrap responsive" style="width: 100%">
+            <table id="proxies" class="display table table-striped table-hover nowrap responsive" style="width: 100%">
               <thead>
                 <tr>
                   {% for header in results[0].keys() %}
@@ -67,583 +31,580 @@
             </table>
           {% endif %}
         </div>
-
-        </div>
         <!-- input commands -->
         <form method="POST" action="/petimport" target="_blank" class="scanform">
-            <p><b>Search for pets or normal items?</b> ex: `Pets`</p>
-            <div class="input-row flex">
-                <label>petsOnly:</label>
-                <select id="petsOnly" name="petsOnly">
-                    <option value="True">Pets</option>
-                    <option value="False">Normal Items</option>
-                </select>
-            </div>
+          <hr>
+          <div class="mb-3">
+            <label class="form-label">petsOnly</label>
+            <select class="form-select" id="petsOnly" name="petsOnly">
+              <option value="True">Pets</option>
+              <option value="False">Normal Items</option>
+            </select>
+            <div class="form-text">Search for pets or normal items? ex: <code>Pets</code></div>
+          </div>
 
-            <p><b>Pick a region.</b> ex: `US`</p>
-            <div class="input-row flex">
-                <label>region:</label>
-                <select id="region" name="region">
-                    <option value="NA">US</option>
-                    <option value="EU">EU</option>
-                </select>
-            </div>
+          <div class="mb-3">
+            <label class="form-label">Region</label>
+            <select class="form-select" id="region" name="region">
+                <option value="NA">US</option>
+                <option value="EU">EU</option>
+            </select>
+            <div class="form-text">Pick a region.</b> ex: <code>US</code></div>
+          </div>
 
-            <p><b>The Home server of your character that you want to sell items on.</b> ex: `Thrall`</p>
-            <div class="input-row flex">
-                <label>homeRealm:</label>
-                <select id="homeRealmID" name="homeRealmID">
-                    <option value="3678">Thrall - US</option>
-                    <option value="1136">Aegwynn - US</option>
-                    <option value="3679">Aegwynn - EU</option>
-                    <option value="1416">Aerie Peak - EU</option>
-                    <option value="1426">Aerie Peak - US</option>
-                    <option value="1091">Agamaggan - EU</option>
-                    <option value="1129">Agamaggan - US</option>
-                    <option value="1303">Aggra (Português) - EU</option>
-                    <option value="1325">Aggramar - EU</option>
-                    <option value="106">Aggramar - US</option>
-                    <option value="1598">Ahn'Qiraj - EU</option>
-                    <option value="84">Akama - US</option>
-                    <option value="3713">Al'Akir - EU</option>
-                    <option value="3696">Alexstrasza - EU</option>
-                    <option value="1070">Alexstrasza - US</option>
-                    <option value="1099">Alleria - EU</option>
-                    <option value="52">Alleria - US</option>
-                    <option value="1082">Alonsus - EU</option>
-                    <option value="78">Altar of Storms - US</option>
-                    <option value="71">Alterac Mountains - US</option>
-                    <option value="1105">Aman'Thul - EU</option>
-                    <option value="3726">Aman'Thul - US</option>
-                    <option value="604">Ambossar - EU</option>
-                    <option value="1082">Anachronos - EU</option>
-                    <option value="96">Andorhal - US</option>
-                    <option value="1104">Anetheron - EU</option>
-                    <option value="78">Anetheron - US</option>
-                    <option value="3686">Antonidas - EU</option>
-                    <option value="84">Antonidas - US</option>
-                    <option value="1105">Anub'arak - EU</option>
-                    <option value="1138">Anub'arak - US</option>
-                    <option value="71">Anvilmar - US</option>
-                    <option value="512">Arak-arahm - EU</option>
-                    <option value="1624">Arathi - EU</option>
-                    <option value="1587">Arathor - EU</option>
-                    <option value="1138">Arathor - US</option>
-                    <option value="1302">Archimonde - EU</option>
-                    <option value="1129">Archimonde - US</option>
-                    <option value="1400">Area 52 - EU</option>
-                    <option value="3676">Area 52 - US</option>
-                    <option value="3702">Argent Dawn - EU</option>
-                    <option value="75">Argent Dawn - US</option>
-                    <option value="578">Arthas - EU</option>
-                    <option value="69">Arthas - US</option>
-                    <option value="1406">Arygos - EU</option>
-                    <option value="99">Arygos - US</option>
-                    <option value="1923">Ashenvale - EU</option>
-                    <option value="3666">Aszune - EU</option>
-                    <option value="1597">Auchindoun - EU</option>
-                    <option value="67">Auchindoun - US</option>
-                    <option value="77">Azgalor - US</option>
-                    <option value="1396">Azjol-Nerub - EU</option>
-                    <option value="121">Azjol-Nerub - US</option>
-                    <option value="3209">Azralon - US</option>
-                    <option value="570">Azshara - EU</option>
-                    <option value="77">Azshara - US</option>
-                    <option value="1922">Azuregos - EU</option>
-                    <option value="1417">Azuremyst - EU</option>
-                    <option value="160">Azuremyst - US</option>
-                    <option value="570">Baelgun - EU</option>
-                    <option value="1190">Baelgun - US</option>
-                    <option value="1598">Balnazzar - EU</option>
-                    <option value="71">Balnazzar - US</option>
-                    <option value="3723">Barthilas - US</option>
-                    <option value="96">Black Dragonflight - US</option>
-                    <option value="3691">Blackhand - EU</option>
-                    <option value="54">Blackhand - US</option>
-                    <option value="580">Blackmoore - EU</option>
-                    <option value="581">Blackrock - EU</option>
-                    <option value="121">Blackrock - US</option>
-                    <option value="1929">Blackscar - EU</option>
-                    <option value="125">Blackwater Raiders - US</option>
-                    <option value="154">Blackwing Lair - US</option>
-                    <option value="1416">Blade's Edge - EU</option>
-                    <option value="1129">Blade's Edge - US</option>
-                    <option value="3657">Bladefist - EU</option>
-                    <option value="1147">Bladefist - US</option>
-                    <option value="73">Bleeding Hollow - US</option>
-                    <option value="77">Blood Furnace - US</option>
-                    <option value="633">Bloodfeather - EU</option>
-                    <option value="1080">Bloodhoof - EU</option>
-                    <option value="64">Bloodhoof - US</option>
-                    <option value="1091">Bloodscalp - EU</option>
-                    <option value="1185">Bloodscalp - US</option>
-                    <option value="578">Blutkessel - EU</option>
-                    <option value="1136">Bonechewer - US</option>
-                    <option value="1929">Booty Bay - EU</option>
-                    <option value="1929">Borean Tundra - EU</option>
-                    <option value="86">Borean Tundra - US</option>
-                    <option value="1598">Boulderfist - EU</option>
-                    <option value="1185">Boulderfist - US</option>
-                    <option value="1393">Bronze Dragonflight - EU</option>
-                    <option value="1416">Bronzebeard - EU</option>
-                    <option value="117">Bronzebeard - US</option>
-                    <option value="1092">Burning Blade - EU</option>
-                    <option value="104">Burning Blade - US</option>
-                    <option value="3713">Burning Legion - EU</option>
-                    <option value="1129">Burning Legion - US</option>
-                    <option value="633">Burning Steppes - EU</option>
-                    <option value="1378">C'Thun - EU</option>
-                    <option value="3721">Caelestrasz - US</option>
-                    <option value="1168">Cairne - US</option>
-                    <option value="125">Cenarion Circle - US</option>
-                    <option value="1168">Cenarius - US</option>
-                    <option value="1307">Chamber of Aspects - EU</option>
-                    <option value="510">Chants éternels - EU</option>
-                    <option value="1621">Cho'gall - EU</option>
-                    <option value="67">Cho'gall - US</option>
-                    <option value="1598">Chromaggus - EU</option>
-                    <option value="1138">Chromaggus - US</option>
-                    <option value="157">Coilfang - US</option>
-                    <option value="1384">Colinas Pardas - EU</option>
-                    <option value="1127">Confrérie du Thorium - EU</option>
-                    <option value="1127">Conseil des Ombres - EU</option>
-                    <option value="1091">Crushridge - EU</option>
-                    <option value="1138">Crushridge - US</option>
-                    <option value="1127">Culte de la Rive noire - EU</option>
-                    <option value="1598">Daggerspine - EU</option>
-                    <option value="1136">Daggerspine - US</option>
-                    <option value="1621">Dalaran - EU</option>
-                    <option value="3683">Dalaran - US</option>
-                    <option value="1105">Dalvengyr - EU</option>
-                    <option value="157">Dalvengyr - US</option>
-                    <option value="157">Dark Iron - US</option>
-                    <option value="1096">Darkmoon Faire - EU</option>
-                    <option value="3657">Darksorrow - EU</option>
-                    <option value="633">Darkspear - EU</option>
-                    <option value="120">Darkspear - US</option>
-                    <option value="113">Darrowmere - US</option>
-                    <option value="1121">Das Konsortium - EU</option>
-                    <option value="1121">Das Syndikat - EU</option>
-                    <option value="3726">Dath'Remar - US</option>
-                    <option value="160">Dawnbringer - US</option>
-                    <option value="1605">Deathguard - EU</option>
-                    <option value="1929">Deathweaver - EU</option>
-                    <option value="1596">Deathwing - EU</option>
-                    <option value="155">Deathwing - US</option>
-                    <option value="1614">Deepholm - EU</option>
-                    <option value="1096">Defias Brotherhood - EU</option>
-                    <option value="157">Demon Soul - US</option>
-                    <option value="1084">Dentarg - EU</option>
-                    <option value="55">Dentarg - US</option>
-                    <option value="1405">Der Mithrilorden - EU</option>
-                    <option value="1405">Der Rat von Dalaran - EU</option>
-                    <option value="1121">Der abyssische Rat - EU</option>
-                    <option value="612">Destromath - EU</option>
-                    <option value="77">Destromath - US</option>
-                    <option value="531">Dethecus - EU</option>
-                    <option value="154">Dethecus - US</option>
-                    <option value="154">Detheroc - US</option>
-                    <option value="1618">Die Aldor - EU</option>
-                    <option value="1121">Die Arguswacht - EU</option>
-                    <option value="1405">Die Nachtwache - EU</option>
-                    <option value="1121">Die Silberne Hand - EU</option>
-                    <option value="1121">Die Todeskrallen - EU</option>
-                    <option value="1121">Die ewige Wacht - EU</option>
-                    <option value="1402">Doomhammer - EU</option>
-                    <option value="1190">Doomhammer - US</option>
-                    <option value="1403">Draenor - EU</option>
-                    <option value="115">Draenor - US</option>
-                    <option value="1596">Dragonblight - EU</option>
-                    <option value="114">Dragonblight - US</option>
-                    <option value="3656">Dragonmaw - EU</option>
-                    <option value="84">Dragonmaw - US</option>
-                    <option value="127">Drak'Tharon - US</option>
-                    <option value="1092">Drak'thul - EU</option>
-                    <option value="86">Drak'thul - US</option>
-                    <option value="113">Draka - US</option>
-                    <option value="1425">Drakkari - US</option>
-                    <option value="3725">Dreadmaul - US</option>
-                    <option value="1122">Drek'Thar - EU</option>
-                    <option value="1138">Drenden - US</option>
-                    <option value="1378">Dun Modr - EU</option>
-                    <option value="1408">Dun Morogh - EU</option>
-                    <option value="1597">Dunemaul - EU</option>
-                    <option value="1185">Dunemaul - US</option>
-                    <option value="578">Durotan - EU</option>
-                    <option value="63">Durotan - US</option>
-                    <option value="64">Duskwood - US</option>
-                    <option value="1096">Earthen Ring - EU</option>
-                    <option value="100">Earthen Ring - US</option>
-                    <option value="115">Echo Isles - US</option>
-                    <option value="3691">Echsenkessel - EU</option>
-                    <option value="1122">Eitrigg - EU</option>
-                    <option value="47">Eitrigg - US</option>
-                    <option value="1621">Eldre'Thalas - EU</option>
-                    <option value="84">Eldre'Thalas - US</option>
-                    <option value="1315">Elune - EU</option>
-                    <option value="67">Elune - US</option>
-                    <option value="2074">Emerald Dream - EU</option>
-                    <option value="162">Emerald Dream - US</option>
-                    <option value="1091">Emeriss - EU</option>
-                    <option value="1416">Eonar - EU</option>
-                    <option value="96">Eonar - US</option>
-                    <option value="3692">Eredar - EU</option>
-                    <option value="53">Eredar - US</option>
-                    <option value="1925">Eversong - EU</option>
-                    <option value="633">Executus - EU</option>
-                    <option value="155">Executus - US</option>
-                    <option value="1385">Exodar - EU</option>
-                    <option value="52">Exodar - US</option>
-                    <option value="12">Farstriders - US</option>
-                    <option value="118">Feathermoon - US</option>
-                    <option value="114">Fenris - US</option>
-                    <option value="1104">Festung der Stürme - EU</option>
-                    <option value="127">Firetree - US</option>
-                    <option value="106">Fizzcrank - US</option>
-                    <option value="1623">Fordragon - EU</option>
-                    <option value="1405">Forscherliga - EU</option>
-                    <option value="1303">Frostmane - EU</option>
-                    <option value="1168">Frostmane - US</option>
-                    <option value="1105">Frostmourne - EU</option>
-                    <option value="3725">Frostmourne - US</option>
-                    <option value="3657">Frostwhisper - EU</option>
-                    <option value="3703">Frostwolf - EU</option>
-                    <option value="127">Frostwolf - US</option>
-                    <option value="1614">Galakrond - EU</option>
-                    <option value="54">Galakrond - US</option>
-                    <option value="3234">Gallywix - US</option>
-                    <option value="1138">Garithos - US</option>
-                    <option value="509">Garona - EU</option>
-                    <option value="104">Garona - US</option>
-                    <option value="1401">Garrosh - EU</option>
-                    <option value="1136">Garrosh - US</option>
-                    <option value="3657">Genjuros - EU</option>
-                    <option value="1596">Ghostlands - EU</option>
-                    <option value="1175">Ghostlands - US</option>
-                    <option value="612">Gilneas - EU</option>
-                    <option value="67">Gilneas - US</option>
-                    <option value="1175">Gnomeregan - US</option>
-                    <option value="1928">Goldrinn - EU</option>
-                    <option value="3207">Goldrinn - US</option>
-                    <option value="1602">Gordunni - EU</option>
-                    <option value="53">Gorefiend - US</option>
-                    <option value="612">Gorgonnash - EU</option>
-                    <option value="71">Gorgonnash - US</option>
-                    <option value="1928">Greymane - EU</option>
-                    <option value="158">Greymane - US</option>
-                    <option value="1303">Grim Batol - EU</option>
-                    <option value="1175">Grizzly Hills - US</option>
-                    <option value="1929">Grom - EU</option>
-                    <option value="1104">Gul'dan - EU</option>
-                    <option value="96">Gul'dan - US</option>
-                    <option value="3725">Gundrak - US</option>
-                    <option value="1136">Gurubashi - US</option>
-                    <option value="1091">Hakkar - EU</option>
-                    <option value="1136">Hakkar - US</option>
-                    <option value="3656">Haomarush - EU</option>
-                    <option value="154">Haomarush - US</option>
-                    <option value="1587">Hellfire - EU</option>
-                    <option value="1325">Hellscream - EU</option>
-                    <option value="53">Hellscream - US</option>
-                    <option value="1615">Howling Fjord - EU</option>
-                    <option value="86">Hydraxis - US</option>
-                    <option value="1390">Hyjal - EU</option>
-                    <option value="3661">Hyjal - US</option>
-                    <option value="104">Icecrown - US</option>
-                    <option value="1624">Illidan - EU</option>
-                    <option value="57">Illidan - US</option>
-                    <option value="1597">Jaedenar - EU</option>
-                    <option value="1129">Jaedenar - US</option>
-                    <option value="3725">Jubei'Thos - US</option>
-                    <option value="512">Kael'thas - EU</option>
-                    <option value="1175">Kael'thas - US</option>
-                    <option value="155">Kalecgos - US</option>
-                    <option value="1596">Karazhan - EU</option>
-                    <option value="604">Kargath - EU</option>
-                    <option value="1129">Kargath - US</option>
-                    <option value="1305">Kazzak - EU</option>
-                    <option value="578">Kel'Thuzad - EU</option>
-                    <option value="3693">Kel'Thuzad - US</option>
-                    <option value="1080">Khadgar - EU</option>
-                    <option value="52">Khadgar - US</option>
-                    <option value="3690">Khaz Modan - EU</option>
-                    <option value="121">Khaz Modan - US</option>
-                    <option value="1406">Khaz'goroth - EU</option>
-                    <option value="3726">Khaz'goroth - US</option>
-                    <option value="1104">Kil'jaeden - EU</option>
-                    <option value="9">Kil'jaeden - US</option>
-                    <option value="1587">Kilrogg - EU</option>
-                    <option value="4">Kilrogg - US</option>
-                    <option value="1127">Kirin Tor - EU</option>
-                    <option value="1071">Kirin Tor - US</option>
-                    <option value="633">Kor'gall - EU</option>
-                    <option value="1168">Korgath - US</option>
-                    <option value="84">Korialstrasz - US</option>
-                    <option value="570">Krag'jin - EU</option>
-                    <option value="1122">Krasus - EU</option>
-                    <option value="1082">Kul Tiras - EU</option>
-                    <option value="1147">Kul Tiras - US</option>
-                    <option value="1121">Kult der Verdammten - EU</option>
-                    <option value="1127">La Croisade écarlate - EU</option>
-                    <option value="1598">Laughing Skull - EU</option>
-                    <option value="67">Laughing Skull - US</option>
-                    <option value="1127">Les Clairvoyants - EU</option>
-                    <option value="1127">Les Sentinelles - EU</option>
-                    <option value="154">Lethon - US</option>
-                    <option value="1928">Lich King - EU</option>
-                    <option value="1388">Lightbringer - EU</option>
-                    <option value="3694">Lightbringer - US</option>
-                    <option value="1596">Lightning's Blade - EU</option>
-                    <option value="104">Lightning's Blade - US</option>
-                    <option value="163">Lightninghoof - US</option>
-                    <option value="99">Llane - US</option>
-                    <option value="580">Lordaeron - EU</option>
-                    <option value="1384">Los Errantes - EU</option>
-                    <option value="570">Lothar - EU</option>
-                    <option value="1175">Lothar - US</option>
-                    <option value="3696">Madmortem - EU</option>
-                    <option value="160">Madoran - US</option>
-                    <option value="163">Maelstrom - US</option>
-                    <option value="3681">Magtheridon - EU</option>
-                    <option value="78">Magtheridon - US</option>
-                    <option value="1185">Maiev - US</option>
-                    <option value="3691">Mal'Ganis - EU</option>
-                    <option value="3684">Mal'Ganis - US</option>
-                    <option value="1098">Malfurion - EU</option>
-                    <option value="1175">Malfurion - US</option>
-                    <option value="1097">Malorne - EU</option>
-                    <option value="127">Malorne - US</option>
-                    <option value="1098">Malygos - EU</option>
-                    <option value="104">Malygos - US</option>
-                    <option value="612">Mannoroth - EU</option>
-                    <option value="77">Mannoroth - US</option>
-                    <option value="1621">Marécage de Zangar - EU</option>
-                    <option value="1388">Mazrigos - EU</option>
-                    <option value="1331">Medivh - EU</option>
-                    <option value="52">Medivh - US</option>
-                    <option value="1385">Minahonda - EU</option>
-                    <option value="1151">Misha - US</option>
-                    <option value="86">Mok'Nathal - US</option>
-                    <option value="3675">Moon Guard - US</option>
-                    <option value="1085">Moonglade - EU</option>
-                    <option value="1175">Moonrunner - US</option>
-                    <option value="531">Mug'thol - EU</option>
-                    <option value="84">Mug'thol - US</option>
-                    <option value="121">Muradin - US</option>
-                    <option value="1587">Nagrand - EU</option>
-                    <option value="3721">Nagrand - US</option>
-                    <option value="1104">Nathrezim - EU</option>
-                    <option value="1138">Nathrezim - US</option>
-                    <option value="1624">Naxxramas - EU</option>
-                    <option value="1184">Nazgrel - US</option>
-                    <option value="1105">Nazjatar - EU</option>
-                    <option value="77">Nazjatar - US</option>
-                    <option value="612">Nefarian - EU</option>
-                    <option value="1316">Nemesis - EU</option>
-                    <option value="3208">Nemesis - US</option>
-                    <option value="3657">Neptulon - EU</option>
-                    <option value="509">Ner'zhul - EU</option>
-                    <option value="1168">Ner'zhul - US</option>
-                    <option value="612">Nera'thor - EU</option>
-                    <option value="1184">Nesingwary - US</option>
-                    <option value="3696">Nethersturm - EU</option>
-                    <option value="1393">Nordrassil - EU</option>
-                    <option value="121">Nordrassil - US</option>
-                    <option value="1408">Norgannon - EU</option>
-                    <option value="1129">Norgannon - US</option>
-                    <option value="1401">Nozdormu - EU</option>
-                    <option value="531">Onyxia - EU</option>
-                    <option value="104">Onyxia - US</option>
-                    <option value="1301">Outland - EU</option>
-                    <option value="1401">Perenolde - EU</option>
-                    <option value="1168">Perenolde - US</option>
-                    <option value="1309">Pozzo dell'Eternità - EU</option>
-                    <option value="3696">Proudmoore - EU</option>
-                    <option value="5">Proudmoore - US</option>
-                    <option value="1396">Quel'Thalas - EU</option>
-                    <option value="1428">Quel'Thalas - US</option>
-                    <option value="1185">Quel'dorei - US</option>
-                    <option value="3682">Ragnaros - EU</option>
-                    <option value="1427">Ragnaros - US</option>
-                    <option value="1104">Rajaxx - EU</option>
-                    <option value="512">Rashgarroth - EU</option>
-                    <option value="1329">Ravencrest - EU</option>
-                    <option value="1072">Ravencrest - US</option>
-                    <option value="1096">Ravenholdt - EU</option>
-                    <option value="163">Ravenholdt - US</option>
-                    <option value="1614">Razuvious - EU</option>
-                    <option value="1099">Rexxar - EU</option>
-                    <option value="1151">Rexxar - US</option>
-                    <option value="127">Rivendare - US</option>
-                    <option value="1587">Runetotem - EU</option>
-                    <option value="151">Runetotem - US</option>
-                    <option value="1379">Sanguino - EU</option>
-                    <option value="509">Sargeras - EU</option>
-                    <option value="76">Sargeras - US</option>
-                    <option value="633">Saurfang - EU</option>
-                    <option value="3721">Saurfang - US</option>
-                    <option value="118">Scarlet Crusade - US</option>
-                    <option value="1096">Scarshield Legion - EU</option>
-                    <option value="96">Scilla - US</option>
-                    <option value="1400">Sen'jin - EU</option>
-                    <option value="1185">Sen'jin - US</option>
-                    <option value="1071">Sentinels - US</option>
-                    <option value="125">Shadow Council - US</option>
-                    <option value="154">Shadowmoon - US</option>
-                    <option value="3666">Shadowsong - EU</option>
-                    <option value="86">Shadowsong - US</option>
-                    <option value="117">Shandris - US</option>
-                    <option value="1598">Shattered Halls - EU</option>
-                    <option value="155">Shattered Halls - US</option>
-                    <option value="633">Shattered Hand - EU</option>
-                    <option value="157">Shattered Hand - US</option>
-                    <option value="1401">Shattrath - EU</option>
-                    <option value="1379">Shen'dralar - EU</option>
-                    <option value="47">Shu'halo - US</option>
-                    <option value="12">Silver Hand - US</option>
-                    <option value="3391">Silvermoon - EU</option>
-                    <option value="86">Silvermoon - US</option>
-                    <option value="1621">Sinstralis - EU</option>
-                    <option value="125">Sisters of Elune - US</option>
-                    <option value="3713">Skullcrusher - EU</option>
-                    <option value="96">Skullcrusher - US</option>
-                    <option value="86">Skywall - US</option>
-                    <option value="1138">Smolderthorn - US</option>
-                    <option value="1604">Soulflayer - EU</option>
-                    <option value="3656">Spinebreaker - EU</option>
-                    <option value="53">Spinebreaker - US</option>
-                    <option value="127">Spirestone - US</option>
-                    <option value="1096">Sporeggar - EU</option>
-                    <option value="160">Staghelm - US</option>
-                    <option value="1085">Steamwheedle Cartel - EU</option>
-                    <option value="1071">Steamwheedle Cartel - US</option>
-                    <option value="1185">Stonemaul - US</option>
-                    <option value="1417">Stormrage - EU</option>
-                    <option value="60">Stormrage - US</option>
-                    <option value="3656">Stormreaver - EU</option>
-                    <option value="58">Stormreaver - US</option>
-                    <option value="2073">Stormscale - EU</option>
-                    <option value="127">Stormscale - US</option>
-                    <option value="1598">Sunstrider - EU</option>
-                    <option value="1331">Suramar - EU</option>
-                    <option value="113">Suramar - US</option>
-                    <option value="1597">Sylvanas - EU</option>
-                    <option value="3691">Taerar - EU</option>
-                    <option value="1598">Talnivarr - EU</option>
-                    <option value="158">Tanaris - US</option>
-                    <option value="1084">Tarren Mill - EU</option>
-                    <option value="1401">Teldrassil - EU</option>
-                    <option value="1624">Temple noir - EU</option>
-                    <option value="2074">Terenas - EU</option>
-                    <option value="86">Terenas - US</option>
-                    <option value="633">Terokkar - EU</option>
-                    <option value="1070">Terokkar - US</option>
-                    <option value="531">Terrordar - EU</option>
-                    <option value="3725">Thaurissan - US</option>
-                    <option value="71">The Forgotten Coast - US</option>
-                    <option value="1596">The Maelstrom - EU</option>
-                    <option value="75">The Scryers - US</option>
-                    <option value="1085">The Sha'tar - EU</option>
-                    <option value="1129">The Underbog - US</option>
-                    <option value="1096">The Venture Co - EU</option>
-                    <option value="163">The Venture Co - US</option>
-                    <option value="531">Theradras - EU</option>
-                    <option value="1929">Thermaplugg - EU</option>
-                    <option value="12">Thorium Brotherhood - US</option>
-                    <option value="604">Thrall - EU</option>
-                    <option value="3678">Thrall - US</option>
-                    <option value="512">Throk'Feroth - EU</option>
-                    <option value="1313">Thunderhorn - EU</option>
-                    <option value="1129">Thunderhorn - US</option>
-                    <option value="77">Thunderlord - US</option>
-                    <option value="580">Tichondrius - EU</option>
-                    <option value="11">Tichondrius - US</option>
-                    <option value="578">Tirion - EU</option>
-                    <option value="1405">Todeswache - EU</option>
-                    <option value="3208">Tol Barad - US</option>
-                    <option value="1168">Tortheldrin - US</option>
-                    <option value="1598">Trollbane - EU</option>
-                    <option value="1175">Trollbane - US</option>
-                    <option value="1402">Turalyon - EU</option>
-                    <option value="3685">Turalyon - US</option>
-                    <option value="1091">Twilight's Hammer - EU</option>
-                    <option value="3674">Twisting Nether - EU</option>
-                    <option value="163">Twisting Nether - US</option>
-                    <option value="1384">Tyrande - EU</option>
-                    <option value="1122">Uldaman - EU</option>
-                    <option value="1072">Uldaman - US</option>
-                    <option value="612">Ulduar - EU</option>
-                    <option value="1379">Uldum - EU</option>
-                    <option value="84">Uldum - US</option>
-                    <option value="1400">Un'Goro - EU</option>
-                    <option value="71">Undermine - US</option>
-                    <option value="96">Ursin - US</option>
-                    <option value="151">Uther - US</option>
-                    <option value="1315">Varimathras - EU</option>
-                    <option value="3656">Vashj - EU</option>
-                    <option value="127">Vashj - US</option>
-                    <option value="578">Vek'lor - EU</option>
-                    <option value="1416">Vek'nilash - EU</option>
-                    <option value="1184">Vek'nilash - US</option>
-                    <option value="96">Velen - US</option>
-                    <option value="510">Vol'jin - EU</option>
-                    <option value="71">Warsong - US</option>
-                    <option value="55">Whisperwind - US</option>
-                    <option value="1313">Wildhammer - EU</option>
-                    <option value="53">Wildhammer - US</option>
-                    <option value="113">Windrunner - US</option>
-                    <option value="4">Winterhoof - US</option>
-                    <option value="578">Wrathbringer - EU</option>
-                    <option value="1171">Wyrmrest Accord - US</option>
-                    <option value="3713">Xavius - EU</option>
-                    <option value="1097">Ysera - EU</option>
-                    <option value="63">Ysera - US</option>
-                    <option value="1335">Ysondre - EU</option>
-                    <option value="78">Ysondre - US</option>
-                    <option value="53">Zangarmarsh - US</option>
-                    <option value="3657">Zenedar - EU</option>
-                    <option value="1405">Zirkel des Cenarius - EU</option>
-                    <option value="1379">Zul'jin - EU</option>
-                    <option value="61">Zul'jin - US</option>
-                    <option value="1105">Zuluhed - EU</option>
-                    <option value="96">Zuluhed - US</option>
-                </select>
-            </div>
+          <div class="mb-3">
+            <label class="form-label">homeRealm</label>
+            <select class="form-select" id="homeRealmID" name="homeRealmID">
+                <option value="3678">Thrall - US</option>
+                <option value="1136">Aegwynn - US</option>
+                <option value="3679">Aegwynn - EU</option>
+                <option value="1416">Aerie Peak - EU</option>
+                <option value="1426">Aerie Peak - US</option>
+                <option value="1091">Agamaggan - EU</option>
+                <option value="1129">Agamaggan - US</option>
+                <option value="1303">Aggra (Português) - EU</option>
+                <option value="1325">Aggramar - EU</option>
+                <option value="106">Aggramar - US</option>
+                <option value="1598">Ahn'Qiraj - EU</option>
+                <option value="84">Akama - US</option>
+                <option value="3713">Al'Akir - EU</option>
+                <option value="3696">Alexstrasza - EU</option>
+                <option value="1070">Alexstrasza - US</option>
+                <option value="1099">Alleria - EU</option>
+                <option value="52">Alleria - US</option>
+                <option value="1082">Alonsus - EU</option>
+                <option value="78">Altar of Storms - US</option>
+                <option value="71">Alterac Mountains - US</option>
+                <option value="1105">Aman'Thul - EU</option>
+                <option value="3726">Aman'Thul - US</option>
+                <option value="604">Ambossar - EU</option>
+                <option value="1082">Anachronos - EU</option>
+                <option value="96">Andorhal - US</option>
+                <option value="1104">Anetheron - EU</option>
+                <option value="78">Anetheron - US</option>
+                <option value="3686">Antonidas - EU</option>
+                <option value="84">Antonidas - US</option>
+                <option value="1105">Anub'arak - EU</option>
+                <option value="1138">Anub'arak - US</option>
+                <option value="71">Anvilmar - US</option>
+                <option value="512">Arak-arahm - EU</option>
+                <option value="1624">Arathi - EU</option>
+                <option value="1587">Arathor - EU</option>
+                <option value="1138">Arathor - US</option>
+                <option value="1302">Archimonde - EU</option>
+                <option value="1129">Archimonde - US</option>
+                <option value="1400">Area 52 - EU</option>
+                <option value="3676">Area 52 - US</option>
+                <option value="3702">Argent Dawn - EU</option>
+                <option value="75">Argent Dawn - US</option>
+                <option value="578">Arthas - EU</option>
+                <option value="69">Arthas - US</option>
+                <option value="1406">Arygos - EU</option>
+                <option value="99">Arygos - US</option>
+                <option value="1923">Ashenvale - EU</option>
+                <option value="3666">Aszune - EU</option>
+                <option value="1597">Auchindoun - EU</option>
+                <option value="67">Auchindoun - US</option>
+                <option value="77">Azgalor - US</option>
+                <option value="1396">Azjol-Nerub - EU</option>
+                <option value="121">Azjol-Nerub - US</option>
+                <option value="3209">Azralon - US</option>
+                <option value="570">Azshara - EU</option>
+                <option value="77">Azshara - US</option>
+                <option value="1922">Azuregos - EU</option>
+                <option value="1417">Azuremyst - EU</option>
+                <option value="160">Azuremyst - US</option>
+                <option value="570">Baelgun - EU</option>
+                <option value="1190">Baelgun - US</option>
+                <option value="1598">Balnazzar - EU</option>
+                <option value="71">Balnazzar - US</option>
+                <option value="3723">Barthilas - US</option>
+                <option value="96">Black Dragonflight - US</option>
+                <option value="3691">Blackhand - EU</option>
+                <option value="54">Blackhand - US</option>
+                <option value="580">Blackmoore - EU</option>
+                <option value="581">Blackrock - EU</option>
+                <option value="121">Blackrock - US</option>
+                <option value="1929">Blackscar - EU</option>
+                <option value="125">Blackwater Raiders - US</option>
+                <option value="154">Blackwing Lair - US</option>
+                <option value="1416">Blade's Edge - EU</option>
+                <option value="1129">Blade's Edge - US</option>
+                <option value="3657">Bladefist - EU</option>
+                <option value="1147">Bladefist - US</option>
+                <option value="73">Bleeding Hollow - US</option>
+                <option value="77">Blood Furnace - US</option>
+                <option value="633">Bloodfeather - EU</option>
+                <option value="1080">Bloodhoof - EU</option>
+                <option value="64">Bloodhoof - US</option>
+                <option value="1091">Bloodscalp - EU</option>
+                <option value="1185">Bloodscalp - US</option>
+                <option value="578">Blutkessel - EU</option>
+                <option value="1136">Bonechewer - US</option>
+                <option value="1929">Booty Bay - EU</option>
+                <option value="1929">Borean Tundra - EU</option>
+                <option value="86">Borean Tundra - US</option>
+                <option value="1598">Boulderfist - EU</option>
+                <option value="1185">Boulderfist - US</option>
+                <option value="1393">Bronze Dragonflight - EU</option>
+                <option value="1416">Bronzebeard - EU</option>
+                <option value="117">Bronzebeard - US</option>
+                <option value="1092">Burning Blade - EU</option>
+                <option value="104">Burning Blade - US</option>
+                <option value="3713">Burning Legion - EU</option>
+                <option value="1129">Burning Legion - US</option>
+                <option value="633">Burning Steppes - EU</option>
+                <option value="1378">C'Thun - EU</option>
+                <option value="3721">Caelestrasz - US</option>
+                <option value="1168">Cairne - US</option>
+                <option value="125">Cenarion Circle - US</option>
+                <option value="1168">Cenarius - US</option>
+                <option value="1307">Chamber of Aspects - EU</option>
+                <option value="510">Chants éternels - EU</option>
+                <option value="1621">Cho'gall - EU</option>
+                <option value="67">Cho'gall - US</option>
+                <option value="1598">Chromaggus - EU</option>
+                <option value="1138">Chromaggus - US</option>
+                <option value="157">Coilfang - US</option>
+                <option value="1384">Colinas Pardas - EU</option>
+                <option value="1127">Confrérie du Thorium - EU</option>
+                <option value="1127">Conseil des Ombres - EU</option>
+                <option value="1091">Crushridge - EU</option>
+                <option value="1138">Crushridge - US</option>
+                <option value="1127">Culte de la Rive noire - EU</option>
+                <option value="1598">Daggerspine - EU</option>
+                <option value="1136">Daggerspine - US</option>
+                <option value="1621">Dalaran - EU</option>
+                <option value="3683">Dalaran - US</option>
+                <option value="1105">Dalvengyr - EU</option>
+                <option value="157">Dalvengyr - US</option>
+                <option value="157">Dark Iron - US</option>
+                <option value="1096">Darkmoon Faire - EU</option>
+                <option value="3657">Darksorrow - EU</option>
+                <option value="633">Darkspear - EU</option>
+                <option value="120">Darkspear - US</option>
+                <option value="113">Darrowmere - US</option>
+                <option value="1121">Das Konsortium - EU</option>
+                <option value="1121">Das Syndikat - EU</option>
+                <option value="3726">Dath'Remar - US</option>
+                <option value="160">Dawnbringer - US</option>
+                <option value="1605">Deathguard - EU</option>
+                <option value="1929">Deathweaver - EU</option>
+                <option value="1596">Deathwing - EU</option>
+                <option value="155">Deathwing - US</option>
+                <option value="1614">Deepholm - EU</option>
+                <option value="1096">Defias Brotherhood - EU</option>
+                <option value="157">Demon Soul - US</option>
+                <option value="1084">Dentarg - EU</option>
+                <option value="55">Dentarg - US</option>
+                <option value="1405">Der Mithrilorden - EU</option>
+                <option value="1405">Der Rat von Dalaran - EU</option>
+                <option value="1121">Der abyssische Rat - EU</option>
+                <option value="612">Destromath - EU</option>
+                <option value="77">Destromath - US</option>
+                <option value="531">Dethecus - EU</option>
+                <option value="154">Dethecus - US</option>
+                <option value="154">Detheroc - US</option>
+                <option value="1618">Die Aldor - EU</option>
+                <option value="1121">Die Arguswacht - EU</option>
+                <option value="1405">Die Nachtwache - EU</option>
+                <option value="1121">Die Silberne Hand - EU</option>
+                <option value="1121">Die Todeskrallen - EU</option>
+                <option value="1121">Die ewige Wacht - EU</option>
+                <option value="1402">Doomhammer - EU</option>
+                <option value="1190">Doomhammer - US</option>
+                <option value="1403">Draenor - EU</option>
+                <option value="115">Draenor - US</option>
+                <option value="1596">Dragonblight - EU</option>
+                <option value="114">Dragonblight - US</option>
+                <option value="3656">Dragonmaw - EU</option>
+                <option value="84">Dragonmaw - US</option>
+                <option value="127">Drak'Tharon - US</option>
+                <option value="1092">Drak'thul - EU</option>
+                <option value="86">Drak'thul - US</option>
+                <option value="113">Draka - US</option>
+                <option value="1425">Drakkari - US</option>
+                <option value="3725">Dreadmaul - US</option>
+                <option value="1122">Drek'Thar - EU</option>
+                <option value="1138">Drenden - US</option>
+                <option value="1378">Dun Modr - EU</option>
+                <option value="1408">Dun Morogh - EU</option>
+                <option value="1597">Dunemaul - EU</option>
+                <option value="1185">Dunemaul - US</option>
+                <option value="578">Durotan - EU</option>
+                <option value="63">Durotan - US</option>
+                <option value="64">Duskwood - US</option>
+                <option value="1096">Earthen Ring - EU</option>
+                <option value="100">Earthen Ring - US</option>
+                <option value="115">Echo Isles - US</option>
+                <option value="3691">Echsenkessel - EU</option>
+                <option value="1122">Eitrigg - EU</option>
+                <option value="47">Eitrigg - US</option>
+                <option value="1621">Eldre'Thalas - EU</option>
+                <option value="84">Eldre'Thalas - US</option>
+                <option value="1315">Elune - EU</option>
+                <option value="67">Elune - US</option>
+                <option value="2074">Emerald Dream - EU</option>
+                <option value="162">Emerald Dream - US</option>
+                <option value="1091">Emeriss - EU</option>
+                <option value="1416">Eonar - EU</option>
+                <option value="96">Eonar - US</option>
+                <option value="3692">Eredar - EU</option>
+                <option value="53">Eredar - US</option>
+                <option value="1925">Eversong - EU</option>
+                <option value="633">Executus - EU</option>
+                <option value="155">Executus - US</option>
+                <option value="1385">Exodar - EU</option>
+                <option value="52">Exodar - US</option>
+                <option value="12">Farstriders - US</option>
+                <option value="118">Feathermoon - US</option>
+                <option value="114">Fenris - US</option>
+                <option value="1104">Festung der Stürme - EU</option>
+                <option value="127">Firetree - US</option>
+                <option value="106">Fizzcrank - US</option>
+                <option value="1623">Fordragon - EU</option>
+                <option value="1405">Forscherliga - EU</option>
+                <option value="1303">Frostmane - EU</option>
+                <option value="1168">Frostmane - US</option>
+                <option value="1105">Frostmourne - EU</option>
+                <option value="3725">Frostmourne - US</option>
+                <option value="3657">Frostwhisper - EU</option>
+                <option value="3703">Frostwolf - EU</option>
+                <option value="127">Frostwolf - US</option>
+                <option value="1614">Galakrond - EU</option>
+                <option value="54">Galakrond - US</option>
+                <option value="3234">Gallywix - US</option>
+                <option value="1138">Garithos - US</option>
+                <option value="509">Garona - EU</option>
+                <option value="104">Garona - US</option>
+                <option value="1401">Garrosh - EU</option>
+                <option value="1136">Garrosh - US</option>
+                <option value="3657">Genjuros - EU</option>
+                <option value="1596">Ghostlands - EU</option>
+                <option value="1175">Ghostlands - US</option>
+                <option value="612">Gilneas - EU</option>
+                <option value="67">Gilneas - US</option>
+                <option value="1175">Gnomeregan - US</option>
+                <option value="1928">Goldrinn - EU</option>
+                <option value="3207">Goldrinn - US</option>
+                <option value="1602">Gordunni - EU</option>
+                <option value="53">Gorefiend - US</option>
+                <option value="612">Gorgonnash - EU</option>
+                <option value="71">Gorgonnash - US</option>
+                <option value="1928">Greymane - EU</option>
+                <option value="158">Greymane - US</option>
+                <option value="1303">Grim Batol - EU</option>
+                <option value="1175">Grizzly Hills - US</option>
+                <option value="1929">Grom - EU</option>
+                <option value="1104">Gul'dan - EU</option>
+                <option value="96">Gul'dan - US</option>
+                <option value="3725">Gundrak - US</option>
+                <option value="1136">Gurubashi - US</option>
+                <option value="1091">Hakkar - EU</option>
+                <option value="1136">Hakkar - US</option>
+                <option value="3656">Haomarush - EU</option>
+                <option value="154">Haomarush - US</option>
+                <option value="1587">Hellfire - EU</option>
+                <option value="1325">Hellscream - EU</option>
+                <option value="53">Hellscream - US</option>
+                <option value="1615">Howling Fjord - EU</option>
+                <option value="86">Hydraxis - US</option>
+                <option value="1390">Hyjal - EU</option>
+                <option value="3661">Hyjal - US</option>
+                <option value="104">Icecrown - US</option>
+                <option value="1624">Illidan - EU</option>
+                <option value="57">Illidan - US</option>
+                <option value="1597">Jaedenar - EU</option>
+                <option value="1129">Jaedenar - US</option>
+                <option value="3725">Jubei'Thos - US</option>
+                <option value="512">Kael'thas - EU</option>
+                <option value="1175">Kael'thas - US</option>
+                <option value="155">Kalecgos - US</option>
+                <option value="1596">Karazhan - EU</option>
+                <option value="604">Kargath - EU</option>
+                <option value="1129">Kargath - US</option>
+                <option value="1305">Kazzak - EU</option>
+                <option value="578">Kel'Thuzad - EU</option>
+                <option value="3693">Kel'Thuzad - US</option>
+                <option value="1080">Khadgar - EU</option>
+                <option value="52">Khadgar - US</option>
+                <option value="3690">Khaz Modan - EU</option>
+                <option value="121">Khaz Modan - US</option>
+                <option value="1406">Khaz'goroth - EU</option>
+                <option value="3726">Khaz'goroth - US</option>
+                <option value="1104">Kil'jaeden - EU</option>
+                <option value="9">Kil'jaeden - US</option>
+                <option value="1587">Kilrogg - EU</option>
+                <option value="4">Kilrogg - US</option>
+                <option value="1127">Kirin Tor - EU</option>
+                <option value="1071">Kirin Tor - US</option>
+                <option value="633">Kor'gall - EU</option>
+                <option value="1168">Korgath - US</option>
+                <option value="84">Korialstrasz - US</option>
+                <option value="570">Krag'jin - EU</option>
+                <option value="1122">Krasus - EU</option>
+                <option value="1082">Kul Tiras - EU</option>
+                <option value="1147">Kul Tiras - US</option>
+                <option value="1121">Kult der Verdammten - EU</option>
+                <option value="1127">La Croisade écarlate - EU</option>
+                <option value="1598">Laughing Skull - EU</option>
+                <option value="67">Laughing Skull - US</option>
+                <option value="1127">Les Clairvoyants - EU</option>
+                <option value="1127">Les Sentinelles - EU</option>
+                <option value="154">Lethon - US</option>
+                <option value="1928">Lich King - EU</option>
+                <option value="1388">Lightbringer - EU</option>
+                <option value="3694">Lightbringer - US</option>
+                <option value="1596">Lightning's Blade - EU</option>
+                <option value="104">Lightning's Blade - US</option>
+                <option value="163">Lightninghoof - US</option>
+                <option value="99">Llane - US</option>
+                <option value="580">Lordaeron - EU</option>
+                <option value="1384">Los Errantes - EU</option>
+                <option value="570">Lothar - EU</option>
+                <option value="1175">Lothar - US</option>
+                <option value="3696">Madmortem - EU</option>
+                <option value="160">Madoran - US</option>
+                <option value="163">Maelstrom - US</option>
+                <option value="3681">Magtheridon - EU</option>
+                <option value="78">Magtheridon - US</option>
+                <option value="1185">Maiev - US</option>
+                <option value="3691">Mal'Ganis - EU</option>
+                <option value="3684">Mal'Ganis - US</option>
+                <option value="1098">Malfurion - EU</option>
+                <option value="1175">Malfurion - US</option>
+                <option value="1097">Malorne - EU</option>
+                <option value="127">Malorne - US</option>
+                <option value="1098">Malygos - EU</option>
+                <option value="104">Malygos - US</option>
+                <option value="612">Mannoroth - EU</option>
+                <option value="77">Mannoroth - US</option>
+                <option value="1621">Marécage de Zangar - EU</option>
+                <option value="1388">Mazrigos - EU</option>
+                <option value="1331">Medivh - EU</option>
+                <option value="52">Medivh - US</option>
+                <option value="1385">Minahonda - EU</option>
+                <option value="1151">Misha - US</option>
+                <option value="86">Mok'Nathal - US</option>
+                <option value="3675">Moon Guard - US</option>
+                <option value="1085">Moonglade - EU</option>
+                <option value="1175">Moonrunner - US</option>
+                <option value="531">Mug'thol - EU</option>
+                <option value="84">Mug'thol - US</option>
+                <option value="121">Muradin - US</option>
+                <option value="1587">Nagrand - EU</option>
+                <option value="3721">Nagrand - US</option>
+                <option value="1104">Nathrezim - EU</option>
+                <option value="1138">Nathrezim - US</option>
+                <option value="1624">Naxxramas - EU</option>
+                <option value="1184">Nazgrel - US</option>
+                <option value="1105">Nazjatar - EU</option>
+                <option value="77">Nazjatar - US</option>
+                <option value="612">Nefarian - EU</option>
+                <option value="1316">Nemesis - EU</option>
+                <option value="3208">Nemesis - US</option>
+                <option value="3657">Neptulon - EU</option>
+                <option value="509">Ner'zhul - EU</option>
+                <option value="1168">Ner'zhul - US</option>
+                <option value="612">Nera'thor - EU</option>
+                <option value="1184">Nesingwary - US</option>
+                <option value="3696">Nethersturm - EU</option>
+                <option value="1393">Nordrassil - EU</option>
+                <option value="121">Nordrassil - US</option>
+                <option value="1408">Norgannon - EU</option>
+                <option value="1129">Norgannon - US</option>
+                <option value="1401">Nozdormu - EU</option>
+                <option value="531">Onyxia - EU</option>
+                <option value="104">Onyxia - US</option>
+                <option value="1301">Outland - EU</option>
+                <option value="1401">Perenolde - EU</option>
+                <option value="1168">Perenolde - US</option>
+                <option value="1309">Pozzo dell'Eternità - EU</option>
+                <option value="3696">Proudmoore - EU</option>
+                <option value="5">Proudmoore - US</option>
+                <option value="1396">Quel'Thalas - EU</option>
+                <option value="1428">Quel'Thalas - US</option>
+                <option value="1185">Quel'dorei - US</option>
+                <option value="3682">Ragnaros - EU</option>
+                <option value="1427">Ragnaros - US</option>
+                <option value="1104">Rajaxx - EU</option>
+                <option value="512">Rashgarroth - EU</option>
+                <option value="1329">Ravencrest - EU</option>
+                <option value="1072">Ravencrest - US</option>
+                <option value="1096">Ravenholdt - EU</option>
+                <option value="163">Ravenholdt - US</option>
+                <option value="1614">Razuvious - EU</option>
+                <option value="1099">Rexxar - EU</option>
+                <option value="1151">Rexxar - US</option>
+                <option value="127">Rivendare - US</option>
+                <option value="1587">Runetotem - EU</option>
+                <option value="151">Runetotem - US</option>
+                <option value="1379">Sanguino - EU</option>
+                <option value="509">Sargeras - EU</option>
+                <option value="76">Sargeras - US</option>
+                <option value="633">Saurfang - EU</option>
+                <option value="3721">Saurfang - US</option>
+                <option value="118">Scarlet Crusade - US</option>
+                <option value="1096">Scarshield Legion - EU</option>
+                <option value="96">Scilla - US</option>
+                <option value="1400">Sen'jin - EU</option>
+                <option value="1185">Sen'jin - US</option>
+                <option value="1071">Sentinels - US</option>
+                <option value="125">Shadow Council - US</option>
+                <option value="154">Shadowmoon - US</option>
+                <option value="3666">Shadowsong - EU</option>
+                <option value="86">Shadowsong - US</option>
+                <option value="117">Shandris - US</option>
+                <option value="1598">Shattered Halls - EU</option>
+                <option value="155">Shattered Halls - US</option>
+                <option value="633">Shattered Hand - EU</option>
+                <option value="157">Shattered Hand - US</option>
+                <option value="1401">Shattrath - EU</option>
+                <option value="1379">Shen'dralar - EU</option>
+                <option value="47">Shu'halo - US</option>
+                <option value="12">Silver Hand - US</option>
+                <option value="3391">Silvermoon - EU</option>
+                <option value="86">Silvermoon - US</option>
+                <option value="1621">Sinstralis - EU</option>
+                <option value="125">Sisters of Elune - US</option>
+                <option value="3713">Skullcrusher - EU</option>
+                <option value="96">Skullcrusher - US</option>
+                <option value="86">Skywall - US</option>
+                <option value="1138">Smolderthorn - US</option>
+                <option value="1604">Soulflayer - EU</option>
+                <option value="3656">Spinebreaker - EU</option>
+                <option value="53">Spinebreaker - US</option>
+                <option value="127">Spirestone - US</option>
+                <option value="1096">Sporeggar - EU</option>
+                <option value="160">Staghelm - US</option>
+                <option value="1085">Steamwheedle Cartel - EU</option>
+                <option value="1071">Steamwheedle Cartel - US</option>
+                <option value="1185">Stonemaul - US</option>
+                <option value="1417">Stormrage - EU</option>
+                <option value="60">Stormrage - US</option>
+                <option value="3656">Stormreaver - EU</option>
+                <option value="58">Stormreaver - US</option>
+                <option value="2073">Stormscale - EU</option>
+                <option value="127">Stormscale - US</option>
+                <option value="1598">Sunstrider - EU</option>
+                <option value="1331">Suramar - EU</option>
+                <option value="113">Suramar - US</option>
+                <option value="1597">Sylvanas - EU</option>
+                <option value="3691">Taerar - EU</option>
+                <option value="1598">Talnivarr - EU</option>
+                <option value="158">Tanaris - US</option>
+                <option value="1084">Tarren Mill - EU</option>
+                <option value="1401">Teldrassil - EU</option>
+                <option value="1624">Temple noir - EU</option>
+                <option value="2074">Terenas - EU</option>
+                <option value="86">Terenas - US</option>
+                <option value="633">Terokkar - EU</option>
+                <option value="1070">Terokkar - US</option>
+                <option value="531">Terrordar - EU</option>
+                <option value="3725">Thaurissan - US</option>
+                <option value="71">The Forgotten Coast - US</option>
+                <option value="1596">The Maelstrom - EU</option>
+                <option value="75">The Scryers - US</option>
+                <option value="1085">The Sha'tar - EU</option>
+                <option value="1129">The Underbog - US</option>
+                <option value="1096">The Venture Co - EU</option>
+                <option value="163">The Venture Co - US</option>
+                <option value="531">Theradras - EU</option>
+                <option value="1929">Thermaplugg - EU</option>
+                <option value="12">Thorium Brotherhood - US</option>
+                <option value="604">Thrall - EU</option>
+                <option value="3678">Thrall - US</option>
+                <option value="512">Throk'Feroth - EU</option>
+                <option value="1313">Thunderhorn - EU</option>
+                <option value="1129">Thunderhorn - US</option>
+                <option value="77">Thunderlord - US</option>
+                <option value="580">Tichondrius - EU</option>
+                <option value="11">Tichondrius - US</option>
+                <option value="578">Tirion - EU</option>
+                <option value="1405">Todeswache - EU</option>
+                <option value="3208">Tol Barad - US</option>
+                <option value="1168">Tortheldrin - US</option>
+                <option value="1598">Trollbane - EU</option>
+                <option value="1175">Trollbane - US</option>
+                <option value="1402">Turalyon - EU</option>
+                <option value="3685">Turalyon - US</option>
+                <option value="1091">Twilight's Hammer - EU</option>
+                <option value="3674">Twisting Nether - EU</option>
+                <option value="163">Twisting Nether - US</option>
+                <option value="1384">Tyrande - EU</option>
+                <option value="1122">Uldaman - EU</option>
+                <option value="1072">Uldaman - US</option>
+                <option value="612">Ulduar - EU</option>
+                <option value="1379">Uldum - EU</option>
+                <option value="84">Uldum - US</option>
+                <option value="1400">Un'Goro - EU</option>
+                <option value="71">Undermine - US</option>
+                <option value="96">Ursin - US</option>
+                <option value="151">Uther - US</option>
+                <option value="1315">Varimathras - EU</option>
+                <option value="3656">Vashj - EU</option>
+                <option value="127">Vashj - US</option>
+                <option value="578">Vek'lor - EU</option>
+                <option value="1416">Vek'nilash - EU</option>
+                <option value="1184">Vek'nilash - US</option>
+                <option value="96">Velen - US</option>
+                <option value="510">Vol'jin - EU</option>
+                <option value="71">Warsong - US</option>
+                <option value="55">Whisperwind - US</option>
+                <option value="1313">Wildhammer - EU</option>
+                <option value="53">Wildhammer - US</option>
+                <option value="113">Windrunner - US</option>
+                <option value="4">Winterhoof - US</option>
+                <option value="578">Wrathbringer - EU</option>
+                <option value="1171">Wyrmrest Accord - US</option>
+                <option value="3713">Xavius - EU</option>
+                <option value="1097">Ysera - EU</option>
+                <option value="63">Ysera - US</option>
+                <option value="1335">Ysondre - EU</option>
+                <option value="78">Ysondre - US</option>
+                <option value="53">Zangarmarsh - US</option>
+                <option value="3657">Zenedar - EU</option>
+                <option value="1405">Zirkel des Cenarius - EU</option>
+                <option value="1379">Zul'jin - EU</option>
+                <option value="61">Zul'jin - US</option>
+                <option value="1105">Zuluhed - EU</option>
+                <option value="96">Zuluhed - US</option>
+            </select>
+            <div class="form-text">The Home server of your character that you want to sell items on. ex: <code>Thrall</code></div>
+        </div>
 
-            <p><b>maxPurchasePrice.</b> ex: `10000`.</p>
-            <div class="input-row flex">
-                <label>maxPurchasePrice:</label>
-                <input name="maxPurchasePrice" type="text" value="10000">
-            </div>
+        <div class="mb-3">
+          <label class="form-label">maxPurchasePrice</label>
+          <input type="number" class="form-control" name="maxPurchasePrice" value="10000">
+          <div class="form-text">maxPurchasePrice. ex: <code>10000</code></div>
+        </div>
 
-            <p><b>avgPrice.</b> ex: `1000`.</p>
-            <div class="input-row flex">
-                <label>avgPrice:</label>
-                <input name="avgPrice" type="text" value="1000">
-            </div>
+        <div class="mb-3">
+          <label class="form-label">avgPrice</label>
+          <input type="number" class="form-control" name="avgPrice" value="1000">
+          <div class="form-text">avgPrice. ex: <code>1000</code></div>
+        </div>
 
-            <p><b>salesPerDay.</b>ex: `10`.</p>
-            <div class="input-row flex">
-                <label>salesPerDay:</label>
-                <input name="salesPerDay" type="text" value="10">
-            </div>
+        <div class="mb-3">
+          <label class="form-label">salesPerDay</label>
+          <input type="number" class="form-control" name="salesPerDay" value="10">
+          <div class="form-text">salesPerDay. ex: <code>10</code></div>
+        </div>
 
-            <p><b>ROI.</b> ex: `1000`.</p>
-            <div class="input-row flex">
-                <label>ROI:</label>
-                <input name="ROI" type="text" value="20">
-            </div>
+        <div class="mb-3">
+          <label class="form-label">ROI</label>
+          <input type="number" class="form-control" name="ROI" value="20">
+          <div class="form-text">ROI. ex: <code>20</code></div>
+        </div>
 
-            <p><b>profitAmount.</b>ex: `10`.</p>
-            <div class="input-row flex">
-                <label>profitAmount:</label>
-                <input name="profitAmount" type="text" value="3000">
-            </div>
+        <div class="mb-3">
+          <label class="form-label">profitAmount</label>
+          <input type="number" class="form-control" name="profitAmount" value="10">
+          <div class="form-text">profitAmount. ex: <code>10</code></div>
+        </div>
 
-            <button type="submit" value="submit" class="primary-btn">Submit</button>
-            </br><a href="/" target="_blank" class="primary-btn">
-              Go back to home page
-            </a>
+        <button type="submit" value="submit" class="btn btn-primary btn-lg">Submit</button>
+           
         </form>
 
       </div>
