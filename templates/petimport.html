@@ -11,7 +11,7 @@
 
         <div class="mt-4">
           {% if request.method == 'POST'%}
-            <table id="proxies" class="display table nowrap responsive" style="width: 100%">
+            <table id="proxies" class="display table table-striped table-hover nowrap responsive" style="width: 100%">
               <thead>
                 <tr>
                   {% for header in results[0].keys() %}
