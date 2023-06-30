@@ -423,6 +423,23 @@ def bestdeals():
         for row in response:
             del row["itemID"]
             del row["connectedRealmId"]
+
+            minPrice = row["minPrice"]
+            del row["minPrice"]
+            row["minPrice"] = minPrice
+
+            historicalPrice = row["historicPrice"]
+            del row["historicPrice"]
+            row["historicPrice"] = historicalPrice
+
+            itemName = row["itemName"]
+            del row["itemName"]
+            row["itemName"] = itemName
+
+            realmName = row["realmName"]
+            del row["realmName"]
+            row["realmName"] = realmName
+
             link = row["link"]
             del row["link"]
             row["link"] = link
