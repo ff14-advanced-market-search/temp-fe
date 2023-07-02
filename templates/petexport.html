@@ -91,8 +91,20 @@
      crossorigin="anonymous"></script>
   </body>
   <script type="text/javascript">
-    $('#proxies').DataTable();
-  </script>
+    // convert the content of cols 7 & 8 in #proxies into a clickable <a> tag
+    // 7 : link, 8 : undermineLink
+    $('#proxies').DataTable(
+      {
+        "columnDefs": [
+          {
+            "targets": [ 7, 8 ],
+            "render": function ( data, type, row ) {
+              return '<a href="' + data + '" target="_blank">' + data + '</a>';
+            }
+          }
+        ]
+      }
+    );  </script>
   
 </html>
 
