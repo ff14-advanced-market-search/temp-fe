@@ -67,7 +67,20 @@
      crossorigin="anonymous"></script>
   </body>
   <script type="text/javascript">
-    $('#proxies').DataTable();
+    // convert the content of cols 4 & 5 in #proxies into a clickable <a> tag
+    // 4 : warcraftPetsLink, 5 : link
+    $('#proxies').DataTable(
+      {
+        "columnDefs": [
+          {
+            "targets": [ 4, 5 ],
+            "render": function ( data, type, row ) {
+              return '<a href="' + data + '" target="_blank">' + data + '</a>';
+            }
+          }
+        ]
+      }
+    );
   </script>
   
 </html>
