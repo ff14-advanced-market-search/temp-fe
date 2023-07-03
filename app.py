@@ -230,7 +230,7 @@ def petexport():
 
         json_data = {
             "region": request.form.get("region"),
-            "petID": int(request.form.get("petID")),
+            "itemID": int(request.form.get("itemID")),
             "populationWP": int(request.form.get("populationWP")),
             "populationBlizz": int(request.form.get("populationBlizz")),
             "rankingWP": int(request.form.get("rankingWP")),
@@ -241,7 +241,7 @@ def petexport():
         }
 
         response = requests.post(
-            "http://api.saddlebagexchange.com/api/wow/petservers",
+            "http://api.saddlebagexchange.com/api/wow/export",
             headers=headers,
             json=json_data,
         ).json()
