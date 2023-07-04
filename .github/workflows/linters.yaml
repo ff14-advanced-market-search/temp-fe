@@ -19,7 +19,7 @@ jobs:
       - name: Bandit check
         uses: jpetrucciani/bandit-check@master
         with:
-          path: "api/ app.py"
+          path: "app.py"
           bandit_flags: "-lll"
 
   "Black":
