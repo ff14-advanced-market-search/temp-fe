@@ -269,6 +269,57 @@ def petexport():
         )
 
 
+# {
+#   "home_server": "Famfrit",
+#   "user_auctions": [
+#     { "itemID": 4745, "price": 100, "desired_state": "below", "hq": true }
+#   ]
+# }
+@app.route("/pricecheck", methods=["GET", "POST"])
+def ffxiv_pricecheck():
+    if request.method == "GET":
+        return render_template("ffxiv_pricecheck.html")
+    elif request.method == "POST":
+        headers = {"Accept": "application/json"}
+
+        json_data = json.loads(request.form.get("jsonData"))
+
+        response = requests.post(
+            "http://api.saddlebagexchange.com/api/pricecheck",
+            headers=headers,
+            json=json_data,
+        ).json()
+
+        if "matching" not in response:
+            return "Error no matching data"
+        if len(response["matching"]) == 0:
+            return "Error no matching data"
+
+        fixed_response = []
+        for row in response["matching"]:
+            fixed_response.append(
+                {
+                    "minPrice": row["minPrice"],
+                    "itemName": row["itemName"],
+                    "server": row["server"],
+                    "dc": row["dc"],
+                    "desired_state": row["desired_state"],
+                    "hq": row["hq"],
+                    "quantity": row["minListingQuantity"],
+                    "item-data": f"https://saddlebagexchange.com/queries/item-data/{row['itemID']}",
+                    "uniLink": f"https://universalis.app/market/{row['itemID']}",
+                }
+            )
+        fieldnames = list(fixed_response[0].keys())
+
+        return render_template(
+            "ffxiv_pricecheck.html",
+            results=fixed_response,
+            fieldnames=fieldnames,
+            len=len,
+        )
+
+
 @app.route("/regionundercut", methods=["GET", "POST"])
 def regionundercut():
     if request.method == "GET":
