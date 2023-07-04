@@ -282,7 +282,6 @@ def ffxiv_pricecheck():
     elif request.method == "POST":
         headers = {"Accept": "application/json"}
 
-        addonData = request.form.get("addonData")
         json_data = json.loads(request.form.get("jsonData"))
 
         response = requests.post(
@@ -299,8 +298,8 @@ def ffxiv_pricecheck():
         fieldnames = list(response["matching"][0].keys())
 
         return render_template(
-            "petimport.html",
-            results=response,
+            "ffxiv_pricecheck.html",
+            results=response["matching"],
             fieldnames=fieldnames,
             len=len,
         )

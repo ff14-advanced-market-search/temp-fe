@@ -31,29 +31,6 @@
           {% endif %}
         </div>
 
-        <h2>Sold, Expired or Not Found</h2>
-        <div class="mt-4">
-          {% if request.method == 'POST'%}
-            <table id="not_found" class="display table table-striped table-hover nowrap responsive" style="width: 100%">
-              <thead>
-                <tr>
-                  {% for header_n in results_n[0].keys() %}
-                    <th>{{header_n}}</th>
-                  {% endfor %}
-                </tr>
-              </thead>
-              <tbody>
-                {% for row_n in results_n %}
-                  <tr>
-                    {% for index in range(0, len(fieldnames_n)) %}
-                      <td>{{row_n[fieldnames_n[index]]}}</td>
-                    {% endfor %}
-                  </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          {% endif %}
-        </div>
         <!-- input commands -->
         <form method="POST" action="/pricecheck" target="_blank" class="scanform">
           <hr>
