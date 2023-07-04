@@ -295,11 +295,26 @@ def ffxiv_pricecheck():
         if len(response["matching"]) == 0:
             return "Error no matching data"
 
-        fieldnames = list(response["matching"][0].keys())
+        fixed_response = []
+        for row in response["matching"]:
+            fixed_response.append(
+                {
+                    "minPrice": row["minPrice"],
+                    "itemName": row["itemName"],
+                    "server": row["server"],
+                    "dc": row["dc"],
+                    "desired_state": row["desired_state"],
+                    "hq": row["hq"],
+                    "quantity": row["minListingQuantity"],
+                    "item-data": f"https://saddlebagexchange.com/queries/item-data/{row['itemID']}",
+                    "uniLink": f"https://universalis.app/market/{row['itemID']}",
+                }
+            )
+        fieldnames = list(fixed_response[0].keys())
 
         return render_template(
             "ffxiv_pricecheck.html",
-            results=response["matching"],
+            results=fixed_response,
             fieldnames=fieldnames,
             len=len,
         )
