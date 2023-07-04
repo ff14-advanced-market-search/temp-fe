@@ -58,10 +58,18 @@
      crossorigin="anonymous"></script>
   </body>
   <script type="text/javascript">
-    $('#proxies').DataTable();
-  </script>
-  <script type="text/javascript">
-    $('#not_found').DataTable();
+    $('#proxies').DataTable(
+      {
+        "columnDefs": [
+          {
+            "targets": [ 7, 8 ],
+            "render": function ( data, type, row ) {
+              return '<a href="' + data + '" target="_blank">' + data + '</a>';
+            }
+          }
+        ]
+      }
+    );
   </script>
   
 </html>
