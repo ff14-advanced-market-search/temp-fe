@@ -1,0 +1,96 @@
+{% include '_header.html' %}
+
+<body>
+  {% include '_navbar.html' %}
+  <div class="container-fluid">
+        <!-- results -->
+        <h2>Snipe Amazing Discounts!</h2>
+        <p>
+          <a href="https://saddlebagexchange.com/wow/region-undercut">Now on our main website here!</a>
+        </p>
+        <div class="mt-4">
+          {% if request.method == 'POST'%}
+            <table id="proxies" class="display table table-striped table-hover nowrap responsive" style="width: 100%">
+              <thead>
+                <tr>
+                  {% for header in results[0].keys() %}
+                    <th>{{header}}</th>
+                  {% endfor %}
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in results %}
+                  <tr>
+                    {% for index in range(0, len(fieldnames)) %}
+                      <td>{{row[fieldnames[index]]}}</td>
+                    {% endfor %}
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% endif %}
+        </div>
+
+        <h2>Sold, Expired or Not Found</h2>
+        <div class="mt-4">
+          {% if request.method == 'POST'%}
+            <table id="not_found" class="display table table-striped table-hover nowrap responsive" style="width: 100%">
+              <thead>
+                <tr>
+                  {% for header_n in results_n[0].keys() %}
+                    <th>{{header_n}}</th>
+                  {% endfor %}
+                </tr>
+              </thead>
+              <tbody>
+                {% for row_n in results_n %}
+                  <tr>
+                    {% for index in range(0, len(fieldnames_n)) %}
+                      <td>{{row_n[fieldnames_n[index]]}}</td>
+                    {% endfor %}
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% endif %}
+        </div>
+        <!-- input commands -->
+        <form method="POST" action="/pricecheck" target="_blank" class="scanform">
+          <hr>
+
+          <div class="form-group">
+            <label class="form-label">Json Data</label>
+            <div class="form-text">
+              <a href="https://www.curseforge.com/wow/addons/saddlebag-exchange" target="_blank">
+                Paste data here created by our price sniper webpage
+              </a>
+              <br>
+              <a href="https://github.com/ff14-advanced-market-search/saddlebag-with-pockets/wiki/WoW-Discord-Undercut-Alerts" target="_blank">
+                Read our guide for more info, the same data for our patreon alerts can be checked with this search
+              </a>
+            </div>
+            <textarea class="form-control" rows="5" name="jsonData"></textarea>
+          </div>
+            
+          <button type="submit" value="submit" class="btn btn-primary btn-lg">Submit</button>
+        </form>
+
+      </div>
+    </div>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7398832994051812"
+     crossorigin="anonymous"></script>
+  </body>
+  <script type="text/javascript">
+    $('#proxies').DataTable();
+  </script>
+  <script type="text/javascript">
+    $('#not_found').DataTable();
+  </script>
+  
+</html>
+
+
+
+
+
+
