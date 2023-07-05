@@ -1,0 +1,51 @@
+{% include '_header.html' %}
+
+<body>
+  {% include '_navbar.html' %}
+  <div class="container-fluid">
+        <!-- results -->
+        <h2>Item Names by Item ID</h2>
+        <div class="mt-4">
+          {% if request.method == 'POST'%}
+            <table id="proxies" class="display table table-striped table-hover nowrap responsive" style="width: 100%">
+              <thead>
+                <tr>
+                  {% for header in results[0].keys() %}
+                    <th>{{header}}</th>
+                  {% endfor %}
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in results %}
+                  <tr>
+                    {% for index in range(0, len(fieldnames)) %}
+                      <td>{{row[fieldnames[index]]}}</td>
+                    {% endfor %}
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% endif %}
+        </div>
+        <!-- input commands -->
+        <form method="POST" action="/ffxiv_itemnames" target="_blank" class="scanform">
+          <hr>
+          <button type="submit" value="submit" class="btn btn-primary btn-lg">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7398832994051812"
+     crossorigin="anonymous"></script>
+  </body>
+  <script type="text/javascript">
+    $('#proxies').DataTable();
+  </script>
+  
+</html>
+
+
+
+
+
+
