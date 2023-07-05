@@ -126,6 +126,28 @@ def itemnames():
         )
 
 
+@app.route("/ffxiv_itemnames", methods=["GET", "POST"])
+def ffxivitemnames():
+    if request.method == "GET":
+        return render_template("ffxiv_itemnames.html")
+    elif request.method == "POST":
+        raw_items_names = requests.get(
+            "https://raw.githubusercontent.com/ffxiv-teamcraft/ffxiv-teamcraft/staging/libs/data/src/lib/json/items.json"
+        ).json()
+        item_ids = requests.get("https://universalis.app/api/marketable").json()
+
+        resp_list = []
+        for id in item_ids:
+            resp_list.append({"id": id, "name": raw_items_names[str(id)]["en"]})
+
+        return render_template(
+            "ffxiv_itemnames.html",
+            results=resp_list,
+            fieldnames=["id", "name"],
+            len=len,
+        )
+
+
 @app.route("/petshoppinglist", methods=["GET", "POST"])
 def petshoppinglist():
     if request.method == "GET":
