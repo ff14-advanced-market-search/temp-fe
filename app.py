@@ -399,7 +399,7 @@ def petimport():
             "avgPrice": int(request.form.get("avgPrice")),
             "maxPurchasePrice": int(request.form.get("maxPurchasePrice")),
             "profitAmount": int(request.form.get("profitAmount")),
-            "salesPerDay": int(request.form.get("salesPerDay")),
+            "salesPerDay": float(request.form.get("salesPerDay")),
             "includeCategories": [],
             "excludeCategories": [],
             "sortBy": "lowestPrice",
@@ -458,7 +458,7 @@ def bestdeals():
             "type": request.form.get("type"),
             "discount": int(request.form.get("discount")),
             "minPrice": int(request.form.get("minPrice")),
-            "salesPerDay": int(request.form.get("salesPerDay")),
+            "salesPerDay": float(request.form.get("salesPerDay")),
         }
 
         response = requests.post(
