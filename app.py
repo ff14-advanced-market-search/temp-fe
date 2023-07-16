@@ -157,13 +157,13 @@ def petshoppinglist():
 
         json_data = {
             "region": request.form.get("region"),
-            "petID": int(request.form.get("petID")),
+            "itemID": int(request.form.get("petID")),
             "maxPurchasePrice": int(request.form.get("maxPurchasePrice")),
             "connectedRealmIDs": {},
         }
 
         response = requests.post(
-            "http://api.saddlebagexchange.com/api/wow/petshoppinglist",
+            "http://api.saddlebagexchange.com/api/wow/shoppinglist",
             headers=headers,
             json=json_data,
         ).json()

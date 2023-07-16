@@ -37,7 +37,7 @@
             </label>
             <input name="petID" type="number" class="form-control" value="3390">
             <div class="form-text">
-              <a href="/itemnames" target="_blank">This list shows all petIDs and other Dragonflight itemIDs</a>.
+              <a href="/itemnames" target="_blank">This list shows all itemIDs or petIDs you can pick from </a>.
               ex: <code>3390</code>.
             </div>
           </div>
@@ -73,7 +73,7 @@
       {
         "columnDefs": [
           {
-            "targets": [ 5, 6 ],
+            "targets": [ 5 ],
             "render": function ( data, type, row ) {
               return '<a href="' + data + '" target="_blank">' + data + '</a>';
             }
