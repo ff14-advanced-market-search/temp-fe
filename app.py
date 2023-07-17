@@ -19,9 +19,11 @@ def str_to_bool(bool_str):
 def root():
     return render_template("index.html", len=len)
 
+
 @app.route("/ffxiv", methods=["GET", "POST"])
 def ffxiv():
     return render_template("ffxiv_index.html", len=len)
+
 
 @app.route("/wow", methods=["GET", "POST"])
 def wow():
@@ -80,6 +82,79 @@ def scan():
         )
 
 
+@app.route("/ffxiv_itemnames", methods=["GET", "POST"])
+def ffxivitemnames():
+    if request.method == "GET":
+        return render_template("ffxiv_itemnames.html")
+    elif request.method == "POST":
+        raw_items_names = requests.get(
+            "https://raw.githubusercontent.com/ffxiv-teamcraft/ffxiv-teamcraft/staging/libs/data/src/lib/json/items.json"
+        ).json()
+        item_ids = requests.get("https://universalis.app/api/marketable").json()
+
+        resp_list = []
+        for id in item_ids:
+            resp_list.append({"id": id, "name": raw_items_names[str(id)]["en"]})
+
+        return render_template(
+            "ffxiv_itemnames.html",
+            results=resp_list,
+            fieldnames=["id", "name"],
+            len=len,
+        )
+
+
+# {
+#   "home_server": "Famfrit",
+#   "user_auctions": [
+#     { "itemID": 4745, "price": 100, "desired_state": "below", "hq": true }
+#   ]
+# }
+@app.route("/pricecheck", methods=["GET", "POST"])
+def ffxiv_pricecheck():
+    if request.method == "GET":
+        return render_template("ffxiv_pricecheck.html")
+    elif request.method == "POST":
+        headers = {"Accept": "application/json"}
+
+        json_data = json.loads(request.form.get("jsonData"))
+
+        response = requests.post(
+            "http://api.saddlebagexchange.com/api/pricecheck",
+            headers=headers,
+            json=json_data,
+        ).json()
+
+        if "matching" not in response:
+            return "Error no matching data"
+        if len(response["matching"]) == 0:
+            return "Error no matching data"
+
+        fixed_response = []
+        for row in response["matching"]:
+            fixed_response.append(
+                {
+                    "minPrice": row["minPrice"],
+                    "itemName": row["itemName"],
+                    "server": row["server"],
+                    "dc": row["dc"],
+                    "desired_state": row["desired_state"],
+                    "hq": row["hq"],
+                    "quantity": row["minListingQuantity"],
+                    "item-data": f"https://saddlebagexchange.com/queries/item-data/{row['itemID']}",
+                    "uniLink": f"https://universalis.app/market/{row['itemID']}",
+                }
+            )
+        fieldnames = list(fixed_response[0].keys())
+
+        return render_template(
+            "ffxiv_pricecheck.html",
+            results=fixed_response,
+            fieldnames=fieldnames,
+            len=len,
+        )
+
+
 @app.route("/uploadtimers", methods=["GET", "POST"])
 def uploadtimers():
     if request.method == "GET":
@@ -131,28 +206,6 @@ def itemnames():
 
         return render_template(
             "itemnames.html", results=resp_list, fieldnames=["id", "name"], len=len
-        )
-
-
-@app.route("/ffxiv_itemnames", methods=["GET", "POST"])
-def ffxivitemnames():
-    if request.method == "GET":
-        return render_template("ffxiv_itemnames.html")
-    elif request.method == "POST":
-        raw_items_names = requests.get(
-            "https://raw.githubusercontent.com/ffxiv-teamcraft/ffxiv-teamcraft/staging/libs/data/src/lib/json/items.json"
-        ).json()
-        item_ids = requests.get("https://universalis.app/api/marketable").json()
-
-        resp_list = []
-        for id in item_ids:
-            resp_list.append({"id": id, "name": raw_items_names[str(id)]["en"]})
-
-        return render_template(
-            "ffxiv_itemnames.html",
-            results=resp_list,
-            fieldnames=["id", "name"],
-            len=len,
         )
 
 
@@ -296,57 +349,6 @@ def petexport():
 
         return render_template(
             "petexport.html", results=response, fieldnames=fieldnames, len=len
-        )
-
-
-# {
-#   "home_server": "Famfrit",
-#   "user_auctions": [
-#     { "itemID": 4745, "price": 100, "desired_state": "below", "hq": true }
-#   ]
-# }
-@app.route("/pricecheck", methods=["GET", "POST"])
-def ffxiv_pricecheck():
-    if request.method == "GET":
-        return render_template("ffxiv_pricecheck.html")
-    elif request.method == "POST":
-        headers = {"Accept": "application/json"}
-
-        json_data = json.loads(request.form.get("jsonData"))
-
-        response = requests.post(
-            "http://api.saddlebagexchange.com/api/pricecheck",
-            headers=headers,
-            json=json_data,
-        ).json()
-
-        if "matching" not in response:
-            return "Error no matching data"
-        if len(response["matching"]) == 0:
-            return "Error no matching data"
-
-        fixed_response = []
-        for row in response["matching"]:
-            fixed_response.append(
-                {
-                    "minPrice": row["minPrice"],
-                    "itemName": row["itemName"],
-                    "server": row["server"],
-                    "dc": row["dc"],
-                    "desired_state": row["desired_state"],
-                    "hq": row["hq"],
-                    "quantity": row["minListingQuantity"],
-                    "item-data": f"https://saddlebagexchange.com/queries/item-data/{row['itemID']}",
-                    "uniLink": f"https://universalis.app/market/{row['itemID']}",
-                }
-            )
-        fieldnames = list(fixed_response[0].keys())
-
-        return render_template(
-            "ffxiv_pricecheck.html",
-            results=fixed_response,
-            fieldnames=fieldnames,
-            len=len,
         )
 
 
