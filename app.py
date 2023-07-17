@@ -19,6 +19,14 @@ def str_to_bool(bool_str):
 def root():
     return render_template("index.html", len=len)
 
+@app.route("/ffxiv", methods=["GET", "POST"])
+def ffxiv():
+    return render_template("ffxiv_index.html", len=len)
+
+@app.route("/wow", methods=["GET", "POST"])
+def wow():
+    return render_template("wow_index.html", len=len)
+
 
 @app.route("/scan", methods=["GET", "POST"])
 def scan():
