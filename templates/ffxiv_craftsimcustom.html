@@ -1,0 +1,77 @@
+{% include '_header.html' %}
+
+<body>
+  {% include '_navbar.html' %}
+  <div class="container-fluid">
+        <!-- results -->
+        <h2>Best items to craft!</h2>
+        <p>
+          Custom search of our craftsim, letting you change out items and HQ / NQ materials
+        </p>
+        <div class="mt-4">
+          {% if request.method == 'POST'%}
+            <table id="proxies" class="display table table-striped table-hover nowrap responsive" style="width: 100%">
+              <thead>
+                <tr>
+                  {% for header in results[0].keys() %}
+                    <th>{{header}}</th>
+                  {% endfor %}
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in results %}
+                  <tr>
+                    {% for index in range(0, len(fieldnames)) %}
+                      <td>{{row[fieldnames[index]]}}</td>
+                    {% endfor %}
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% endif %}
+        </div>
+
+        <!-- input commands -->
+        <form method="POST" action="/ffxivcraftsimcustom" target="_blank" class="scanform">
+          <hr>
+
+          <div class="form-group">
+            <label class="form-label">Json Data</label>
+            <div class="form-text">
+              <a href="/ffxivcraftsimconfig" target="_blank">
+                Copy the Json Data from the craftsim config generator on this page. Then paste it into the box below.
+              </a>
+            </div>
+            <textarea class="form-control" rows="5" name="jsonData"></textarea>
+          </div>
+            
+          <button type="submit" value="submit" class="btn btn-primary btn-lg">Submit</button>
+        </form>
+
+      </div>
+    </div>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7398832994051812"
+     crossorigin="anonymous"></script>
+  </body>
+  <script type="text/javascript">
+    $('#proxies').DataTable(
+      {
+        "columnDefs": [
+          {
+            "targets": [ 5, 6 ],
+            "render": function ( data, type, row ) {
+              return '<a href="' + data + '" target="_blank">' + data + '</a>';
+            }
+          }
+        ]
+      }
+    );
+  </script>
+  
+</html>
+
+
+
+
+
+
