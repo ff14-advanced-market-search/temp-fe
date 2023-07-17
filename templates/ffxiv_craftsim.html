@@ -263,7 +263,7 @@
 
           <div class="mb-3">
             <label class="form-label">lvl</label>
-            <input name="stars" type="number" class="form-control" value="-1">
+            <input name="lvl" type="number" class="form-control" value="-1">
             <div class="form-text">Minimum recipe lvl. ex: <code>2</code>.</div>
           </div>
 
@@ -282,24 +282,20 @@
      crossorigin="anonymous"></script>
   </body>
   <script type="text/javascript">
-    $('#proxies').DataTable();
+    // $('#proxies').DataTable();
 
-    // convert the content of cols 7 & 8 in #proxies into a clickable <a> tag
-    // 7 : link, 8 : undermineLink
-
-    // // use this when i know my column positions
-    // $('#proxies').DataTable(
-    //   {
-    //     "columnDefs": [
-    //       {
-    //         "targets": [ 7, 8 ],
-    //         "render": function ( data, type, row ) {
-    //           return '<a href="' + data + '" target="_blank">' + data + '</a>';
-    //         }
-    //       }
-    //     ]
-    //   }
-    // );  
+    $('#proxies').DataTable(
+      {
+        "columnDefs": [
+          {
+            "targets": [ 5, 6 ],
+            "render": function ( data, type, row ) {
+              return '<a href="' + data + '" target="_blank">' + data + '</a>';
+            }
+          }
+        ]
+      }
+    );
   </script>
 </html>
 
