@@ -162,6 +162,11 @@ def ffxivcraftsim():
     elif request.method == "POST":
         headers = {"Accept": "application/json"}
 
+        if request.form.get("hide_expert_recipes") == "True":
+            hide_expert_recipes = True
+        else:
+            hide_expert_recipes = False
+
         json_data = {
             "home_server": request.form.get("home_server"),
             "cost_metric": request.form.get("cost_metric"),
@@ -174,6 +179,7 @@ def ffxivcraftsim():
             "lvl_lower_limit": int(request.form.get("lvl_lower_limit")),
             "lvl_upper_limit": int(request.form.get("lvl_upper_limit")),
             "yields": int(request.form.get("yields")),
+            "hide_expert_recipes": hide_expert_recipes,
         }
 
         craftsim_post_json = requests.post(
@@ -250,6 +256,11 @@ def ffxivcraftsimconfig():
     elif request.method == "POST":
         headers = {"Accept": "application/json"}
 
+        if request.form.get("hide_expert_recipes") == "True":
+            hide_expert_recipes = True
+        else:
+            hide_expert_recipes = False
+
         json_data = {
             "home_server": request.form.get("home_server"),
             "cost_metric": request.form.get("cost_metric"),
@@ -262,6 +273,7 @@ def ffxivcraftsimconfig():
             "lvl_lower_limit": int(request.form.get("lvl_lower_limit")),
             "lvl_upper_limit": int(request.form.get("lvl_upper_limit")),
             "yields": int(request.form.get("yields")),
+            "hide_expert_recipes": hide_expert_recipes,
         }
 
         craftsim_post_json = requests.post(
