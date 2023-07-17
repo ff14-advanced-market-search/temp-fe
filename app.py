@@ -155,6 +155,27 @@ def ffxiv_pricecheck():
         )
 
 
+@app.route("/ffxivcraftsim", methods=["GET", "POST"])
+def ffxivcraftsim():
+    if request.method == "GET":
+        return render_template("ffxiv_craftsim.html")
+    elif request.method == "POST":
+        headers = {"Accept": "application/json"}
+
+        json_data = json.loads(request.form.get("jsonData"))
+
+        response = requests.post(
+            "http://api.saddlebagexchange.com/api/pricecheck",
+            headers=headers,
+            json=json_data,
+        ).json()
+
+        if "matching" not in response:
+            return "Error no matching data"
+        if len(response["matching"]) == 0:
+            return "Error no matching data"
+
+
 @app.route("/uploadtimers", methods=["GET", "POST"])
 def uploadtimers():
     if request.method == "GET":
