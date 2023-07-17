@@ -231,6 +231,36 @@ def ffxivcraftsim():
         )
 
 
+@app.route("/ffxivcraftsimconfig", methods=["GET", "POST"])
+def ffxivcraftsimconfig():
+    if request.method == "GET":
+        return render_template("ffxiv_craftsimconfig.html")
+    elif request.method == "POST":
+        headers = {"Accept": "application/json"}
+
+        json_data = {
+            "home_server": request.form.get("home_server"),
+            "cost_metric": request.form.get("cost_metric"),
+            "revenue_metric": request.form.get("revenue_metric"),
+            "sales_per_week": int(request.form.get("sales_per_week")),
+            "median_sale_price": int(request.form.get("median_sale_price")),
+            "job": int(request.form.get("job")),
+            "filters": [int(request.form.get("filters"))],
+            "stars": int(request.form.get("stars")),
+            "lvl": int(request.form.get("lvl")),
+            "yields": int(request.form.get("yields")),
+        }
+
+        craftsim_post_json = requests.post(
+            "http://api.saddlebagexchange.com/api/recipelookup",
+            headers=headers,
+            json=json_data,
+        ).json()
+
+        return craftsim_post_json
+
+
+#### WOW ####
 @app.route("/uploadtimers", methods=["GET", "POST"])
 def uploadtimers():
     if request.method == "GET":
