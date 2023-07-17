@@ -171,7 +171,8 @@ def ffxivcraftsim():
             "job": int(request.form.get("job")),
             "filters": [int(request.form.get("filters"))],
             "stars": int(request.form.get("stars")),
-            "lvl": int(request.form.get("lvl")),
+            "lvl_lower_limit": int(request.form.get("lvl_lower_limit")),
+            "lvl_upper_limit": int(request.form.get("lvl_upper_limit")),
             "yields": int(request.form.get("yields")),
         }
 
@@ -258,7 +259,8 @@ def ffxivcraftsimconfig():
             "job": int(request.form.get("job")),
             "filters": [int(request.form.get("filters"))],
             "stars": int(request.form.get("stars")),
-            "lvl": int(request.form.get("lvl")),
+            "lvl_lower_limit": int(request.form.get("lvl_lower_limit")),
+            "lvl_upper_limit": int(request.form.get("lvl_upper_limit")),
             "yields": int(request.form.get("yields")),
         }
 
