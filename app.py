@@ -181,54 +181,65 @@ def ffxivcraftsim():
             json=json_data,
         ).json()
 
-        craftsim_results = requests.post(
-            "http://api.saddlebagexchange.com/api/craftsim",
-            headers=headers,
-            json=craftsim_post_json,
-        ).json()["data"]
+        return craftsim_results_table(craftsim_post_json, "ffxiv_craftsim.html")
 
-        for item_data in craftsim_results:
-            del item_data["itemID"]
-            hq = item_data["hq"]
-            del item_data["hq"]
-            yields = item_data["yieldsPerCraft"]
-            del item_data["yieldsPerCraft"]
 
-            se_link = item_data["itemData"]
-            del item_data["itemData"]
-            universalisLink = item_data["universalisLink"]
-            del item_data["universalisLink"]
-
-            costEst = item_data["costEst"]
-            del item_data["costEst"]
-            revenueEst = item_data["revenueEst"]
-            del item_data["revenueEst"]
-
-            item_data["hq"] = hq
-            item_data["yields"] = yields
-            item_data["item-data"] = se_link
-            item_data["universalisLink"] = universalisLink
-
-            item_data["material_min_listing_cost"] = costEst[
-                "material_min_listing_cost"
-            ]
-            item_data["material_median_cost"] = costEst["material_median_cost"]
-            item_data["material_avg_cost"] = costEst["material_avg_cost"]
-
-            item_data["revenue_home_min_listing"] = revenueEst[
-                "revenue_home_min_listing"
-            ]
-            item_data["revenue_median"] = revenueEst["revenue_median"]
-            item_data["revenue_avg"] = revenueEst["revenue_avg"]
-
-        fieldnames = list(craftsim_results[0].keys())
-
-        return render_template(
-            "ffxiv_craftsim.html",
-            results=craftsim_results,
-            fieldnames=fieldnames,
-            len=len,
+@app.route("/ffxivcraftsimcustom", methods=["GET", "POST"])
+def ffxivcraftsimcustom():
+    if request.method == "GET":
+        return render_template("ffxiv_craftsimcustom.html")
+    elif request.method == "POST":
+        return craftsim_results_table(
+            json.loads(request.form.get("jsonData")), "ffxiv_craftsimcustom.html"
         )
+
+
+def craftsim_results_table(craftsim_post_json, html_file_name):
+    headers = {"Accept": "application/json"}
+    craftsim_results = requests.post(
+        "http://api.saddlebagexchange.com/api/craftsim",
+        headers=headers,
+        json=craftsim_post_json,
+    ).json()["data"]
+
+    for item_data in craftsim_results:
+        del item_data["itemID"]
+        hq = item_data["hq"]
+        del item_data["hq"]
+        yields = item_data["yieldsPerCraft"]
+        del item_data["yieldsPerCraft"]
+
+        se_link = item_data["itemData"]
+        del item_data["itemData"]
+        universalisLink = item_data["universalisLink"]
+        del item_data["universalisLink"]
+
+        costEst = item_data["costEst"]
+        del item_data["costEst"]
+        revenueEst = item_data["revenueEst"]
+        del item_data["revenueEst"]
+
+        item_data["hq"] = hq
+        item_data["yields"] = yields
+        item_data["item-data"] = se_link
+        item_data["universalisLink"] = universalisLink
+
+        item_data["material_min_listing_cost"] = costEst["material_min_listing_cost"]
+        item_data["material_median_cost"] = costEst["material_median_cost"]
+        item_data["material_avg_cost"] = costEst["material_avg_cost"]
+
+        item_data["revenue_home_min_listing"] = revenueEst["revenue_home_min_listing"]
+        item_data["revenue_median"] = revenueEst["revenue_median"]
+        item_data["revenue_avg"] = revenueEst["revenue_avg"]
+
+    fieldnames = list(craftsim_results[0].keys())
+
+    return render_template(
+        html_file_name,
+        results=craftsim_results,
+        fieldnames=fieldnames,
+        len=len,
+    )
 
 
 @app.route("/ffxivcraftsimconfig", methods=["GET", "POST"])
