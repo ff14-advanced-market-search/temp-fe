@@ -1,0 +1,306 @@
+{% include '_header.html' %}
+
+<body>
+  {% include '_navbar.html' %}
+  <div class="container-fluid">
+        <!-- results -->
+        <h2>Finds the best items to craft!</h2>
+        <div class="mt-4">
+          {% if request.method == 'POST'%}
+            <table id="proxies" class="display table table-striped table-hover nowrap responsive" style="width: 100%">
+              <thead>
+                <tr>
+                  {% for header in results[0].keys() %}
+                    <th>{{header}}</th>
+                  {% endfor %}
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in results %}
+                  <tr>
+                    {% for index in range(0, len(fieldnames)) %}
+                      <td>{{row[fieldnames[index]]}}</td>
+                    {% endfor %}
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% endif %}
+        </div>
+        <!-- input commands -->
+        <form method="POST" action="/ffxivcraftsim" target="_blank" class="scanform">
+          <hr>
+
+          <div class="mb-3">
+            <label class="form-label">Home Server</label>
+            <select class="form-select" id="home_server" name="home_server">
+              <option value="Adamantoise">Adamantoise</option>
+              <option value="Aegis">Aegis</option>
+              <option value="Alexander">Alexander</option>
+              <option value="Alpha">Alpha</option>
+              <option value="Anima">Anima</option>
+              <option value="Asura">Asura</option>
+              <option value="Atomos">Atomos</option>
+              <option value="Bahamut">Bahamut</option>
+              <option value="Balmung">Balmung</option>
+              <option value="Behemoth">Behemoth</option>
+              <option value="Belias">Belias</option>
+              <option value="Bismarck">Bismarck</option>
+              <option value="Brynhildr">Brynhildr</option>
+              <option value="Cactuar">Cactuar</option>
+              <option value="Carbuncle">Carbuncle</option>
+              <option value="Cerberus">Cerberus</option>
+              <option value="Chocobo">Chocobo</option>
+              <option value="Coeurl">Coeurl</option>
+              <option value="Diabolos">Diabolos</option>
+              <option value="Durandal">Durandal</option>
+              <option value="Excalibur">Excalibur</option>
+              <option value="Exodus">Exodus</option>
+              <option value="Faerie">Faerie</option>
+              <option value="Famfrit">Famfrit</option>
+              <option value="Fenrir">Fenrir</option>
+              <option value="Garuda">Garuda</option>
+              <option value="Gilgamesh">Gilgamesh</option>
+              <option value="Goblin">Goblin</option>
+              <option value="Gungnir">Gungnir</option>
+              <option value="Hades">Hades</option>
+              <option value="Halicarnassus">Halicarnassus</option>
+              <option value="Hyperion">Hyperion</option>
+              <option value="Ifrit">Ifrit</option>
+              <option value="Ixion">Ixion</option>
+              <option value="Jenova">Jenova</option>
+              <option value="Kujata">Kujata</option>
+              <option value="Lamia">Lamia</option>
+              <option value="Leviathan">Leviathan</option>
+              <option value="Lich">Lich</option>
+              <option value="Louisoix">Louisoix</option>
+              <option value="Maduin">Maduin</option>
+              <option value="Malboro">Malboro</option>
+              <option value="Mandragora">Mandragora</option>
+              <option value="Marilith">Marilith</option>
+              <option value="Masamune">Masamune</option>
+              <option value="Mateus">Mateus</option>
+              <option value="Midgardsormr">Midgardsormr</option>
+              <option value="Moogle">Moogle</option>
+              <option value="Odin">Odin</option>
+              <option value="Omega">Omega</option>
+              <option value="Pandaemonium">Pandaemonium</option>
+              <option value="Phantom">Phantom</option>
+              <option value="Phoenix">Phoenix</option>
+              <option value="Ragnarok">Ragnarok</option>
+              <option value="Raiden">Raiden</option>
+              <option value="Ramuh">Ramuh</option>
+              <option value="Ravana">Ravana</option>
+              <option value="Ridill">Ridill</option>
+              <option value="Sagittarius">Sagittarius</option>
+              <option value="Sargatanas">Sargatanas</option>
+              <option value="Sephirot">Sephirot</option>
+              <option value="Seraph">Seraph</option>
+              <option value="Shinryu">Shinryu</option>
+              <option value="Shiva">Shiva</option>
+              <option value="Siren">Siren</option>
+              <option value="Sophia">Sophia</option>
+              <option value="Spriggan">Spriggan</option>
+              <option value="Tiamat">Tiamat</option>
+              <option value="Titan">Titan</option>
+              <option value="Tonberry">Tonberry</option>
+              <option value="Twintania">Twintania</option>
+              <option value="Typhon">Typhon</option>
+              <option value="Ultima">Ultima</option>
+              <option value="Ultros">Ultros</option>
+              <option value="Unicorn">Unicorn</option>
+              <option value="Valefor">Valefor</option>
+              <option value="Yojimbo">Yojimbo</option>
+              <option value="Zalera">Zalera</option>
+              <option value="Zeromus">Zeromus</option>
+              <option value="Zodiark">Zodiark</option>
+              <option value="Zurvan">Zurvan</option>
+            </select>
+            <div class="form-text">Pick your home server.</b> ex: <code>Famfrit</code></div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Item Category</label>
+            <select class="form-select" id="filters" name="filters">
+              <option value="0">Show All Items</option>
+              <option value="1">Arms</option>
+              <option value="2">Tools</option>
+              <option value="3">Armor</option>
+              <option value="4">Accessories</option>
+              <option value="5">Medicines & Meals</option>
+              <option value="6">Materials</option>
+              <option value="7">Other</option>
+              <option value="9">Pugilist's Arms</option>
+              <option value="10">Gladiator's Arms</option>
+              <option value="11">Marauder's Arms</option>
+              <option value="12">Archer's Arms</option>
+              <option value="13">Lancer's Arms</option>
+              <option value="14">Thaumaturge's Arms</option>
+              <option value="15">Conjurer's Arms</option>
+              <option value="16">Arcanist's Arms</option>
+              <option value="17">Shields</option>
+              <option value="19">Carpenter's Tools</option>
+              <option value="20">Blacksmith's Tools</option>
+              <option value="21">Armorer's Tools</option>
+              <option value="22">Goldsmith's Tools</option>
+              <option value="23">Leatherworker's Tools</option>
+              <option value="24">Weaver's Tools</option>
+              <option value="25">Alchemist's Tools</option>
+              <option value="26">Culinarian's Tools</option>
+              <option value="27">Miner's Tools</option>
+              <option value="28">Botanist's Tools</option>
+              <option value="29">Fisher's Tools</option>
+              <option value="30">Fishing Tackle</option>
+              <option value="31">Head</option>
+              <option value="33">Body</option>
+              <option value="35">Legs</option>
+              <option value="36">Hands</option>
+              <option value="37">Feet</option>
+              <option value="39">Necklaces</option>
+              <option value="40">Earrings</option>
+              <option value="41">Bracelets</option>
+              <option value="42">Rings</option>
+              <option value="43">Medicine</option>
+              <option value="44">Ingredients</option>
+              <option value="45">Meals</option>
+              <option value="46">Seafood</option>
+              <option value="47">Stone</option>
+              <option value="48">Metal</option>
+              <option value="49">Lumber</option>
+              <option value="50">Cloth</option>
+              <option value="51">Leather</option>
+              <option value="52">Bone</option>
+              <option value="53">Reagents</option>
+              <option value="54">Dyes</option>
+              <option value="55">Weapon Parts</option>
+              <option value="56">Furnishings</option>
+              <option value="57">Materia</option>
+              <option value="58">Crystals</option>
+              <option value="59">Catalysts</option>
+              <option value="60">Miscellany</option>
+              <option value="65">Exterior Fixtures</option>
+              <option value="66">Interior Fixtures</option>
+              <option value="67">Outdoor Furnishings</option>
+              <option value="68">Chairs and Beds</option>
+              <option value="69">Tables</option>
+              <option value="70">Tabletop</option>
+              <option value="71">Wall-mounted</option>
+              <option value="72">Rugs</option>
+              <option value="73">Rogue's Arms</option>
+              <option value="74">Seasonal Miscellany</option>
+              <option value="75">Minions</option>
+              <option value="76">Dark Knight's Arms</option>
+              <option value="77">Machinist's Arms</option>
+              <option value="78">Astrologian's Arms</option>
+              <option value="79">Airship/Submersible Components</option>
+              <option value="80">Orchestrion Components</option>
+              <option value="81">Gardening Items</option>
+              <option value="82">Paintings</option>
+              <option value="83">Samurai's Arms</option>
+              <option value="84">Red Mage's Arms</option>
+              <option value="85">Scholar's Arms</option>
+              <option value="86">Gunbreaker's Arms</option>
+              <option value="87">Dancer's Arms</option>
+              <option value="88">Reaper's Arms</option>
+              <option value="89">Sage's Arms</option>
+              <option value="90">Registrable Miscellany</option>
+            </select>
+            <div class="form-text">Filter for specific item type.</b> ex: <code>Orchestrion Components</code></div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">DoH</label>
+            <select class="form-select" id="job" name="job">
+              <option value="8">Carpenter</option>
+              <option value="9">Blacksmith</option>
+              <option value="10">Armorer</option>
+              <option value="11">Goldsmith</option>
+              <option value="12">Leatherworker</option>
+              <option value="13">Weaver</option>
+              <option value="14">Alchemist</option>
+              <option value="15">Culinarian</option>
+            </select>
+            <div class="form-text">Select which "Disciples of the Hand" you want to search recipies for (assuming you are an omnicrafter with all recipes unlocked).</b> ex: <code>Carpenter</code></div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">cost_metric</label>
+            <select class="form-select" id="cost_metric" name="cost_metric">
+              <option value="material_median_cost">material_median_cost</option>
+              <option value="material_avg_cost">material_avg_cost</option>
+              <option value="material_min_listing_cost">material_min_listing_cost</option>
+            </select>
+            <div class="form-text">Select which cost metric to use for profit calculations.</b> ex: <code>material_median_cost</code></div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">revenue_metric</label>
+            <select class="form-select" id="revenue_metric" name="revenue_metric">
+              <option value="revenue_home_min_listing">revenue_home_min_listing</option>
+              <option value="revenue_median">revenue_median</option>
+              <option value="revenue_avg">revenue_avg</option>
+            </select>
+            <div class="form-text">Select which revenue metric to use for profit calculations.</b> ex: <code>revenue_home_min_listing</code></div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">sales_per_week</label>
+            <input name="sales_per_week" type="number" class="form-control" value="30">
+            <div class="form-text">Desired number of region wide sales per week in HQ or NQ. ex: <code>30</code>.</div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">median_sale_price</label>
+            <input name="median_sale_price" type="number" class="form-control" value="100000">
+            <div class="form-text">Desired regional median sale price in HQ or NQ. ex: <code>100000</code>.</div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">stars</label>
+            <input name="stars" type="number" class="form-control" value="-1">
+            <div class="form-text">Minimum recipe stars / difficulty. ex: <code>2</code>.</div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">lvl</label>
+            <input name="lvl" type="number" class="form-control" value="-1">
+            <div class="form-text">Minimum recipe lvl. ex: <code>2</code>.</div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">yields</label>
+            <input name="yields" type="number" class="form-control" value="-1">
+            <div class="form-text">Minimum quantity created per craft. ex: <code>1</code>.</div>
+          </div>
+
+          <button type="submit" value="submit" class="btn btn-primary btn-lg">Submit</button>
+        </form>
+
+      </div>
+    </div>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7398832994051812"
+     crossorigin="anonymous"></script>
+  </body>
+  <script type="text/javascript">
+    // $('#proxies').DataTable();
+
+    $('#proxies').DataTable(
+      {
+        "columnDefs": [
+          {
+            "targets": [ 5, 6 ],
+            "render": function ( data, type, row ) {
+              return '<a href="' + data + '" target="_blank">' + data + '</a>';
+            }
+          }
+        ]
+      }
+    );
+  </script>
+</html>
+
+
+
+
+
+
