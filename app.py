@@ -225,6 +225,9 @@ def craftsim_results_table(craftsim_post_json, html_file_name):
     if "data" not in craftsim_results:
         return craftsim_results
 
+    if len(craftsim_results["data"]) == 0:
+        return f"error no matching results found:\n {craftsim_results}"
+
     craftsim_results = craftsim_results["data"]
 
     for item_data in craftsim_results:
