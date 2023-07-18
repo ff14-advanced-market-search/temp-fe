@@ -188,6 +188,17 @@ def ffxivcraftsim():
             json=json_data,
         ).json()
 
+        example = {
+            "cost_metric": "material_median_cost",
+            "crafting_list_hq": {},
+            "crafting_list_nq": {},
+            "home_server": "Famfrit",
+            "revenue_metric": "revenue_home_min_listing",
+        }
+        # catch errors from the main craftsim
+        if example.keys() != craftsim_post_json.keys():
+            return craftsim_post_json
+
         return craftsim_results_table(craftsim_post_json, "ffxiv_craftsim.html")
 
 
@@ -207,7 +218,12 @@ def craftsim_results_table(craftsim_post_json, html_file_name):
         "http://api.saddlebagexchange.com/api/craftsim",
         headers=headers,
         json=craftsim_post_json,
-    ).json()["data"]
+    ).json()
+
+    if "data" not in craftsim_results:
+        return craftsim_results
+
+    craftsim_results = craftsim_results["data"]
 
     for item_data in craftsim_results:
         del item_data["itemID"]
