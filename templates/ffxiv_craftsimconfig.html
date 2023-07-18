@@ -256,7 +256,13 @@
           <div class="mb-3">
             <label class="form-label">median_sale_price</label>
             <input name="median_sale_price" type="number" class="form-control" value="100000">
-            <div class="form-text">Desired minimum regional median sale price in HQ or NQ. ex: <code>100000</code>.</div>
+            <div class="form-text">Desired minimum regional median sale price in HQ or NQ (filters out items that sell for less than this). ex: <code>100000</code>.</div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">max_material_cost</label>
+            <input name="max_material_cost" type="number" class="form-control" value="1000000">
+            <div class="form-text">Desired maximum crafting cost (lower this if you are poor). ex: <code>1000000</code>.</div>
           </div>
 
           <div class="mb-3">

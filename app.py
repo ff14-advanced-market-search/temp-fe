@@ -173,6 +173,7 @@ def ffxivcraftsim():
             "revenue_metric": request.form.get("revenue_metric"),
             "sales_per_week": int(request.form.get("sales_per_week")),
             "median_sale_price": int(request.form.get("median_sale_price")),
+            "max_material_cost": int(request.form.get("max_material_cost")),
             "job": int(request.form.get("job")),
             "filters": [int(request.form.get("filters"))],
             "stars": int(request.form.get("stars")),
@@ -194,6 +195,7 @@ def ffxivcraftsim():
             "crafting_list_nq": {},
             "home_server": "Famfrit",
             "revenue_metric": "revenue_home_min_listing",
+            "max_material_cost": 100000,
         }
         # catch errors from the main craftsim
         if example.keys() != craftsim_post_json.keys():
@@ -286,6 +288,7 @@ def ffxivcraftsimconfig():
             "revenue_metric": request.form.get("revenue_metric"),
             "sales_per_week": int(request.form.get("sales_per_week")),
             "median_sale_price": int(request.form.get("median_sale_price")),
+            "max_material_cost": int(request.form.get("max_material_cost")),
             "job": int(request.form.get("job")),
             "filters": [int(request.form.get("filters"))],
             "stars": int(request.form.get("stars")),
