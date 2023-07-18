@@ -259,15 +259,21 @@ def craftsim_results_table(craftsim_post_json, html_file_name, json_data={}):
         item_data["item-data"] = se_link
         item_data["universalisLink"] = universalisLink
 
-        item_data["material - current region min listing cost:"] = costEst["material_min_listing_cost"]
+        item_data["material - current region min listing cost:"] = costEst[
+            "material_min_listing_cost"
+        ]
         item_data["material - median regional cost:"] = costEst["material_median_cost"]
         item_data["material - average regional cost:"] = costEst["material_avg_cost"]
 
-        item_data["revenue - current home server min listing price:"] = revenueEst["revenue_home_min_listing"]
+        item_data["revenue - current home server min listing price:"] = revenueEst[
+            "revenue_home_min_listing"
+        ]
         item_data["revenue - current regional min listing price:"] = revenueEst[
             "revenue_region_min_listing"
         ]
-        item_data["revenue - regional median sale price:"] = revenueEst["revenue_median"]
+        item_data["revenue - regional median sale price:"] = revenueEst[
+            "revenue_median"
+        ]
         item_data["revenue - regional average sale price:"] = revenueEst["revenue_avg"]
 
     fieldnames = list(craftsim_results[0].keys())
