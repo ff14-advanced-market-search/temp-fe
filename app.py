@@ -252,6 +252,9 @@ def craftsim_results_table(craftsim_post_json, html_file_name):
         item_data["material_avg_cost"] = costEst["material_avg_cost"]
 
         item_data["revenue_home_min_listing"] = revenueEst["revenue_home_min_listing"]
+        item_data["revenue_region_min_listing"] = revenueEst[
+            "revenue_region_min_listing"
+        ]
         item_data["revenue_median"] = revenueEst["revenue_median"]
         item_data["revenue_avg"] = revenueEst["revenue_avg"]
 
