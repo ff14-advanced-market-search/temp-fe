@@ -201,7 +201,9 @@ def ffxivcraftsim():
         if example.keys() != craftsim_post_json.keys():
             return craftsim_post_json
 
-        return craftsim_results_table(craftsim_post_json, "ffxiv_craftsim.html")
+        return craftsim_results_table(
+            craftsim_post_json, "ffxiv_craftsim.html", json_data
+        )
 
 
 @app.route("/ffxivcraftsimcustom", methods=["GET", "POST"])
@@ -214,7 +216,7 @@ def ffxivcraftsimcustom():
         )
 
 
-def craftsim_results_table(craftsim_post_json, html_file_name):
+def craftsim_results_table(craftsim_post_json, html_file_name, json_data={}):
     headers = {"Accept": "application/json"}
     craftsim_results = requests.post(
         "http://api.saddlebagexchange.com/api/craftsim",
@@ -226,7 +228,12 @@ def craftsim_results_table(craftsim_post_json, html_file_name):
         return craftsim_results
 
     if len(craftsim_results["data"]) == 0:
-        return f"error no matching results found:\n {craftsim_results}"
+        if json_data:
+            return (
+                f"error no matching results found matching search inputs:\n {json_data}"
+            )
+        else:
+            return f"error no matching results found matching search inputs:\n {craftsim_post_json}"
 
     craftsim_results = craftsim_results["data"]
 
