@@ -1,0 +1,154 @@
+{% include '_header.html' %}
+
+<body>
+  {% include '_navbar.html' %}
+  <div class="container-fluid">
+        <!-- results -->
+        <h2>Shopping List</h2>
+        <p>
+          Shows all the items to buy for your crafting on all servers in one list!
+          <!-- <a href="https://saddlebagexchange.com/wow/region-undercut">Now on our main website here!</a> -->
+        </p>
+        <div class="mt-4">
+          {% if request.method == 'POST'%}
+            <table id="proxies" class="display table table-striped table-hover nowrap responsive" style="width: 100%">
+              <thead>
+                <tr>
+                  {% for header in results[0].keys() %}
+                    <th>{{header}}</th>
+                  {% endfor %}
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in results %}
+                  <tr>
+                    {% for index in range(0, len(fieldnames)) %}
+                      <td>{{row[fieldnames[index]]}}</td>
+                    {% endfor %}
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% endif %}
+        </div>
+
+        
+        <!-- input commands -->
+        <form method="POST" action="/ffxivshoppinglist" target="_blank" class="scanform">
+          <hr>
+
+          <div class="mb-3">
+            <label class="form-label">Home Server</label>
+            <select class="form-select" id="home_server" name="home_server">
+              <option value="Adamantoise">Adamantoise</option>
+              <option value="Aegis">Aegis</option>
+              <option value="Alexander">Alexander</option>
+              <option value="Alpha">Alpha</option>
+              <option value="Anima">Anima</option>
+              <option value="Asura">Asura</option>
+              <option value="Atomos">Atomos</option>
+              <option value="Bahamut">Bahamut</option>
+              <option value="Balmung">Balmung</option>
+              <option value="Behemoth">Behemoth</option>
+              <option value="Belias">Belias</option>
+              <option value="Bismarck">Bismarck</option>
+              <option value="Brynhildr">Brynhildr</option>
+              <option value="Cactuar">Cactuar</option>
+              <option value="Carbuncle">Carbuncle</option>
+              <option value="Cerberus">Cerberus</option>
+              <option value="Chocobo">Chocobo</option>
+              <option value="Coeurl">Coeurl</option>
+              <option value="Diabolos">Diabolos</option>
+              <option value="Durandal">Durandal</option>
+              <option value="Excalibur">Excalibur</option>
+              <option value="Exodus">Exodus</option>
+              <option value="Faerie">Faerie</option>
+              <option value="Famfrit">Famfrit</option>
+              <option value="Fenrir">Fenrir</option>
+              <option value="Garuda">Garuda</option>
+              <option value="Gilgamesh">Gilgamesh</option>
+              <option value="Goblin">Goblin</option>
+              <option value="Gungnir">Gungnir</option>
+              <option value="Hades">Hades</option>
+              <option value="Halicarnassus">Halicarnassus</option>
+              <option value="Hyperion">Hyperion</option>
+              <option value="Ifrit">Ifrit</option>
+              <option value="Ixion">Ixion</option>
+              <option value="Jenova">Jenova</option>
+              <option value="Kujata">Kujata</option>
+              <option value="Lamia">Lamia</option>
+              <option value="Leviathan">Leviathan</option>
+              <option value="Lich">Lich</option>
+              <option value="Louisoix">Louisoix</option>
+              <option value="Maduin">Maduin</option>
+              <option value="Malboro">Malboro</option>
+              <option value="Mandragora">Mandragora</option>
+              <option value="Marilith">Marilith</option>
+              <option value="Masamune">Masamune</option>
+              <option value="Mateus">Mateus</option>
+              <option value="Midgardsormr">Midgardsormr</option>
+              <option value="Moogle">Moogle</option>
+              <option value="Odin">Odin</option>
+              <option value="Omega">Omega</option>
+              <option value="Pandaemonium">Pandaemonium</option>
+              <option value="Phantom">Phantom</option>
+              <option value="Phoenix">Phoenix</option>
+              <option value="Ragnarok">Ragnarok</option>
+              <option value="Raiden">Raiden</option>
+              <option value="Ramuh">Ramuh</option>
+              <option value="Ravana">Ravana</option>
+              <option value="Ridill">Ridill</option>
+              <option value="Sagittarius">Sagittarius</option>
+              <option value="Sargatanas">Sargatanas</option>
+              <option value="Sephirot">Sephirot</option>
+              <option value="Seraph">Seraph</option>
+              <option value="Shinryu">Shinryu</option>
+              <option value="Shiva">Shiva</option>
+              <option value="Siren">Siren</option>
+              <option value="Sophia">Sophia</option>
+              <option value="Spriggan">Spriggan</option>
+              <option value="Tiamat">Tiamat</option>
+              <option value="Titan">Titan</option>
+              <option value="Tonberry">Tonberry</option>
+              <option value="Twintania">Twintania</option>
+              <option value="Typhon">Typhon</option>
+              <option value="Ultima">Ultima</option>
+              <option value="Ultros">Ultros</option>
+              <option value="Unicorn">Unicorn</option>
+              <option value="Valefor">Valefor</option>
+              <option value="Yojimbo">Yojimbo</option>
+              <option value="Zalera">Zalera</option>
+              <option value="Zeromus">Zeromus</option>
+              <option value="Zodiark">Zodiark</option>
+              <option value="Zurvan">Zurvan</option>
+            </select>
+            <div class="form-text">Pick your home server.</b> ex: <code>Famfrit</code></div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Shopping Data</label>
+            <div class="form-text">
+              Paste in your shopping list json data here
+            </div>
+            <textarea class="form-control" rows="5" name="shopping_list"></textarea>
+          </div>
+            
+          <button type="submit" value="submit" class="btn btn-primary btn-lg">Submit</button>
+        </form>
+
+      </div>
+    </div>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7398832994051812"
+     crossorigin="anonymous"></script>
+  </body>
+  <script type="text/javascript">
+    $('#proxies').DataTable();
+  </script>
+  
+</html>
+
+
+
+
+
+

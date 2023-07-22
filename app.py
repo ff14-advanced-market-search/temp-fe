@@ -323,6 +323,86 @@ def ffxivcraftsimconfig():
         return craftsim_post_json
 
 
+@app.route("/ffxivshoppinglist", methods=["GET", "POST"])
+def ffxiv_shopping_list():
+    if request.method == "GET":
+        return render_template("ffxiv_shoppinglist.html")
+    elif request.method == "POST":
+        headers = {"Accept": "application/json"}
+
+        shopping_list = request.form.get("shopping_list")
+        json_data = {
+            "home_server": request.form.get("home_server"),
+            "shopping_list": json.loads(shopping_list),
+        }
+
+        shopping_list_json = requests.post(
+            "http://api.saddlebagexchange.com/api/createshoppinglist",
+            headers=headers,
+            json=json_data,
+        ).json()
+
+        example = {
+            "crafting_list": [],
+            "home_server": "Famfrit",
+        }
+        # catch errors from the main craftsim
+        if example.keys() != shopping_list_json.keys():
+            return shopping_list_json
+
+        return ffxiv_shopping_list_result(
+            shopping_list_json, "ffxiv_shoppinglist.html", json_data
+        )
+
+
+def ffxiv_shopping_list_result(shopping_list_json, html_file_name, json_data={}):
+    headers = {"Accept": "application/json"}
+    shopping_list_results = requests.post(
+        "http://api.saddlebagexchange.com/api/shoppinglist",
+        headers=headers,
+        json=shopping_list_json,
+    ).json()
+
+    if "data" not in shopping_list_results:
+        return shopping_list_results
+
+    if len(shopping_list_results["data"]) == 0:
+        if json_data:
+            return (
+                f"error no matching results found matching search inputs:\n {json_data}"
+            )
+        else:
+            return f"error no matching results found matching search inputs:\n {shopping_list_results}"
+
+    shopping_list_data = shopping_list_results["data"]
+    for item_data in shopping_list_data:
+        itemID = item_data["itemID"]
+        del item_data["itemID"]
+        item_data_copy = {
+            "worldName": item_data["worldName"],
+            "name": item_data["name"],
+            "hq": item_data["hq"],
+            "pricePerUnit": item_data["pricePerUnit"],
+            "quantity": item_data["quantity"],
+            "itemData": f"https://saddlebagexchange.com/queries/item-data/{itemID}",
+            "uniLink": f"https://universalis.app/market/{itemID}",
+        }
+        for k, v in item_data_copy.items():
+            if k not in item_data.keys():
+                item_data[k] = v
+            else:
+                del item_data[k]
+                item_data[k] = v
+
+    fieldnames = list(shopping_list_data[0].keys())
+    return render_template(
+        html_file_name,
+        results=shopping_list_data,
+        fieldnames=fieldnames,
+        len=len,
+    )
+
+
 #### WOW ####
 @app.route("/uploadtimers", methods=["GET", "POST"])
 def uploadtimers():
