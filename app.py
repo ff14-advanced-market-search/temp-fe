@@ -697,6 +697,8 @@ def petimport():
         if "data" not in response:
             return f"Error no matching data with given inputs {response}"
         response = response["data"]
+        if len(response) == 0:
+            return f"No item found with given inputs, try lowering price or sale amount {json_data}"
 
         for row in response:
             del row["itemID"]
