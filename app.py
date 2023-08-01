@@ -457,10 +457,10 @@ def ffxivbestdeals():
 
             item["discountHQ"] = item_temp["discountHQ"]
             item["discountNQ"] = item_temp["discountNQ"]
-            item["minPrice"] = item_temp["minPrice"]
             item["minPriceHQ"] = item_temp["minPriceHQ"]
-            item["medianNQ"] = item_temp["medianNQ"]
+            item["minPrice"] = item_temp["minPrice"]
             item["medianHQ"] = item_temp["medianHQ"]
+            item["medianNQ"] = item_temp["medianNQ"]
 
             item["salesAmountHQ"] = item_temp["salesAmountHQ"]
             item["salesAmountNQ"] = item_temp["salesAmountNQ"]
