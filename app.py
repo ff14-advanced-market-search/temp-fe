@@ -403,6 +403,84 @@ def ffxiv_shopping_list_result(shopping_list_json, html_file_name, json_data={})
     )
 
 
+@app.route("/ffxivbestdeals", methods=["GET", "POST"])
+def ffxivbestdeals():
+    if request.method == "GET":
+        return render_template("ffxivbestdeals.html")
+    elif request.method == "POST":
+        headers = {"Accept": "application/json"}
+        json_data = {
+            "home_server": request.form.get("home_server"),
+            "discount": int(request.form.get("discount")),
+            "medianPrice": int(request.form.get("medianPrice")),
+            "salesAmount": int(request.form.get("salesAmount")),
+            "maxBuyPrice": int(request.form.get("maxBuyPrice")),
+            "filters": [int(request.form.get("filters"))],
+        }
+        response = requests.post(
+            "http://api.saddlebagexchange.com/api/bestdeals",
+            headers=headers,
+            json=json_data,
+        ).json()
+
+        if "data" not in response:
+            return response
+
+        if len(response["data"]) == 0:
+            return f"No matching results found with seach inputs {json_data}"
+
+        resp_list = response["data"]
+        for item in resp_list:
+            item_temp = item.copy()
+
+            # remove old order
+            del item["averageHQ"]
+            del item["averageNQ"]
+            del item["discountHQ"]
+            del item["discountNQ"]
+            del item["itemData"]
+            del item["itemID"]
+            # del item["itemName"]
+            del item["lastUploadTime"]
+            del item["mainCategory"]
+            del item["medianHQ"]
+            del item["medianNQ"]
+            del item["minPrice"]
+            del item["minPriceHQ"]
+            del item["quantitySoldHQ"]
+            del item["quantitySoldNQ"]
+            del item["salesAmountHQ"]
+            del item["salesAmountNQ"]
+            del item["subCategory"]
+            del item["uniLink"]
+            # del item["worldName"]
+
+            item["discountHQ"] = item_temp["discountHQ"]
+            item["discountNQ"] = item_temp["discountNQ"]
+            item["minPrice"] = item_temp["minPrice"]
+            item["minPriceHQ"] = item_temp["minPriceHQ"]
+            item["medianNQ"] = item_temp["medianNQ"]
+            item["medianHQ"] = item_temp["medianHQ"]
+
+            item["salesAmountHQ"] = item_temp["salesAmountHQ"]
+            item["salesAmountNQ"] = item_temp["salesAmountNQ"]
+            item["quantitySoldHQ"] = item_temp["quantitySoldHQ"]
+            item["quantitySoldNQ"] = item_temp["quantitySoldNQ"]
+            item["averageHQ"] = item_temp["averageHQ"]
+            item["averageNQ"] = item_temp["averageNQ"]
+
+            item["mainCategory"] = item_temp["mainCategory"]
+            item["subCategory"] = item_temp["subCategory"]
+            item["itemData"] = item_temp["itemData"]
+            item["uniLink"] = item_temp["uniLink"]
+            item["lastUploadTime"] = item_temp["lastUploadTime"]
+
+        fieldnames = list(resp_list[0].keys())
+        return render_template(
+            "ffxivbestdeals.html", results=resp_list, fieldnames=fieldnames, len=len
+        )
+
+
 #### WOW ####
 @app.route("/uploadtimers", methods=["GET", "POST"])
 def uploadtimers():
