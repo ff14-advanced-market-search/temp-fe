@@ -820,6 +820,8 @@ def bestdeals():
             "discount": int(request.form.get("discount")),
             "minPrice": int(request.form.get("minPrice")),
             "salesPerDay": float(request.form.get("salesPerDay")),
+            "item_class": int(request.form.get("item_class")),
+            "item_subclass": -1,
         }
 
         response = requests.post(
