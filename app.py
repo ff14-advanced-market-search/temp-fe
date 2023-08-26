@@ -10,7 +10,7 @@ import requests
 
 app = Flask(__name__)
 CORS(app)
-limiter = Limiter(get_remote_address, app=app, default_limits=["10 per second"])
+limiter = Limiter(get_remote_address, app=app, default_limits=["1 per second"])
 
 def str_to_bool(bool_str):
     if bool_str == "True":
