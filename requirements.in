@@ -1,3 +1,4 @@
 Flask
 flask_cors
 requests
+flask_limiter
