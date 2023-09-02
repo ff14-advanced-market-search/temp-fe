@@ -9,7 +9,13 @@ from flask_limiter.util import get_remote_address
 import requests
 
 app = Flask(__name__)
-CORS(app)
+# Initialize Flask-CORS with your app and specify allowed origins
+origins = [
+    "http://127.0.0.1:5000",
+    "http://localhost:5000",
+    "https://temp.saddlebagexchange.com",
+]
+CORS(app, resources={r"/*": {"origins": origins}})
 limiter = Limiter(get_remote_address, app=app, default_limits=["1 per second"])
 
 
