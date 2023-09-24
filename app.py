@@ -344,6 +344,7 @@ def ffxiv_shopping_list():
         shopping_list = request.form.get("shopping_list")
         json_data = {
             "home_server": request.form.get("home_server"),
+            "region_wide": bool(request.form.get("region_wide")),
             "shopping_list": json.loads(shopping_list),
         }
 
@@ -356,6 +357,7 @@ def ffxiv_shopping_list():
         example = {
             "crafting_list": [],
             "home_server": "Famfrit",
+            "region_wide": True,
         }
         # catch errors from the main craftsim
         if example.keys() != shopping_list_json.keys():
