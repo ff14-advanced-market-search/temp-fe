@@ -752,72 +752,72 @@ def regionundercut():
         )
 
 
-@app.route("/petimport", methods=["GET", "POST"])
-def petimport():
-    if request.method == "GET":
-        return render_template("petimport.html")
-    elif request.method == "POST":
-        headers = {"Accept": "application/json"}
+# @app.route("/petimport", methods=["GET", "POST"])
+# def petimport():
+#     if request.method == "GET":
+#         return render_template("petimport.html")
+#     elif request.method == "POST":
+#         headers = {"Accept": "application/json"}
 
-        petsOnly = request.form.get("petsOnly")
-        if petsOnly == "False":
-            petsOnly = False
-        else:
-            petsOnly = True
-        json_data = {
-            "region": request.form.get("region"),
-            "homeRealmID": int(request.form.get("homeRealmID")),
-            "ROI": int(request.form.get("ROI")),
-            "avgPrice": int(request.form.get("avgPrice")),
-            "maxPurchasePrice": int(request.form.get("maxPurchasePrice")),
-            "profitAmount": int(request.form.get("profitAmount")),
-            "salesPerDay": float(request.form.get("salesPerDay")),
-            "includeCategories": [],
-            "excludeCategories": [],
-            "sortBy": "lowestPrice",
-            "petsOnly": petsOnly,
-            "connectedRealmIDs": {},
-        }
+#         petsOnly = request.form.get("petsOnly")
+#         if petsOnly == "False":
+#             petsOnly = False
+#         else:
+#             petsOnly = True
+#         json_data = {
+#             "region": request.form.get("region"),
+#             "homeRealmID": int(request.form.get("homeRealmID")),
+#             "ROI": int(request.form.get("ROI")),
+#             "avgPrice": int(request.form.get("avgPrice")),
+#             "maxPurchasePrice": int(request.form.get("maxPurchasePrice")),
+#             "profitAmount": int(request.form.get("profitAmount")),
+#             "salesPerDay": float(request.form.get("salesPerDay")),
+#             "includeCategories": [],
+#             "excludeCategories": [],
+#             "sortBy": "lowestPrice",
+#             "petsOnly": petsOnly,
+#             "connectedRealmIDs": {},
+#         }
 
-        response = requests.post(
-            "http://api.saddlebagexchange.com/api/wow/petimport",
-            headers=headers,
-            json=json_data,
-        ).json()
+#         response = requests.post(
+#             "http://api.saddlebagexchange.com/api/wow/petimport",
+#             headers=headers,
+#             json=json_data,
+#         ).json()
 
-        if "data" not in response:
-            return f"Error no matching data with given inputs {response}"
-        response = response["data"]
-        if len(response) == 0:
-            return f"No item found with given inputs, try lowering price or sale amount {json_data}"
+#         if "data" not in response:
+#             return f"Error no matching data with given inputs {response}"
+#         response = response["data"]
+#         if len(response) == 0:
+#             return f"No item found with given inputs, try lowering price or sale amount {json_data}"
 
-        for row in response:
-            del row["itemID"]
-            del row["lowestPriceRealmID"]
-            realm = row["lowestPriceRealmName"]
-            del row["lowestPriceRealmName"]
-            row["lowestPriceRealmName"] = realm
+#         for row in response:
+#             del row["itemID"]
+#             del row["lowestPriceRealmID"]
+#             realm = row["lowestPriceRealmName"]
+#             del row["lowestPriceRealmName"]
+#             row["lowestPriceRealmName"] = realm
 
-            link = row["link"]
-            del row["link"]
-            row["link"] = link
+#             link = row["link"]
+#             del row["link"]
+#             row["link"] = link
 
-            undermineLink = row["undermineLink"]
-            del row["undermineLink"]
-            row["undermineLink"] = undermineLink
+#             undermineLink = row["undermineLink"]
+#             del row["undermineLink"]
+#             row["undermineLink"] = undermineLink
 
-            warcraftPetsLink = row["warcraftPetsLink"]
-            del row["warcraftPetsLink"]
-            row["warcraftPetsLink"] = warcraftPetsLink
+#             warcraftPetsLink = row["warcraftPetsLink"]
+#             del row["warcraftPetsLink"]
+#             row["warcraftPetsLink"] = warcraftPetsLink
 
-        fieldnames = list(response[0].keys())
+#         fieldnames = list(response[0].keys())
 
-        return render_template(
-            "petimport.html",
-            results=response,
-            fieldnames=fieldnames,
-            len=len,
-        )
+#         return render_template(
+#             "petimport.html",
+#             results=response,
+#             fieldnames=fieldnames,
+#             len=len,
+#         )
 
 
 @app.route("/bestdeals", methods=["GET", "POST"])
