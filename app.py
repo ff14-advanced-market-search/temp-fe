@@ -443,51 +443,28 @@ def ffxivbestdeals():
             return f"No matching results found with seach inputs {json_data}"
 
         resp_list = response["data"]
-        for item in resp_list:
-            item_temp = item.copy()
-
-            # remove old order
-            del item["averageHQ"]
-            del item["averageNQ"]
-            del item["discountHQ"]
-            del item["discountNQ"]
-            del item["itemData"]
-            del item["itemID"]
-            # del item["itemName"]
-            del item["lastUploadTime"]
-            del item["mainCategory"]
-            del item["medianHQ"]
-            del item["medianNQ"]
-            del item["minPrice"]
-            del item["minPriceHQ"]
-            del item["quantitySoldHQ"]
-            del item["quantitySoldNQ"]
-            del item["salesAmountHQ"]
-            del item["salesAmountNQ"]
-            del item["subCategory"]
-            del item["uniLink"]
-            # del item["worldName"]
-
-            item["discountHQ"] = item_temp["discountHQ"]
-            item["discountNQ"] = item_temp["discountNQ"]
-            item["minPriceHQ"] = item_temp["minPriceHQ"]
-            item["minPrice"] = item_temp["minPrice"]
-            item["medianHQ"] = item_temp["medianHQ"]
-            item["medianNQ"] = item_temp["medianNQ"]
-
-            item["salesAmountHQ"] = item_temp["salesAmountHQ"]
-            item["salesAmountNQ"] = item_temp["salesAmountNQ"]
-            item["quantitySoldHQ"] = item_temp["quantitySoldHQ"]
-            item["quantitySoldNQ"] = item_temp["quantitySoldNQ"]
-            item["averageHQ"] = item_temp["averageHQ"]
-            item["averageNQ"] = item_temp["averageNQ"]
-
-            item["mainCategory"] = item_temp["mainCategory"]
-            item["subCategory"] = item_temp["subCategory"]
-            item["itemData"] = item_temp["itemData"]
-            item["uniLink"] = item_temp["uniLink"]
-            item["lastUploadTime"] = item_temp["lastUploadTime"]
-
+        column_order = [
+            "itemName",
+            "worldName",
+            "discountHQ",
+            "discountNQ",
+            "minPriceHQ",
+            "minPrice",
+            "medianHQ",
+            "medianNQ",
+            "salesAmountHQ",
+            "salesAmountNQ",
+            "quantitySoldHQ",
+            "quantitySoldNQ",
+            "averageHQ",
+            "averageNQ",
+            "mainCategory",
+            "subCategory",
+            "itemData",
+            "uniLink",
+            "lastUploadTime",
+        ]
+        resp_list = [{key: item.get(key) for key in column_order} for item in resp_list]
         fieldnames = list(resp_list[0].keys())
         return render_template(
             "ffxivbestdeals.html", results=resp_list, fieldnames=fieldnames, len=len
