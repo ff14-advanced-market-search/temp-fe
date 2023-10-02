@@ -882,8 +882,12 @@ def bestdeals():
 
 
 if __name__ == "__main__":
-    ## http
-    app.run(host="0.0.0.0", debug=True)
+    app.run(host="0.0.0.0")
 
-    # ## https
+    # for testing
+
+    ## http
+    # app.run(host="0.0.0.0", debug=True)
+
+    ## https
     # app.run(host='0.0.0.0',port=443,debug=True, ssl_context=("./certs/full_chain.crt","./certs/private.key"))
