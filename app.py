@@ -1,7 +1,7 @@
 import json
 
 from flask import Flask
-from flask import render_template
+from flask import render_template, make_response
 from flask import request
 from flask_cors import CORS
 from flask_limiter import Limiter
@@ -28,7 +28,48 @@ def str_to_bool(bool_str):
 
 @app.route("/", methods=["GET", "POST"])
 def root():
-    return render_template("index.html", len=len)
+    r = make_response(render_template("index.html", len=len))
+    r.headers["X-Frame-Options"] = "same-origin"
+    r.headers["X-Content-Type-Options"] = "nosniff"
+    r.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+    r.headers["Referrer-Policy"] = "no-referrer-when-downgrade"
+    r.headers["Cross-Origin-Resource-Policy"] = "same-origin"
+    r.headers["Cross-Origin-Opener-Policy"] = "same-origin"
+    return r
+
+
+#### WIP ####
+# should fix "Missing HTTP Header - Content-Security-Policy" once we get it to work with charts
+
+# @app.after_request
+# def add_security_headers(response):
+#     # Add Content-Security-Policy header to the response
+#     csp_policy = {
+#         "default-src": ["'self'"],
+#         "script-src": [
+#             "'self'",
+#             "'unsafe-inline'",
+#             "https://code.jquery.com",
+#             "https://cdn.jsdelivr.net",
+#             "https://pagead2.googlesyndication.com",
+#         ],
+#         "style-src": ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net"],
+#         "img-src": [
+#             "'self'",
+#             "https://pagead2.googlesyndication.com",
+#             "https://saddlebagexchange.com",
+#         ],
+#         "font-src": ["'self'"],
+#         "connect-src": ["'self'"],
+#         "frame-src": ["'self'", "https://www.youtube.com"],
+#     }
+#     csp_header_value = "; ".join(
+#         [f"{key} {' '.join(value)}" for key, value in csp_policy.items()]
+#     )
+#     response.headers["Content-Security-Policy"] = csp_header_value
+#     return response
+
+#### WIP ####
 
 
 @app.route("/ffxiv", methods=["GET", "POST"])
