@@ -35,6 +35,7 @@ def root():
     r.headers["Referrer-Policy"] = "no-referrer-when-downgrade"
     r.headers["Cross-Origin-Resource-Policy"] = "same-origin"
     r.headers["Cross-Origin-Opener-Policy"] = "same-origin"
+    r.headers["Cross-Origin-Embedder-Policy"] = "require-corp"
     return r
 
 
