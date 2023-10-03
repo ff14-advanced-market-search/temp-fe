@@ -629,33 +629,22 @@ def petmarketshare():
 
         if "data" not in response:
             return f"Error no matching data with given inputs {response}"
+
         response = response["data"]
-
-        for row in response:
-            avgTSMPrice = row["avgTSMPrice"]
-            estimatedRegionMarketValue = row["estimatedRegionMarketValue"]
-            homeMinPrice = row["homeMinPrice"]
-            itemID = row["itemID"]
-            undermineLink = row["undermineLink"]
-            warcraftPetsLink = row["warcraftPetsLink"]
-            link = row["link"]
-
-            del row["avgTSMPrice"]
-            del row["estimatedRegionMarketValue"]
-            del row["homeMinPrice"]
-            del row["itemID"]
-            del row["link"]
-            del row["warcraftPetsLink"]
-            del row["undermineLink"]
-
-            row["avgTSMPrice"] = avgTSMPrice
-            row["estimatedRevenue"] = estimatedRegionMarketValue
-            row["homeMinPrice"] = homeMinPrice
-            row["itemID"] = itemID
-            row["link"] = link
-            row["undermineLink"] = undermineLink
-            row["warcraftPetsLink"] = warcraftPetsLink
-
+        column_order = [
+            "salesPerDay",
+            "itemName",
+            "percentChange",
+            "state",
+            "avgTSMPrice",
+            "estimatedRevenue",
+            "homeMinPrice",
+            "itemID",
+            "link",
+            "undermineLink",
+            "warcraftPetsLink",
+        ]
+        response = [{key: item.get(key) for key in column_order} for item in response]
         fieldnames = list(response[0].keys())
 
         return render_template(
