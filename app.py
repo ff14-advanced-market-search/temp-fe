@@ -116,13 +116,10 @@ def ffxiv_pricecheck():
     if request.method == "GET":
         return render_template("ffxiv_pricecheck.html")
     elif request.method == "POST":
-        headers = {"Accept": "application/json"}
-
         json_data = json.loads(request.form.get("jsonData"))
-
         response = requests.post(
             "http://api.saddlebagexchange.com/api/pricecheck",
-            headers=headers,
+            headers={"Accept": "application/json"},
             json=json_data,
         ).json()
 
@@ -161,8 +158,6 @@ def ffxivcraftsim():
     if request.method == "GET":
         return render_template("ffxiv_craftsim.html")
     elif request.method == "POST":
-        headers = {"Accept": "application/json"}
-
         if request.form.get("hide_expert_recipes") == "True":
             hide_expert_recipes = True
         else:
@@ -186,7 +181,7 @@ def ffxivcraftsim():
 
         craftsim_post_json = requests.post(
             "http://api.saddlebagexchange.com/api/recipelookup",
-            headers=headers,
+            headers={"Accept": "application/json"},
             json=json_data,
         ).json()
 
@@ -218,10 +213,9 @@ def ffxivcraftsimcustom():
 
 
 def craftsim_results_table(craftsim_post_json, html_file_name, json_data={}):
-    headers = {"Accept": "application/json"}
     craftsim_results = requests.post(
         "http://api.saddlebagexchange.com/api/craftsim",
-        headers=headers,
+        headers={"Accept": "application/json"},
         json=craftsim_post_json,
     ).json()
 
@@ -292,8 +286,6 @@ def ffxivcraftsimconfig():
     if request.method == "GET":
         return render_template("ffxiv_craftsimconfig.html")
     elif request.method == "POST":
-        headers = {"Accept": "application/json"}
-
         if request.form.get("hide_expert_recipes") == "True":
             hide_expert_recipes = True
         else:
@@ -317,7 +309,7 @@ def ffxivcraftsimconfig():
 
         craftsim_post_json = requests.post(
             "http://api.saddlebagexchange.com/api/recipelookup",
-            headers=headers,
+            headers={"Accept": "application/json"},
             json=json_data,
         ).json()
 
@@ -329,8 +321,6 @@ def ffxiv_shopping_list():
     if request.method == "GET":
         return render_template("ffxiv_shoppinglist.html")
     elif request.method == "POST":
-        headers = {"Accept": "application/json"}
-
         shopping_list = request.form.get("shopping_list")
         json_data = {
             "home_server": request.form.get("home_server"),
@@ -340,7 +330,7 @@ def ffxiv_shopping_list():
 
         shopping_list_json = requests.post(
             "http://api.saddlebagexchange.com/api/createshoppinglist",
-            headers=headers,
+            headers={"Accept": "application/json"},
             json=json_data,
         ).json()
 
@@ -359,10 +349,9 @@ def ffxiv_shopping_list():
 
 
 def ffxiv_shopping_list_result(shopping_list_json, html_file_name, json_data={}):
-    headers = {"Accept": "application/json"}
     shopping_list_results = requests.post(
         "http://api.saddlebagexchange.com/api/shoppinglist",
-        headers=headers,
+        headers={"Accept": "application/json"},
         json=shopping_list_json,
     ).json()
 
@@ -411,7 +400,6 @@ def ffxivbestdeals():
     if request.method == "GET":
         return render_template("ffxivbestdeals.html")
     elif request.method == "POST":
-        headers = {"Accept": "application/json"}
         json_data = {
             "home_server": request.form.get("home_server"),
             "discount": int(request.form.get("discount")),
@@ -422,7 +410,7 @@ def ffxivbestdeals():
         }
         response = requests.post(
             "http://api.saddlebagexchange.com/api/bestdeals",
-            headers=headers,
+            headers={"Accept": "application/json"},
             json=json_data,
         ).json()
 
@@ -467,11 +455,10 @@ def uploadtimers():
     if request.method == "GET":
         return render_template("uploadtimers.html")
     elif request.method == "POST":
-        headers = {"Accept": "application/json"}
         json_data = {}
         response = requests.post(
             "http://api.saddlebagexchange.com/api/wow/uploadtimers",
-            headers=headers,
+            headers={"Accept": "application/json"},
             json=json_data,
         ).json()
 
@@ -499,11 +486,10 @@ def itemnames():
     if request.method == "GET":
         return render_template("itemnames.html")
     elif request.method == "POST":
-        headers = {"Accept": "application/json"}
         json_data = {}
         response = requests.post(
             "http://api.saddlebagexchange.com/api/wow/itemnames",
-            headers=headers,
+            headers={"Accept": "application/json"},
             json=json_data,
         ).json()
 
@@ -521,8 +507,6 @@ def petshoppinglist():
     if request.method == "GET":
         return render_template("petshoppinglist.html")
     elif request.method == "POST":
-        headers = {"Accept": "application/json"}
-
         json_data = {
             "region": request.form.get("region"),
             "itemID": int(request.form.get("petID")),
@@ -532,7 +516,7 @@ def petshoppinglist():
 
         response = requests.post(
             "http://api.saddlebagexchange.com/api/wow/shoppinglist",
-            headers=headers,
+            headers={"Accept": "application/json"},
             json=json_data,
         ).json()
 
@@ -561,8 +545,6 @@ def petmarketshare():
     if request.method == "GET":
         return render_template("petmarketshare.html")
     elif request.method == "POST":
-        headers = {"Accept": "application/json"}
-
         json_data = {
             "region": request.form.get("region"),
             "homeRealmName": request.form.get("homeRealmName"),
@@ -575,7 +557,7 @@ def petmarketshare():
 
         response = requests.post(
             "http://api.saddlebagexchange.com/api/wow/petmarketshare",
-            headers=headers,
+            headers={"Accept": "application/json"},
             json=json_data,
         ).json()
 
@@ -609,8 +591,6 @@ def petexport():
     if request.method == "GET":
         return render_template("petexport.html")
     elif request.method == "POST":
-        headers = {"Accept": "application/json"}
-
         json_data = {
             "region": request.form.get("region"),
             "itemID": int(request.form.get("itemID")),
@@ -625,7 +605,7 @@ def petexport():
 
         response = requests.post(
             "http://api.saddlebagexchange.com/api/wow/export",
-            headers=headers,
+            headers={"Accept": "application/json"},
             json=json_data,
         ).json()
 
@@ -657,8 +637,6 @@ def regionundercut():
     if request.method == "GET":
         return render_template("regionundercut.html")
     elif request.method == "POST":
-        headers = {"Accept": "application/json"}
-
         addonData = request.form.get("addonData")
         json_data = {
             "region": request.form.get("region"),
@@ -668,7 +646,7 @@ def regionundercut():
 
         response = requests.post(
             "http://api.saddlebagexchange.com/api/wow/regionundercut",
-            headers=headers,
+            headers={"Accept": "application/json"},
             json=json_data,
         ).json()
 
@@ -717,8 +695,6 @@ def bestdeals():
     if request.method == "GET":
         return render_template("bestdeals.html")
     elif request.method == "POST":
-        headers = {"Accept": "application/json"}
-
         json_data = {
             "region": request.form.get("region"),
             "type": request.form.get("type"),
@@ -731,7 +707,7 @@ def bestdeals():
 
         response = requests.post(
             "http://api.saddlebagexchange.com/api/wow/bestdeals",
-            headers=headers,
+            headers={"Accept": "application/json"},
             json=json_data,
         ).json()
 
