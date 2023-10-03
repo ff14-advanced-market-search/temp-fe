@@ -592,11 +592,15 @@ def petshoppinglist():
             return f"Error no matching data with given inputs {response}"
         response = response["data"]
 
-        for row in response:
-            link = row["link"]
-            del row["link"]
-            row["link"] = link
-
+        column_order = [
+            "realmID",
+            "price",
+            "quantity",
+            "realmName",
+            "realmNames",
+            "link",
+        ]
+        response = [{key: item.get(key) for key in column_order} for item in response]
         fieldnames = list(response[0].keys())
 
         return render_template(
