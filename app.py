@@ -82,6 +82,7 @@ def ffxiv():
 def wow():
     return render_template("wow_index.html", len=len)
 
+
 @app.route("/ffxiv_itemnames", methods=["GET", "POST"])
 def ffxivitemnames():
     if request.method == "GET":
