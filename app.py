@@ -16,7 +16,7 @@ origins = [
     "https://temp.saddlebagexchange.com",
 ]
 CORS(app, resources={r"/*": {"origins": origins}})
-limiter = Limiter(get_remote_address, app=app, default_limits=["1 per second"])
+# limiter = Limiter(get_remote_address, app=app, default_limits=["1 per second"])
 
 
 def str_to_bool(bool_str):
