@@ -83,58 +83,6 @@ def wow():
     return render_template("wow_index.html", len=len)
 
 
-# @app.route("/scan", methods=["GET", "POST"])
-# def scan():
-#     if request.method == "GET":
-#         return render_template("oldscan.html")
-#     elif request.method == "POST":
-#         scan_hours = request.form.get("scan_hours")
-#         sale_amt = request.form.get("sale_amt")
-#         roi = request.form.get("roi")
-#         home_server = request.form.get("home_server")
-#         stack_size = request.form.get("stack_size")
-#         hq_only = request.form.get("hq_only")
-#         profit_amt = request.form.get("profit_amt")
-#         min_desired_avg_ppu = request.form.get("min_desired_avg_ppu")
-#         game_wide = request.form.get("game_wide")
-#         include_vendor = request.form.get("include_vendor")
-#         out_stock = request.form.get("out_stock")
-#         filters = [int(request.form.get("filters"))]
-
-#         headers = {"Accept": "application/json"}
-#         json_data = {
-#             "preferred_roi": int(roi),
-#             "min_profit_amount": int(profit_amt),
-#             "min_desired_avg_ppu": int(min_desired_avg_ppu),
-#             "min_stack_size": int(stack_size),
-#             "hours_ago": int(scan_hours),
-#             "min_sales": int(sale_amt),
-#             "hq": str_to_bool(hq_only),
-#             "home_server": home_server,
-#             "filters": filters,
-#             "region_wide": str_to_bool(game_wide),
-#             "include_vendor": str_to_bool(include_vendor),
-#             "show_out_stock": str_to_bool(out_stock),
-#             "universalis_list_uid": "",
-#         }
-
-#         response = requests.post(
-#             "http://api.saddlebagexchange.com/api/scan/",
-#             headers=headers,
-#             json=json_data,
-#         ).json()
-
-#         if "data" not in response:
-#             return f"Error no matching data with given inputs {response}"
-#         response = response["data"]
-
-#         fieldnames = list(response[0].keys())
-
-#         return render_template(
-#             "oldscan.html", results=response, fieldnames=fieldnames, len=len
-#         )
-
-
 @app.route("/ffxiv_itemnames", methods=["GET", "POST"])
 def ffxivitemnames():
     if request.method == "GET":
@@ -168,13 +116,10 @@ def ffxiv_pricecheck():
     if request.method == "GET":
         return render_template("ffxiv_pricecheck.html")
     elif request.method == "POST":
-        headers = {"Accept": "application/json"}
-
         json_data = json.loads(request.form.get("jsonData"))
-
         response = requests.post(
             "http://api.saddlebagexchange.com/api/pricecheck",
-            headers=headers,
+            headers={"Accept": "application/json"},
             json=json_data,
         ).json()
 
@@ -213,8 +158,6 @@ def ffxivcraftsim():
     if request.method == "GET":
         return render_template("ffxiv_craftsim.html")
     elif request.method == "POST":
-        headers = {"Accept": "application/json"}
-
         if request.form.get("hide_expert_recipes") == "True":
             hide_expert_recipes = True
         else:
@@ -238,7 +181,7 @@ def ffxivcraftsim():
 
         craftsim_post_json = requests.post(
             "http://api.saddlebagexchange.com/api/recipelookup",
-            headers=headers,
+            headers={"Accept": "application/json"},
             json=json_data,
         ).json()
 
@@ -270,10 +213,9 @@ def ffxivcraftsimcustom():
 
 
 def craftsim_results_table(craftsim_post_json, html_file_name, json_data={}):
-    headers = {"Accept": "application/json"}
     craftsim_results = requests.post(
         "http://api.saddlebagexchange.com/api/craftsim",
-        headers=headers,
+        headers={"Accept": "application/json"},
         json=craftsim_post_json,
     ).json()
 
@@ -344,8 +286,6 @@ def ffxivcraftsimconfig():
     if request.method == "GET":
         return render_template("ffxiv_craftsimconfig.html")
     elif request.method == "POST":
-        headers = {"Accept": "application/json"}
-
         if request.form.get("hide_expert_recipes") == "True":
             hide_expert_recipes = True
         else:
@@ -369,7 +309,7 @@ def ffxivcraftsimconfig():
 
         craftsim_post_json = requests.post(
             "http://api.saddlebagexchange.com/api/recipelookup",
-            headers=headers,
+            headers={"Accept": "application/json"},
             json=json_data,
         ).json()
 
@@ -381,8 +321,6 @@ def ffxiv_shopping_list():
     if request.method == "GET":
         return render_template("ffxiv_shoppinglist.html")
     elif request.method == "POST":
-        headers = {"Accept": "application/json"}
-
         shopping_list = request.form.get("shopping_list")
         json_data = {
             "home_server": request.form.get("home_server"),
@@ -392,7 +330,7 @@ def ffxiv_shopping_list():
 
         shopping_list_json = requests.post(
             "http://api.saddlebagexchange.com/api/createshoppinglist",
-            headers=headers,
+            headers={"Accept": "application/json"},
             json=json_data,
         ).json()
 
@@ -411,10 +349,9 @@ def ffxiv_shopping_list():
 
 
 def ffxiv_shopping_list_result(shopping_list_json, html_file_name, json_data={}):
-    headers = {"Accept": "application/json"}
     shopping_list_results = requests.post(
         "http://api.saddlebagexchange.com/api/shoppinglist",
-        headers=headers,
+        headers={"Accept": "application/json"},
         json=shopping_list_json,
     ).json()
 
@@ -463,7 +400,6 @@ def ffxivbestdeals():
     if request.method == "GET":
         return render_template("ffxivbestdeals.html")
     elif request.method == "POST":
-        headers = {"Accept": "application/json"}
         json_data = {
             "home_server": request.form.get("home_server"),
             "discount": int(request.form.get("discount")),
@@ -474,7 +410,7 @@ def ffxivbestdeals():
         }
         response = requests.post(
             "http://api.saddlebagexchange.com/api/bestdeals",
-            headers=headers,
+            headers={"Accept": "application/json"},
             json=json_data,
         ).json()
 
@@ -485,51 +421,28 @@ def ffxivbestdeals():
             return f"No matching results found with seach inputs {json_data}"
 
         resp_list = response["data"]
-        for item in resp_list:
-            item_temp = item.copy()
-
-            # remove old order
-            del item["averageHQ"]
-            del item["averageNQ"]
-            del item["discountHQ"]
-            del item["discountNQ"]
-            del item["itemData"]
-            del item["itemID"]
-            # del item["itemName"]
-            del item["lastUploadTime"]
-            del item["mainCategory"]
-            del item["medianHQ"]
-            del item["medianNQ"]
-            del item["minPrice"]
-            del item["minPriceHQ"]
-            del item["quantitySoldHQ"]
-            del item["quantitySoldNQ"]
-            del item["salesAmountHQ"]
-            del item["salesAmountNQ"]
-            del item["subCategory"]
-            del item["uniLink"]
-            # del item["worldName"]
-
-            item["discountHQ"] = item_temp["discountHQ"]
-            item["discountNQ"] = item_temp["discountNQ"]
-            item["minPriceHQ"] = item_temp["minPriceHQ"]
-            item["minPrice"] = item_temp["minPrice"]
-            item["medianHQ"] = item_temp["medianHQ"]
-            item["medianNQ"] = item_temp["medianNQ"]
-
-            item["salesAmountHQ"] = item_temp["salesAmountHQ"]
-            item["salesAmountNQ"] = item_temp["salesAmountNQ"]
-            item["quantitySoldHQ"] = item_temp["quantitySoldHQ"]
-            item["quantitySoldNQ"] = item_temp["quantitySoldNQ"]
-            item["averageHQ"] = item_temp["averageHQ"]
-            item["averageNQ"] = item_temp["averageNQ"]
-
-            item["mainCategory"] = item_temp["mainCategory"]
-            item["subCategory"] = item_temp["subCategory"]
-            item["itemData"] = item_temp["itemData"]
-            item["uniLink"] = item_temp["uniLink"]
-            item["lastUploadTime"] = item_temp["lastUploadTime"]
-
+        column_order = [
+            "itemName",
+            "worldName",
+            "discountHQ",
+            "discountNQ",
+            "minPriceHQ",
+            "minPrice",
+            "medianHQ",
+            "medianNQ",
+            "salesAmountHQ",
+            "salesAmountNQ",
+            "quantitySoldHQ",
+            "quantitySoldNQ",
+            "averageHQ",
+            "averageNQ",
+            "mainCategory",
+            "subCategory",
+            "itemData",
+            "uniLink",
+            "lastUploadTime",
+        ]
+        resp_list = [{key: item.get(key) for key in column_order} for item in resp_list]
         fieldnames = list(resp_list[0].keys())
         return render_template(
             "ffxivbestdeals.html", results=resp_list, fieldnames=fieldnames, len=len
@@ -542,11 +455,10 @@ def uploadtimers():
     if request.method == "GET":
         return render_template("uploadtimers.html")
     elif request.method == "POST":
-        headers = {"Accept": "application/json"}
         json_data = {}
         response = requests.post(
             "http://api.saddlebagexchange.com/api/wow/uploadtimers",
-            headers=headers,
+            headers={"Accept": "application/json"},
             json=json_data,
         ).json()
 
@@ -574,11 +486,10 @@ def itemnames():
     if request.method == "GET":
         return render_template("itemnames.html")
     elif request.method == "POST":
-        headers = {"Accept": "application/json"}
         json_data = {}
         response = requests.post(
             "http://api.saddlebagexchange.com/api/wow/itemnames",
-            headers=headers,
+            headers={"Accept": "application/json"},
             json=json_data,
         ).json()
 
@@ -596,8 +507,6 @@ def petshoppinglist():
     if request.method == "GET":
         return render_template("petshoppinglist.html")
     elif request.method == "POST":
-        headers = {"Accept": "application/json"}
-
         json_data = {
             "region": request.form.get("region"),
             "itemID": int(request.form.get("petID")),
@@ -607,7 +516,7 @@ def petshoppinglist():
 
         response = requests.post(
             "http://api.saddlebagexchange.com/api/wow/shoppinglist",
-            headers=headers,
+            headers={"Accept": "application/json"},
             json=json_data,
         ).json()
 
@@ -615,11 +524,15 @@ def petshoppinglist():
             return f"Error no matching data with given inputs {response}"
         response = response["data"]
 
-        for row in response:
-            link = row["link"]
-            del row["link"]
-            row["link"] = link
-
+        column_order = [
+            "realmID",
+            "price",
+            "quantity",
+            "realmName",
+            "realmNames",
+            "link",
+        ]
+        response = [{key: item.get(key) for key in column_order} for item in response]
         fieldnames = list(response[0].keys())
 
         return render_template(
@@ -632,8 +545,6 @@ def petmarketshare():
     if request.method == "GET":
         return render_template("petmarketshare.html")
     elif request.method == "POST":
-        headers = {"Accept": "application/json"}
-
         json_data = {
             "region": request.form.get("region"),
             "homeRealmName": request.form.get("homeRealmName"),
@@ -646,39 +557,28 @@ def petmarketshare():
 
         response = requests.post(
             "http://api.saddlebagexchange.com/api/wow/petmarketshare",
-            headers=headers,
+            headers={"Accept": "application/json"},
             json=json_data,
         ).json()
 
         if "data" not in response:
             return f"Error no matching data with given inputs {response}"
+
         response = response["data"]
-
-        for row in response:
-            avgTSMPrice = row["avgTSMPrice"]
-            estimatedRegionMarketValue = row["estimatedRegionMarketValue"]
-            homeMinPrice = row["homeMinPrice"]
-            itemID = row["itemID"]
-            undermineLink = row["undermineLink"]
-            warcraftPetsLink = row["warcraftPetsLink"]
-            link = row["link"]
-
-            del row["avgTSMPrice"]
-            del row["estimatedRegionMarketValue"]
-            del row["homeMinPrice"]
-            del row["itemID"]
-            del row["link"]
-            del row["warcraftPetsLink"]
-            del row["undermineLink"]
-
-            row["avgTSMPrice"] = avgTSMPrice
-            row["estimatedRevenue"] = estimatedRegionMarketValue
-            row["homeMinPrice"] = homeMinPrice
-            row["itemID"] = itemID
-            row["link"] = link
-            row["undermineLink"] = undermineLink
-            row["warcraftPetsLink"] = warcraftPetsLink
-
+        column_order = [
+            "salesPerDay",
+            "itemName",
+            "percentChange",
+            "state",
+            "avgTSMPrice",
+            "estimatedRevenue",
+            "homeMinPrice",
+            "itemID",
+            "link",
+            "undermineLink",
+            "warcraftPetsLink",
+        ]
+        response = [{key: item.get(key) for key in column_order} for item in response]
         fieldnames = list(response[0].keys())
 
         return render_template(
@@ -691,8 +591,6 @@ def petexport():
     if request.method == "GET":
         return render_template("petexport.html")
     elif request.method == "POST":
-        headers = {"Accept": "application/json"}
-
         json_data = {
             "region": request.form.get("region"),
             "itemID": int(request.form.get("itemID")),
@@ -707,7 +605,7 @@ def petexport():
 
         response = requests.post(
             "http://api.saddlebagexchange.com/api/wow/export",
-            headers=headers,
+            headers={"Accept": "application/json"},
             json=json_data,
         ).json()
 
@@ -739,8 +637,6 @@ def regionundercut():
     if request.method == "GET":
         return render_template("regionundercut.html")
     elif request.method == "POST":
-        headers = {"Accept": "application/json"}
-
         addonData = request.form.get("addonData")
         json_data = {
             "region": request.form.get("region"),
@@ -750,7 +646,7 @@ def regionundercut():
 
         response = requests.post(
             "http://api.saddlebagexchange.com/api/wow/regionundercut",
-            headers=headers,
+            headers={"Accept": "application/json"},
             json=json_data,
         ).json()
 
@@ -794,81 +690,11 @@ def regionundercut():
         )
 
 
-# @app.route("/petimport", methods=["GET", "POST"])
-# def petimport():
-#     if request.method == "GET":
-#         return render_template("petimport.html")
-#     elif request.method == "POST":
-#         headers = {"Accept": "application/json"}
-
-#         petsOnly = request.form.get("petsOnly")
-#         if petsOnly == "False":
-#             petsOnly = False
-#         else:
-#             petsOnly = True
-#         json_data = {
-#             "region": request.form.get("region"),
-#             "homeRealmID": int(request.form.get("homeRealmID")),
-#             "ROI": int(request.form.get("ROI")),
-#             "avgPrice": int(request.form.get("avgPrice")),
-#             "maxPurchasePrice": int(request.form.get("maxPurchasePrice")),
-#             "profitAmount": int(request.form.get("profitAmount")),
-#             "salesPerDay": float(request.form.get("salesPerDay")),
-#             "includeCategories": [],
-#             "excludeCategories": [],
-#             "sortBy": "lowestPrice",
-#             "petsOnly": petsOnly,
-#             "connectedRealmIDs": {},
-#         }
-
-#         response = requests.post(
-#             "http://api.saddlebagexchange.com/api/wow/petimport",
-#             headers=headers,
-#             json=json_data,
-#         ).json()
-
-#         if "data" not in response:
-#             return f"Error no matching data with given inputs {response}"
-#         response = response["data"]
-#         if len(response) == 0:
-#             return f"No item found with given inputs, try lowering price or sale amount {json_data}"
-
-#         for row in response:
-#             del row["itemID"]
-#             del row["lowestPriceRealmID"]
-#             realm = row["lowestPriceRealmName"]
-#             del row["lowestPriceRealmName"]
-#             row["lowestPriceRealmName"] = realm
-
-#             link = row["link"]
-#             del row["link"]
-#             row["link"] = link
-
-#             undermineLink = row["undermineLink"]
-#             del row["undermineLink"]
-#             row["undermineLink"] = undermineLink
-
-#             warcraftPetsLink = row["warcraftPetsLink"]
-#             del row["warcraftPetsLink"]
-#             row["warcraftPetsLink"] = warcraftPetsLink
-
-#         fieldnames = list(response[0].keys())
-
-#         return render_template(
-#             "petimport.html",
-#             results=response,
-#             fieldnames=fieldnames,
-#             len=len,
-#         )
-
-
 @app.route("/bestdeals", methods=["GET", "POST"])
 def bestdeals():
     if request.method == "GET":
         return render_template("bestdeals.html")
     elif request.method == "POST":
-        headers = {"Accept": "application/json"}
-
         json_data = {
             "region": request.form.get("region"),
             "type": request.form.get("type"),
@@ -881,7 +707,7 @@ def bestdeals():
 
         response = requests.post(
             "http://api.saddlebagexchange.com/api/wow/bestdeals",
-            headers=headers,
+            headers={"Accept": "application/json"},
             json=json_data,
         ).json()
 
