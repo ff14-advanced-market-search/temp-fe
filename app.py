@@ -28,18 +28,25 @@ def str_to_bool(bool_str):
 
 @app.route("/", methods=["GET", "POST"])
 def root():
-    r = make_response(render_template("index.html", len=len))
-    r.headers["X-Frame-Options"] = "same-origin"
-    r.headers["X-Content-Type-Options"] = "nosniff"
-    r.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
-    r.headers["Referrer-Policy"] = "no-referrer-when-downgrade"
-    r.headers["Cross-Origin-Resource-Policy"] = "same-origin"
-    r.headers["Cross-Origin-Opener-Policy"] = "same-origin"
-    r.headers["Cross-Origin-Embedder-Policy"] = "require-corp"
-    return r
-
+    return render_template("index.html", len=len)
 
 #### WIP ####
+
+# this can replace the root() function
+# it fixes several security issues but breaks the tiny-chocobo.png
+
+# def secure_root():
+#     r = make_response(render_template("index.html", len=len))
+#     r.headers["X-Frame-Options"] = "same-origin"
+#     r.headers["X-Content-Type-Options"] = "nosniff"
+#     r.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains;"
+#     r.headers["Referrer-Policy"] = "no-referrer-when-downgrade"
+#     r.headers["Cross-Origin-Resource-Policy"] = "same-origin"
+#     r.headers["Cross-Origin-Opener-Policy"] = "same-origin"
+#     r.headers["Cross-Origin-Embedder-Policy"] = "require-corp"
+#     return r
+
+
 # should fix "Missing HTTP Header - Content-Security-Policy" once we get it to work with charts
 
 # @app.after_request
