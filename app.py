@@ -6,7 +6,7 @@ from flask import request
 from flask_cors import CORS
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
-import requests
+import requests, logging
 
 app = Flask(__name__)
 # Initialize Flask-CORS with your app and specify allowed origins
@@ -17,6 +17,19 @@ origins = [
 ]
 CORS(app, resources={r"/*": {"origins": origins}})
 limiter = Limiter(get_remote_address, app=app, default_limits=["1 per second"])
+
+# Set the logging level to INFO for the Flask app
+app.logger.setLevel(logging.INFO)
+app.logger.disabled = True
+logging.basicConfig(level=logging.INFO)
+class CustomLogHandler(logging.StreamHandler):
+    def __init__(self):
+        logging.StreamHandler.__init__(self)
+
+    def format(self, record):
+        return f'{record.levelname}: {record.getMessage()}'
+custom_handler = CustomLogHandler()
+app.logger.addHandler(custom_handler)
 
 
 def str_to_bool(bool_str):
