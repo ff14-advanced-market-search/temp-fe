@@ -22,12 +22,16 @@ limiter = Limiter(get_remote_address, app=app, default_limits=["1 per second"])
 app.logger.setLevel(logging.INFO)
 app.logger.disabled = True
 logging.basicConfig(level=logging.INFO)
+
+
 class CustomLogHandler(logging.StreamHandler):
     def __init__(self):
         logging.StreamHandler.__init__(self)
 
     def format(self, record):
-        return f'{record.levelname}: {record.getMessage()}'
+        return f"{record.levelname}: {record.getMessage()}"
+
+
 custom_handler = CustomLogHandler()
 app.logger.addHandler(custom_handler)
 
@@ -42,6 +46,7 @@ def str_to_bool(bool_str):
 @app.route("/", methods=["GET", "POST"])
 def root():
     return render_template("index.html", len=len)
+
 
 #### WIP ####
 
@@ -63,6 +68,7 @@ def root():
 
 
 # should fix "Missing HTTP Header - Content-Security-Policy" once we get it to work with charts
+
 
 @app.after_request
 def add_security_headers(response):
@@ -118,10 +124,16 @@ def add_security_headers(response):
     # Add other security headers
     response.headers["X-Frame-Options"] = "same-origin"
     response.headers["X-Content-Type-Options"] = "nosniff"
-    response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains;"
+    response.headers[
+        "Strict-Transport-Security"
+    ] = "max-age=31536000; includeSubDomains;"
     response.headers["Referrer-Policy"] = "no-referrer-when-downgrade"
     response.headers["Cross-Origin-Resource-Policy"] = "same-origin"
     response.headers["Cross-Origin-Opener-Policy"] = "same-origin"
+    response.headers["X-XSS-Protection"] = "1; mode=block"
+    response.headers[
+        "Content-Security-Policy-Report-Only"
+    ] = "default-src 'self'; script-src 'self' https://cdn.example.com; style-src 'self' https://cdn.example.com; img-src 'self' data: https://cdn.example.com; report-uri /csp-report-endpoint;"
     return response
 
 
