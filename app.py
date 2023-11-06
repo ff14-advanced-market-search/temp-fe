@@ -59,38 +59,63 @@ def root():
 #     r.headers["Cross-Origin-Embedder-Policy"] = "require-corp"
 #     return r
 
+#### WIP ####
+
 
 # should fix "Missing HTTP Header - Content-Security-Policy" once we get it to work with charts
 
-# @app.after_request
-# def add_security_headers(response):
-#     # Add Content-Security-Policy header to the response
-#     csp_policy = {
-#         "default-src": ["'self'"],
-#         "script-src": [
-#             "'self'",
-#             "'unsafe-inline'",
-#             "https://code.jquery.com",
-#             "https://cdn.jsdelivr.net",
-#             "https://pagead2.googlesyndication.com",
-#         ],
-#         "style-src": ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net"],
-#         "img-src": [
-#             "'self'",
-#             "https://pagead2.googlesyndication.com",
-#             "https://saddlebagexchange.com",
-#         ],
-#         "font-src": ["'self'"],
-#         "connect-src": ["'self'"],
-#         "frame-src": ["'self'", "https://www.youtube.com"],
-#     }
-#     csp_header_value = "; ".join(
-#         [f"{key} {' '.join(value)}" for key, value in csp_policy.items()]
-#     )
-#     response.headers["Content-Security-Policy"] = csp_header_value
-#     return response
-
-#### WIP ####
+@app.after_request
+def add_security_headers(response):
+    # Add Content-Security-Policy header to the response
+    csp_policy = {
+        "default-src": ["'self'"],
+        "script-src": [
+            "'self'",
+            "'unsafe-inline'",
+            "https://code.jquery.com",
+            "https://cdn.jsdelivr.net",
+            "https://pagead2.googlesyndication.com",
+            "cdn.datatables.net",
+            "cdnjs.cloudflare.com",
+            "www.googletagmanager.com",
+            "partner.googleadservices.com",
+            "tpc.googlesyndication.com",
+        ],
+        "style-src": [
+            "'self'",
+            "'unsafe-inline'",
+            "https://cdn.jsdelivr.net",
+            "cdn.datatables.net",
+            "fonts.googleapis.com",
+        ],
+        "img-src": [
+            "'self'",
+            "data:",
+            "https://pagead2.googlesyndication.com",
+            "https://saddlebagexchange.com",
+        ],
+        "font-src": [
+            "'self'",
+            "fonts.gstatic.com",
+        ],
+        "connect-src": [
+            "'self'",
+            "pagead2.googlesyndication.com",
+            "www.google-analytics.com",
+        ],
+        "frame-src": [
+            "'self'",
+            "https://www.youtube.com",
+            "googleads.g.doubleclick.net",
+            "tpc.googlesyndication.com",
+            "www.google.com",
+        ],
+    }
+    csp_header_value = "; ".join(
+        [f"{key} {' '.join(value)}" for key, value in csp_policy.items()]
+    )
+    response.headers["Content-Security-Policy"] = csp_header_value
+    return response
 
 
 @app.route("/ffxiv", methods=["GET", "POST"])
