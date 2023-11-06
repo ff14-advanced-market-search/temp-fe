@@ -115,6 +115,13 @@ def add_security_headers(response):
         [f"{key} {' '.join(value)}" for key, value in csp_policy.items()]
     )
     response.headers["Content-Security-Policy"] = csp_header_value
+    # Add other security headers
+    response.headers["X-Frame-Options"] = "same-origin"
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains;"
+    response.headers["Referrer-Policy"] = "no-referrer-when-downgrade"
+    response.headers["Cross-Origin-Resource-Policy"] = "same-origin"
+    response.headers["Cross-Origin-Opener-Policy"] = "same-origin"
     return response
 
 
