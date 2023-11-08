@@ -1,7 +1,7 @@
 name: Test Case - Flask Temp App
 
 on:
-  push:
+  # push:
   workflow_dispatch:
 
 env:
