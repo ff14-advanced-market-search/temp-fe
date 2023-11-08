@@ -48,31 +48,9 @@ def root():
     return render_template("index.html", len=len)
 
 
-#### WIP ####
-
-# this can replace the root() function
-# it fixes several security issues but breaks the tiny-chocobo.png
-
-# def secure_root():
-#     r = make_response(render_template("index.html", len=len))
-#     r.headers["X-Frame-Options"] = "same-origin"
-#     r.headers["X-Content-Type-Options"] = "nosniff"
-#     r.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains;"
-#     r.headers["Referrer-Policy"] = "no-referrer-when-downgrade"
-#     r.headers["Cross-Origin-Resource-Policy"] = "same-origin"
-#     r.headers["Cross-Origin-Opener-Policy"] = "same-origin"
-#     r.headers["Cross-Origin-Embedder-Policy"] = "require-corp"
-#     return r
-
-#### WIP ####
-
-
-# should fix "Missing HTTP Header - Content-Security-Policy" once we get it to work with charts
-
-
 @app.after_request
 def add_security_headers(response):
-    # Add Content-Security-Policy header to the response
+    # Add security headers to the response
     csp_policy = {
         "default-src": ["'self'"],
         "script-src": [
