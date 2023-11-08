@@ -134,6 +134,7 @@ def add_security_headers(response):
     response.headers[
         "Content-Security-Policy-Report-Only"
     ] = "default-src 'self'; script-src 'self' https://cdn.example.com; style-src 'self' https://cdn.example.com; img-src 'self' data: https://cdn.example.com; report-uri /csp-report-endpoint;"
+    response.headers['Permissions-Policy'] = 'geolocation=(), camera=(), microphone=(), fullscreen=(), autoplay=(), payment=(), encrypted-media=(), midi=(), accelerometer=(), gyroscope=(), magnetometer=()'
 
     # this one breaks the tiny chocobo icon
     # response.headers["Cross-Origin-Embedder-Policy"] = "require-corp"
