@@ -6,7 +6,7 @@ from flask import request
 from flask_cors import CORS
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
-import requests
+import requests, logging
 
 app = Flask(__name__)
 # Initialize Flask-CORS with your app and specify allowed origins
@@ -17,6 +17,23 @@ origins = [
 ]
 CORS(app, resources={r"/*": {"origins": origins}})
 # limiter = Limiter(get_remote_address, app=app, default_limits=["1 per second"])
+
+# Set the logging level to INFO for the Flask app
+app.logger.setLevel(logging.INFO)
+app.logger.disabled = True
+logging.basicConfig(level=logging.INFO)
+
+
+class CustomLogHandler(logging.StreamHandler):
+    def __init__(self):
+        logging.StreamHandler.__init__(self)
+
+    def format(self, record):
+        return f"{record.levelname}: {record.getMessage()}"
+
+
+custom_handler = CustomLogHandler()
+app.logger.addHandler(custom_handler)
 
 
 def str_to_bool(bool_str):
@@ -30,54 +47,76 @@ def str_to_bool(bool_str):
 def root():
     return render_template("index.html", len=len)
 
-#### WIP ####
 
-# this can replace the root() function
-# it fixes several security issues but breaks the tiny-chocobo.png
+@app.after_request
+def add_security_headers(response):
+    # Add security headers to the response
+    csp_policy = {
+        "default-src": ["'self'"],
+        "script-src": [
+            "'self'",
+            "'unsafe-inline'",
+            "https://code.jquery.com",
+            "https://cdn.jsdelivr.net",
+            "https://pagead2.googlesyndication.com",
+            "cdn.datatables.net",
+            "cdnjs.cloudflare.com",
+            "www.googletagmanager.com",
+            "partner.googleadservices.com",
+            "tpc.googlesyndication.com",
+        ],
+        "style-src": [
+            "'self'",
+            "'unsafe-inline'",
+            "https://cdn.jsdelivr.net",
+            "cdn.datatables.net",
+            "fonts.googleapis.com",
+        ],
+        "img-src": [
+            "'self'",
+            "data:",
+            "https://pagead2.googlesyndication.com",
+            "https://saddlebagexchange.com",
+        ],
+        "font-src": [
+            "'self'",
+            "fonts.gstatic.com",
+        ],
+        "connect-src": [
+            "'self'",
+            "pagead2.googlesyndication.com",
+            "www.google-analytics.com",
+        ],
+        "frame-src": [
+            "'self'",
+            "https://www.youtube.com",
+            "googleads.g.doubleclick.net",
+            "tpc.googlesyndication.com",
+            "www.google.com",
+        ],
+    }
+    csp_header_value = "; ".join(
+        [f"{key} {' '.join(value)}" for key, value in csp_policy.items()]
+    )
+    response.headers["Content-Security-Policy"] = csp_header_value
+    # Add other security headers
+    response.headers["X-Frame-Options"] = "same-origin"
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers[
+        "Strict-Transport-Security"
+    ] = "max-age=31536000; includeSubDomains;"
+    response.headers["Referrer-Policy"] = "no-referrer-when-downgrade"
+    response.headers["Cross-Origin-Resource-Policy"] = "same-origin"
+    response.headers["Cross-Origin-Opener-Policy"] = "same-origin"
+    response.headers["X-XSS-Protection"] = "1; mode=block"
+    response.headers[
+        "Content-Security-Policy-Report-Only"
+    ] = "default-src 'self'; script-src 'self' https://cdn.example.com; style-src 'self' https://cdn.example.com; img-src 'self' data: https://cdn.example.com; report-uri /csp-report-endpoint;"
+    response.headers['Permissions-Policy'] = 'geolocation=(), camera=(), microphone=(), fullscreen=(), autoplay=(), payment=(), encrypted-media=(), midi=(), accelerometer=(), gyroscope=(), magnetometer=()'
 
-# def secure_root():
-#     r = make_response(render_template("index.html", len=len))
-#     r.headers["X-Frame-Options"] = "same-origin"
-#     r.headers["X-Content-Type-Options"] = "nosniff"
-#     r.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains;"
-#     r.headers["Referrer-Policy"] = "no-referrer-when-downgrade"
-#     r.headers["Cross-Origin-Resource-Policy"] = "same-origin"
-#     r.headers["Cross-Origin-Opener-Policy"] = "same-origin"
-#     r.headers["Cross-Origin-Embedder-Policy"] = "require-corp"
-#     return r
-
-
-# should fix "Missing HTTP Header - Content-Security-Policy" once we get it to work with charts
-
-# @app.after_request
-# def add_security_headers(response):
-#     # Add Content-Security-Policy header to the response
-#     csp_policy = {
-#         "default-src": ["'self'"],
-#         "script-src": [
-#             "'self'",
-#             "'unsafe-inline'",
-#             "https://code.jquery.com",
-#             "https://cdn.jsdelivr.net",
-#             "https://pagead2.googlesyndication.com",
-#         ],
-#         "style-src": ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net"],
-#         "img-src": [
-#             "'self'",
-#             "https://pagead2.googlesyndication.com",
-#             "https://saddlebagexchange.com",
-#         ],
-#         "font-src": ["'self'"],
-#         "connect-src": ["'self'"],
-#         "frame-src": ["'self'", "https://www.youtube.com"],
-#     }
-#     csp_header_value = "; ".join(
-#         [f"{key} {' '.join(value)}" for key, value in csp_policy.items()]
-#     )
-#     response.headers["Content-Security-Policy"] = csp_header_value
-#     return response
-
-#### WIP ####
+    # this one breaks the tiny chocobo icon
+    # response.headers["Cross-Origin-Embedder-Policy"] = "require-corp"
+    return response
 
 
 @app.route("/ffxiv", methods=["GET", "POST"])
@@ -154,6 +193,46 @@ def ffxiv_pricecheck():
 
         return render_template(
             "ffxiv_pricecheck.html",
+            results=fixed_response,
+            fieldnames=fieldnames,
+            len=len,
+        )
+
+
+@app.route("/ffxivserverhistory", methods=["GET", "POST"])
+def ffxivserverhistory():
+    if request.method == "GET":
+        return render_template("ffxiv_server_history.html")
+    elif request.method == "POST":
+        json_data = {
+            "home_server": request.form.get("home_server"),
+            "item_id": int(request.form.get("item_id")),
+            "initial_days": 7,
+            "end_days": 0,
+            "item_type": "all",
+        }
+
+        response = requests.post(
+            "http://api.saddlebagexchange.com/api/history",
+            headers={"Accept": "application/json"},
+            json=json_data,
+        ).json()
+
+        if "server_distribution" not in response:
+            return "Error refresh the page or contact the devs on discord"
+
+        fixed_response = []
+        for server, sale_count in response["server_distribution"].items():
+            fixed_response.append(
+                {
+                    "Server": server,
+                    "Sale Count": sale_count,
+                }
+            )
+        fieldnames = list(fixed_response[0].keys())
+
+        return render_template(
+            "ffxiv_server_history.html",
             results=fixed_response,
             fieldnames=fieldnames,
             len=len,
