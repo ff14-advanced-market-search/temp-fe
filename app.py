@@ -657,7 +657,7 @@ def petmarketshare():
             "percentChange",
             "state",
             "avgTSMPrice",
-            "estimatedRevenue",
+            "estimatedRegionMarketValue",
             "homeMinPrice",
             "itemID",
             "link",
