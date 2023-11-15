@@ -10,13 +10,20 @@ WORKDIR /app
 # install the dependencies and packages in the requirements file
 RUN pip install -r requirements.txt
 
-# set environment variables
-ENV DD_SERVICE="flask-test"
-ENV DD_ENV="flask-test"
-ENV DD_LOGS_INJECTION=true
-
 # configure the container to run in an executed manner
-ENTRYPOINT [ "ddtrace-run", "python", "app.py" ]
+ENV FLASK_APP=app.py
+EXPOSE 5000
+ENTRYPOINT [ "python" ]
+CMD ["app.py"]
+
+
+## to set datadog trace (needs more env vars or something)
+# # set environment variables
+# ENV DD_SERVICE="flask-test"
+# ENV DD_ENV="flask-test"
+# ENV DD_LOGS_INJECTION=true
+# # configure the container to run in an executed manner
+# ENTRYPOINT [ "ddtrace-run", "python", "app.py" ]
 
 ## DOCKER COMMANDS
 #  docker build -t flask-test .
