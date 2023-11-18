@@ -1,6 +1,6 @@
 import json
 
-from flask import Flask
+from flask import Flask, send_from_directory
 from flask import render_template, make_response
 from flask import request
 from flask_cors import CORS
@@ -46,6 +46,11 @@ def str_to_bool(bool_str):
 @app.route("/", methods=["GET", "POST"])
 def root():
     return render_template("index.html", len=len)
+
+
+@app.route("/favicon.ico", methods=["GET", "POST"])
+def favicon():
+    return send_from_directory("templates", "chocobo.png")
 
 
 @app.after_request
