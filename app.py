@@ -109,9 +109,13 @@ def add_security_headers(response):
     response.headers["Cross-Origin-Resource-Policy"] = "same-origin"
     response.headers["Cross-Origin-Opener-Policy"] = "same-origin"
     response.headers["X-XSS-Protection"] = "1; mode=block"
+
     response.headers[
         "Content-Security-Policy-Report-Only"
-    ] = "default-src 'self'; script-src 'self' https://cdn.example.com; style-src 'self' https://cdn.example.com; img-src 'self' data: https://cdn.example.com; report-uri /csp-report-endpoint;"
+    ] = "default-src 'self'; script-src 'self' https://cdn.example.com; style-src 'self' https://cdn.example.com; img-src 'self' data: https://cdn.example.com;"
+    ## this is causing issues remove from the sting above
+    # report-uri /csp-report-endpoint;
+
     response.headers[
         "Permissions-Policy"
     ] = "geolocation=(), camera=(), microphone=(), fullscreen=(), autoplay=(), payment=(), encrypted-media=(), midi=(), accelerometer=(), gyroscope=(), magnetometer=()"
