@@ -201,44 +201,44 @@ def ffxiv_pricecheck():
         )
 
 
-@app.route("/ffxivserverhistory", methods=["GET", "POST"])
-def ffxivserverhistory():
-    if request.method == "GET":
-        return render_template("ffxiv_server_history.html")
-    elif request.method == "POST":
-        json_data = {
-            "home_server": request.form.get("home_server"),
-            "item_id": int(request.form.get("item_id")),
-            "initial_days": 7,
-            "end_days": 0,
-            "item_type": "all",
-        }
+# @app.route("/ffxivserverhistory", methods=["GET", "POST"])
+# def ffxivserverhistory():
+#     if request.method == "GET":
+#         return render_template("ffxiv_server_history.html")
+#     elif request.method == "POST":
+#         json_data = {
+#             "home_server": request.form.get("home_server"),
+#             "item_id": int(request.form.get("item_id")),
+#             "initial_days": 7,
+#             "end_days": 0,
+#             "item_type": "all",
+#         }
 
-        response = requests.post(
-            "http://api.saddlebagexchange.com/api/history",
-            headers={"Accept": "application/json"},
-            json=json_data,
-        ).json()
+#         response = requests.post(
+#             "http://api.saddlebagexchange.com/api/history",
+#             headers={"Accept": "application/json"},
+#             json=json_data,
+#         ).json()
 
-        if "server_distribution" not in response:
-            return "Error refresh the page or contact the devs on discord"
+#         if "server_distribution" not in response:
+#             return "Error refresh the page or contact the devs on discord"
 
-        fixed_response = []
-        for server, sale_count in response["server_distribution"].items():
-            fixed_response.append(
-                {
-                    "Server": server,
-                    "Sale Count": sale_count,
-                }
-            )
-        fieldnames = list(fixed_response[0].keys())
+#         fixed_response = []
+#         for server, sale_count in response["server_distribution"].items():
+#             fixed_response.append(
+#                 {
+#                     "Server": server,
+#                     "Sale Count": sale_count,
+#                 }
+#             )
+#         fieldnames = list(fixed_response[0].keys())
 
-        return render_template(
-            "ffxiv_server_history.html",
-            results=fixed_response,
-            fieldnames=fieldnames,
-            len=len,
-        )
+#         return render_template(
+#             "ffxiv_server_history.html",
+#             results=fixed_response,
+#             fieldnames=fieldnames,
+#             len=len,
+#         )
 
 
 @app.route("/ffxivcraftsim", methods=["GET", "POST"])
