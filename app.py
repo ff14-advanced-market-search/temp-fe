@@ -277,45 +277,17 @@ def ffxivcraftsim():
         }
 
         craftsim_post_json = requests.post(
-            "http://api.saddlebagexchange.com/api/recipelookup",
+            "http://api.saddlebagexchange.com/api/v2/craftsim",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
-
-        example = {
-            "cost_metric": "material_median_cost",
-            "crafting_list_hq": {},
-            "crafting_list_nq": {},
-            "home_server": "Famfrit",
-            "revenue_metric": "revenue_home_min_listing",
-            "max_material_cost": 100000,
-        }
-        # catch errors from the main craftsim
-        if example.keys() != craftsim_post_json.keys():
-            return craftsim_post_json
 
         return craftsim_results_table(
             craftsim_post_json, "ffxiv_craftsim.html", json_data
         )
 
 
-@app.route("/ffxivcraftsimcustom", methods=["GET", "POST"])
-def ffxivcraftsimcustom():
-    if request.method == "GET":
-        return render_template("ffxiv_craftsimcustom.html")
-    elif request.method == "POST":
-        return craftsim_results_table(
-            json.loads(request.form.get("jsonData")), "ffxiv_craftsimcustom.html"
-        )
-
-
-def craftsim_results_table(craftsim_post_json, html_file_name, json_data={}):
-    craftsim_results = requests.post(
-        "http://api.saddlebagexchange.com/api/craftsim",
-        headers={"Accept": "application/json"},
-        json=craftsim_post_json,
-    ).json()
-
+def craftsim_results_table(craftsim_results, html_file_name, json_data={}):
     if "data" not in craftsim_results:
         return craftsim_results
 
@@ -378,41 +350,6 @@ def craftsim_results_table(craftsim_post_json, html_file_name, json_data={}):
     )
 
 
-@app.route("/ffxivcraftsimconfig", methods=["GET", "POST"])
-def ffxivcraftsimconfig():
-    if request.method == "GET":
-        return render_template("ffxiv_craftsimconfig.html")
-    elif request.method == "POST":
-        if request.form.get("hide_expert_recipes") == "True":
-            hide_expert_recipes = True
-        else:
-            hide_expert_recipes = False
-
-        json_data = {
-            "home_server": request.form.get("home_server"),
-            "cost_metric": request.form.get("cost_metric"),
-            "revenue_metric": request.form.get("revenue_metric"),
-            "sales_per_week": int(request.form.get("sales_per_week")),
-            "median_sale_price": int(request.form.get("median_sale_price")),
-            "max_material_cost": int(request.form.get("max_material_cost")),
-            "jobs": [int(request.form.get("job"))],
-            "filters": [int(request.form.get("filters"))],
-            "stars": int(request.form.get("stars")),
-            "lvl_lower_limit": int(request.form.get("lvl_lower_limit")),
-            "lvl_upper_limit": int(request.form.get("lvl_upper_limit")),
-            "yields": int(request.form.get("yields")),
-            "hide_expert_recipes": hide_expert_recipes,
-        }
-
-        craftsim_post_json = requests.post(
-            "http://api.saddlebagexchange.com/api/recipelookup",
-            headers={"Accept": "application/json"},
-            json=json_data,
-        ).json()
-
-        return craftsim_post_json
-
-
 @app.route("/ffxivshoppinglist", methods=["GET", "POST"])
 def ffxiv_shopping_list():
     if request.method == "GET":
@@ -426,32 +363,17 @@ def ffxiv_shopping_list():
         }
 
         shopping_list_json = requests.post(
-            "http://api.saddlebagexchange.com/api/createshoppinglist",
+            "http://api.saddlebagexchange.com/api/v2/shoppinglist",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
-
-        example = {
-            "crafting_list": [],
-            "home_server": "Famfrit",
-            "region_wide": True,
-        }
-        # catch errors from the main craftsim
-        if example.keys() != shopping_list_json.keys():
-            return shopping_list_json
 
         return ffxiv_shopping_list_result(
             shopping_list_json, "ffxiv_shoppinglist.html", json_data
         )
 
 
-def ffxiv_shopping_list_result(shopping_list_json, html_file_name, json_data={}):
-    shopping_list_results = requests.post(
-        "http://api.saddlebagexchange.com/api/shoppinglist",
-        headers={"Accept": "application/json"},
-        json=shopping_list_json,
-    ).json()
-
+def ffxiv_shopping_list_result(shopping_list_results, html_file_name, json_data={}):
     if "data" not in shopping_list_results:
         return shopping_list_results
 
