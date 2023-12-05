@@ -1,6 +1,6 @@
 import json
 
-from flask import Flask
+from flask import Flask, send_from_directory
 from flask import render_template, make_response
 from flask import request
 from flask_cors import CORS
@@ -46,6 +46,11 @@ def str_to_bool(bool_str):
 @app.route("/", methods=["GET", "POST"])
 def root():
     return render_template("index.html", len=len)
+
+
+@app.route("/favicon.ico", methods=["GET", "POST"])
+def favicon():
+    return send_from_directory("templates", "chocobo.png")
 
 
 @app.after_request
@@ -109,10 +114,16 @@ def add_security_headers(response):
     response.headers["Cross-Origin-Resource-Policy"] = "same-origin"
     response.headers["Cross-Origin-Opener-Policy"] = "same-origin"
     response.headers["X-XSS-Protection"] = "1; mode=block"
+
     response.headers[
         "Content-Security-Policy-Report-Only"
-    ] = "default-src 'self'; script-src 'self' https://cdn.example.com; style-src 'self' https://cdn.example.com; img-src 'self' data: https://cdn.example.com; report-uri /csp-report-endpoint;"
-    response.headers['Permissions-Policy'] = 'geolocation=(), camera=(), microphone=(), fullscreen=(), autoplay=(), payment=(), encrypted-media=(), midi=(), accelerometer=(), gyroscope=(), magnetometer=()'
+    ] = "default-src 'self'; script-src 'self' https://cdn.example.com; style-src 'self' https://cdn.example.com; img-src 'self' data: https://cdn.example.com;"
+    ## this is causing issues remove from the sting above
+    # report-uri /csp-report-endpoint;
+
+    response.headers[
+        "Permissions-Policy"
+    ] = "geolocation=(), camera=(), microphone=(), fullscreen=(), autoplay=(), payment=(), encrypted-media=(), midi=(), accelerometer=(), gyroscope=(), magnetometer=()"
 
     # this one breaks the tiny chocobo icon
     # response.headers["Cross-Origin-Embedder-Policy"] = "require-corp"
@@ -199,44 +210,44 @@ def ffxiv_pricecheck():
         )
 
 
-@app.route("/ffxivserverhistory", methods=["GET", "POST"])
-def ffxivserverhistory():
-    if request.method == "GET":
-        return render_template("ffxiv_server_history.html")
-    elif request.method == "POST":
-        json_data = {
-            "home_server": request.form.get("home_server"),
-            "item_id": int(request.form.get("item_id")),
-            "initial_days": 7,
-            "end_days": 0,
-            "item_type": "all",
-        }
+# @app.route("/ffxivserverhistory", methods=["GET", "POST"])
+# def ffxivserverhistory():
+#     if request.method == "GET":
+#         return render_template("ffxiv_server_history.html")
+#     elif request.method == "POST":
+#         json_data = {
+#             "home_server": request.form.get("home_server"),
+#             "item_id": int(request.form.get("item_id")),
+#             "initial_days": 7,
+#             "end_days": 0,
+#             "item_type": "all",
+#         }
 
-        response = requests.post(
-            "http://api.saddlebagexchange.com/api/history",
-            headers={"Accept": "application/json"},
-            json=json_data,
-        ).json()
+#         response = requests.post(
+#             "http://api.saddlebagexchange.com/api/history",
+#             headers={"Accept": "application/json"},
+#             json=json_data,
+#         ).json()
 
-        if "server_distribution" not in response:
-            return "Error refresh the page or contact the devs on discord"
+#         if "server_distribution" not in response:
+#             return "Error refresh the page or contact the devs on discord"
 
-        fixed_response = []
-        for server, sale_count in response["server_distribution"].items():
-            fixed_response.append(
-                {
-                    "Server": server,
-                    "Sale Count": sale_count,
-                }
-            )
-        fieldnames = list(fixed_response[0].keys())
+#         fixed_response = []
+#         for server, sale_count in response["server_distribution"].items():
+#             fixed_response.append(
+#                 {
+#                     "Server": server,
+#                     "Sale Count": sale_count,
+#                 }
+#             )
+#         fieldnames = list(fixed_response[0].keys())
 
-        return render_template(
-            "ffxiv_server_history.html",
-            results=fixed_response,
-            fieldnames=fieldnames,
-            len=len,
-        )
+#         return render_template(
+#             "ffxiv_server_history.html",
+#             results=fixed_response,
+#             fieldnames=fieldnames,
+#             len=len,
+#         )
 
 
 @app.route("/ffxivcraftsim", methods=["GET", "POST"])
@@ -266,45 +277,17 @@ def ffxivcraftsim():
         }
 
         craftsim_post_json = requests.post(
-            "http://api.saddlebagexchange.com/api/recipelookup",
+            "http://api.saddlebagexchange.com/api/v2/craftsim",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
-
-        example = {
-            "cost_metric": "material_median_cost",
-            "crafting_list_hq": {},
-            "crafting_list_nq": {},
-            "home_server": "Famfrit",
-            "revenue_metric": "revenue_home_min_listing",
-            "max_material_cost": 100000,
-        }
-        # catch errors from the main craftsim
-        if example.keys() != craftsim_post_json.keys():
-            return craftsim_post_json
 
         return craftsim_results_table(
             craftsim_post_json, "ffxiv_craftsim.html", json_data
         )
 
 
-@app.route("/ffxivcraftsimcustom", methods=["GET", "POST"])
-def ffxivcraftsimcustom():
-    if request.method == "GET":
-        return render_template("ffxiv_craftsimcustom.html")
-    elif request.method == "POST":
-        return craftsim_results_table(
-            json.loads(request.form.get("jsonData")), "ffxiv_craftsimcustom.html"
-        )
-
-
-def craftsim_results_table(craftsim_post_json, html_file_name, json_data={}):
-    craftsim_results = requests.post(
-        "http://api.saddlebagexchange.com/api/craftsim",
-        headers={"Accept": "application/json"},
-        json=craftsim_post_json,
-    ).json()
-
+def craftsim_results_table(craftsim_results, html_file_name, json_data={}):
     if "data" not in craftsim_results:
         return craftsim_results
 
@@ -367,41 +350,6 @@ def craftsim_results_table(craftsim_post_json, html_file_name, json_data={}):
     )
 
 
-@app.route("/ffxivcraftsimconfig", methods=["GET", "POST"])
-def ffxivcraftsimconfig():
-    if request.method == "GET":
-        return render_template("ffxiv_craftsimconfig.html")
-    elif request.method == "POST":
-        if request.form.get("hide_expert_recipes") == "True":
-            hide_expert_recipes = True
-        else:
-            hide_expert_recipes = False
-
-        json_data = {
-            "home_server": request.form.get("home_server"),
-            "cost_metric": request.form.get("cost_metric"),
-            "revenue_metric": request.form.get("revenue_metric"),
-            "sales_per_week": int(request.form.get("sales_per_week")),
-            "median_sale_price": int(request.form.get("median_sale_price")),
-            "max_material_cost": int(request.form.get("max_material_cost")),
-            "jobs": [int(request.form.get("job"))],
-            "filters": [int(request.form.get("filters"))],
-            "stars": int(request.form.get("stars")),
-            "lvl_lower_limit": int(request.form.get("lvl_lower_limit")),
-            "lvl_upper_limit": int(request.form.get("lvl_upper_limit")),
-            "yields": int(request.form.get("yields")),
-            "hide_expert_recipes": hide_expert_recipes,
-        }
-
-        craftsim_post_json = requests.post(
-            "http://api.saddlebagexchange.com/api/recipelookup",
-            headers={"Accept": "application/json"},
-            json=json_data,
-        ).json()
-
-        return craftsim_post_json
-
-
 @app.route("/ffxivshoppinglist", methods=["GET", "POST"])
 def ffxiv_shopping_list():
     if request.method == "GET":
@@ -415,32 +363,17 @@ def ffxiv_shopping_list():
         }
 
         shopping_list_json = requests.post(
-            "http://api.saddlebagexchange.com/api/createshoppinglist",
+            "http://api.saddlebagexchange.com/api/v2/shoppinglist",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
-
-        example = {
-            "crafting_list": [],
-            "home_server": "Famfrit",
-            "region_wide": True,
-        }
-        # catch errors from the main craftsim
-        if example.keys() != shopping_list_json.keys():
-            return shopping_list_json
 
         return ffxiv_shopping_list_result(
             shopping_list_json, "ffxiv_shoppinglist.html", json_data
         )
 
 
-def ffxiv_shopping_list_result(shopping_list_json, html_file_name, json_data={}):
-    shopping_list_results = requests.post(
-        "http://api.saddlebagexchange.com/api/shoppinglist",
-        headers={"Accept": "application/json"},
-        json=shopping_list_json,
-    ).json()
-
+def ffxiv_shopping_list_result(shopping_list_results, html_file_name, json_data={}):
     if "data" not in shopping_list_results:
         return shopping_list_results
 
@@ -657,7 +590,7 @@ def petmarketshare():
             "percentChange",
             "state",
             "avgTSMPrice",
-            "estimatedRevenue",
+            "estimatedRegionMarketValue",
             "homeMinPrice",
             "itemID",
             "link",
