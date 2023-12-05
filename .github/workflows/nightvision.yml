@@ -23,7 +23,11 @@ jobs:
                     python -m pip install semgrep --user
 
       - name: (3) Extract API documentation from code
-        run: nightvision swagger-extract ./ -u ${NIGHTVISION_TARGET} --lang python
+        run: |
+          nightvision swagger-extract ./ -u ${NIGHTVISION_TARGET} --lang python || true
+          if [ ! -e openapi-spec.yml ]; then
+              cp backup-openapi-spec.yml openapi-spec.yml
+          fi
 
       - name: (3.5) Upload openapi-spec documentation artifact
         uses: actions/upload-artifact@v3
