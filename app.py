@@ -7,6 +7,7 @@ from flask_cors import CORS
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 import requests, logging
+from lxml import html
 
 app = Flask(__name__)
 # Initialize Flask-CORS with your app and specify allowed origins
@@ -43,9 +44,16 @@ def str_to_bool(bool_str):
         return False
 
 
+def return_safe_html(input_string):
+    document_root = html.fromstring(input_string)
+    cleaned_html = html.tostring(document_root, pretty_print=True)
+    # if `cleaned_html` differs from `input_string`, the input may contain malicious content.
+    return cleaned_html
+
+
 @app.route("/", methods=["GET", "POST"])
 def root():
-    return render_template("index.html", len=len)
+    return return_safe_html(render_template("index.html", len=len))
 
 
 @app.route("/favicon.ico", methods=["GET", "POST"])
@@ -132,18 +140,18 @@ def add_security_headers(response):
 
 @app.route("/ffxiv", methods=["GET", "POST"])
 def ffxiv():
-    return render_template("ffxiv_index.html", len=len)
+    return return_safe_html(render_template("ffxiv_index.html", len=len))
 
 
 @app.route("/wow", methods=["GET", "POST"])
 def wow():
-    return render_template("wow_index.html", len=len)
+    return return_safe_html(render_template("wow_index.html", len=len))
 
 
 @app.route("/ffxiv_itemnames", methods=["GET", "POST"])
 def ffxivitemnames():
     if request.method == "GET":
-        return render_template("ffxiv_itemnames.html")
+        return return_safe_html(render_template("ffxiv_itemnames.html"))
     elif request.method == "POST":
         raw_items_names = requests.get(
             "https://raw.githubusercontent.com/ffxiv-teamcraft/ffxiv-teamcraft/staging/libs/data/src/lib/json/items.json"
@@ -154,11 +162,13 @@ def ffxivitemnames():
         for id in item_ids:
             resp_list.append({"id": id, "name": raw_items_names[str(id)]["en"]})
 
-        return render_template(
-            "ffxiv_itemnames.html",
-            results=resp_list,
-            fieldnames=["id", "name"],
-            len=len,
+        return return_safe_html(
+            render_template(
+                "ffxiv_itemnames.html",
+                results=resp_list,
+                fieldnames=["id", "name"],
+                len=len,
+            )
         )
 
 
@@ -171,7 +181,7 @@ def ffxivitemnames():
 @app.route("/pricecheck", methods=["GET", "POST"])
 def ffxiv_pricecheck():
     if request.method == "GET":
-        return render_template("ffxiv_pricecheck.html")
+        return return_safe_html(render_template("ffxiv_pricecheck.html"))
     elif request.method == "POST":
         json_data = json.loads(request.form.get("jsonData"))
         response = requests.post(
@@ -202,18 +212,20 @@ def ffxiv_pricecheck():
             )
         fieldnames = list(fixed_response[0].keys())
 
-        return render_template(
-            "ffxiv_pricecheck.html",
-            results=fixed_response,
-            fieldnames=fieldnames,
-            len=len,
+        return return_safe_html(
+            render_template(
+                "ffxiv_pricecheck.html",
+                results=fixed_response,
+                fieldnames=fieldnames,
+                len=len,
+            )
         )
 
 
 # @app.route("/ffxivserverhistory", methods=["GET", "POST"])
 # def ffxivserverhistory():
 #     if request.method == "GET":
-#         return render_template("ffxiv_server_history.html")
+#         return return_safe_html(render_template("ffxiv_server_history.html"))
 #     elif request.method == "POST":
 #         json_data = {
 #             "home_server": request.form.get("home_server"),
@@ -242,18 +254,18 @@ def ffxiv_pricecheck():
 #             )
 #         fieldnames = list(fixed_response[0].keys())
 
-#         return render_template(
+#         return return_safe_html(render_template(
 #             "ffxiv_server_history.html",
 #             results=fixed_response,
 #             fieldnames=fieldnames,
 #             len=len,
-#         )
+#         ))
 
 
 @app.route("/ffxivcraftsim", methods=["GET", "POST"])
 def ffxivcraftsim():
     if request.method == "GET":
-        return render_template("ffxiv_craftsim.html")
+        return return_safe_html(render_template("ffxiv_craftsim.html"))
     elif request.method == "POST":
         if request.form.get("hide_expert_recipes") == "True":
             hide_expert_recipes = True
@@ -297,7 +309,7 @@ def craftsim_results_table(craftsim_results, html_file_name, json_data={}):
                 f"error no matching results found matching search inputs:\n {json_data}"
             )
         else:
-            return f"error no matching results found matching search inputs:\n {craftsim_post_json}"
+            return f"error no matching results found matching search inputs:\n {craftsim_results}"
 
     craftsim_results = craftsim_results["data"]
 
@@ -342,18 +354,20 @@ def craftsim_results_table(craftsim_results, html_file_name, json_data={}):
 
     fieldnames = list(craftsim_results[0].keys())
 
-    return render_template(
-        html_file_name,
-        results=craftsim_results,
-        fieldnames=fieldnames,
-        len=len,
+    return return_safe_html(
+        render_template(
+            html_file_name,
+            results=craftsim_results,
+            fieldnames=fieldnames,
+            len=len,
+        )
     )
 
 
 @app.route("/ffxivshoppinglist", methods=["GET", "POST"])
 def ffxiv_shopping_list():
     if request.method == "GET":
-        return render_template("ffxiv_shoppinglist.html")
+        return return_safe_html(render_template("ffxiv_shoppinglist.html"))
     elif request.method == "POST":
         shopping_list = request.form.get("shopping_list")
         json_data = {
@@ -406,18 +420,20 @@ def ffxiv_shopping_list_result(shopping_list_results, html_file_name, json_data=
                 item_data[k] = v
 
     fieldnames = list(shopping_list_data[0].keys())
-    return render_template(
-        html_file_name,
-        results=shopping_list_data,
-        fieldnames=fieldnames,
-        len=len,
+    return return_safe_html(
+        render_template(
+            html_file_name,
+            results=shopping_list_data,
+            fieldnames=fieldnames,
+            len=len,
+        )
     )
 
 
 @app.route("/ffxivbestdeals", methods=["GET", "POST"])
 def ffxivbestdeals():
     if request.method == "GET":
-        return render_template("ffxivbestdeals.html")
+        return return_safe_html(render_template("ffxivbestdeals.html"))
     elif request.method == "POST":
         json_data = {
             "home_server": request.form.get("home_server"),
@@ -463,8 +479,10 @@ def ffxivbestdeals():
         ]
         resp_list = [{key: item.get(key) for key in column_order} for item in resp_list]
         fieldnames = list(resp_list[0].keys())
-        return render_template(
-            "ffxivbestdeals.html", results=resp_list, fieldnames=fieldnames, len=len
+        return return_safe_html(
+            render_template(
+                "ffxivbestdeals.html", results=resp_list, fieldnames=fieldnames, len=len
+            )
         )
 
 
@@ -472,7 +490,7 @@ def ffxivbestdeals():
 @app.route("/uploadtimers", methods=["GET", "POST"])
 def uploadtimers():
     if request.method == "GET":
-        return render_template("uploadtimers.html")
+        return return_safe_html(render_template("uploadtimers.html"))
     elif request.method == "POST":
         json_data = {}
         response = requests.post(
@@ -495,15 +513,17 @@ def uploadtimers():
 
         fieldnames = list(response[0].keys())
 
-        return render_template(
-            "uploadtimers.html", results=response, fieldnames=fieldnames, len=len
+        return return_safe_html(
+            render_template(
+                "uploadtimers.html", results=response, fieldnames=fieldnames, len=len
+            )
         )
 
 
 @app.route("/itemnames", methods=["GET", "POST"])
 def itemnames():
     if request.method == "GET":
-        return render_template("itemnames.html")
+        return return_safe_html(render_template("itemnames.html"))
     elif request.method == "POST":
         json_data = {}
         response = requests.post(
@@ -516,15 +536,17 @@ def itemnames():
         for k, v in response.items():
             resp_list.append({"id": k, "name": v})
 
-        return render_template(
-            "itemnames.html", results=resp_list, fieldnames=["id", "name"], len=len
+        return return_safe_html(
+            render_template(
+                "itemnames.html", results=resp_list, fieldnames=["id", "name"], len=len
+            )
         )
 
 
 @app.route("/petshoppinglist", methods=["GET", "POST"])
 def petshoppinglist():
     if request.method == "GET":
-        return render_template("petshoppinglist.html")
+        return return_safe_html(render_template("petshoppinglist.html"))
     elif request.method == "POST":
         json_data = {
             "region": request.form.get("region"),
@@ -554,15 +576,17 @@ def petshoppinglist():
         response = [{key: item.get(key) for key in column_order} for item in response]
         fieldnames = list(response[0].keys())
 
-        return render_template(
-            "petshoppinglist.html", results=response, fieldnames=fieldnames, len=len
+        return return_safe_html(
+            render_template(
+                "petshoppinglist.html", results=response, fieldnames=fieldnames, len=len
+            )
         )
 
 
 @app.route("/petmarketshare", methods=["GET", "POST"])
 def petmarketshare():
     if request.method == "GET":
-        return render_template("petmarketshare.html")
+        return return_safe_html(render_template("petmarketshare.html"))
     elif request.method == "POST":
         json_data = {
             "region": request.form.get("region"),
@@ -600,15 +624,17 @@ def petmarketshare():
         response = [{key: item.get(key) for key in column_order} for item in response]
         fieldnames = list(response[0].keys())
 
-        return render_template(
-            "petmarketshare.html", results=response, fieldnames=fieldnames, len=len
+        return return_safe_html(
+            render_template(
+                "petmarketshare.html", results=response, fieldnames=fieldnames, len=len
+            )
         )
 
 
 @app.route("/petexport", methods=["GET", "POST"])
 def petexport():
     if request.method == "GET":
-        return render_template("petexport.html")
+        return return_safe_html(render_template("petexport.html"))
     elif request.method == "POST":
         json_data = {
             "region": request.form.get("region"),
@@ -646,15 +672,17 @@ def petexport():
 
         fieldnames = list(response[0].keys())
 
-        return render_template(
-            "petexport.html", results=response, fieldnames=fieldnames, len=len
+        return return_safe_html(
+            render_template(
+                "petexport.html", results=response, fieldnames=fieldnames, len=len
+            )
         )
 
 
 @app.route("/regionundercut", methods=["GET", "POST"])
 def regionundercut():
     if request.method == "GET":
-        return render_template("regionundercut.html")
+        return return_safe_html(render_template("regionundercut.html"))
     elif request.method == "POST":
         addonData = request.form.get("addonData")
         json_data = {
@@ -699,20 +727,22 @@ def regionundercut():
 
         not_found_fieldnames = list(not_found[0].keys())
 
-        return render_template(
-            "regionundercut.html",
-            results=undercuts,
-            fieldnames=undercuts_fieldnames,
-            results_n=not_found,
-            fieldnames_n=not_found_fieldnames,
-            len=len,
+        return return_safe_html(
+            render_template(
+                "regionundercut.html",
+                results=undercuts,
+                fieldnames=undercuts_fieldnames,
+                results_n=not_found,
+                fieldnames_n=not_found_fieldnames,
+                len=len,
+            )
         )
 
 
 @app.route("/bestdeals", methods=["GET", "POST"])
 def bestdeals():
     if request.method == "GET":
-        return render_template("bestdeals.html")
+        return return_safe_html(render_template("bestdeals.html"))
     elif request.method == "POST":
         json_data = {
             "region": request.form.get("region"),
@@ -760,11 +790,13 @@ def bestdeals():
 
         fieldnames = list(response[0].keys())
 
-        return render_template(
-            "bestdeals.html",
-            results=response,
-            fieldnames=fieldnames,
-            len=len,
+        return return_safe_html(
+            render_template(
+                "bestdeals.html",
+                results=response,
+                fieldnames=fieldnames,
+                len=len,
+            )
         )
 
 
