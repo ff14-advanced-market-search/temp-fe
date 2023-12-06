@@ -113,7 +113,7 @@ def add_security_headers(response):
     response.headers["Referrer-Policy"] = "no-referrer-when-downgrade"
     response.headers["Cross-Origin-Resource-Policy"] = "same-origin"
     response.headers["Cross-Origin-Opener-Policy"] = "same-origin"
-    response.headers["X-XSS-Protection"] = "1; mode=block"
+    response.headers["X-XSS-Protection"] = "0; mode=block"
 
     response.headers[
         "Content-Security-Policy-Report-Only"
