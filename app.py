@@ -175,7 +175,7 @@ def ffxiv_pricecheck():
     elif request.method == "POST":
         json_data = json.loads(request.form.get("jsonData"))
         response = requests.post(
-            "http://24.199.64.69/api/pricecheck",
+            "http://24.199.64.189/api/pricecheck",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -224,7 +224,7 @@ def ffxiv_pricecheck():
 #         }
 
 #         response = requests.post(
-#             "http://24.199.64.69/api/history",
+#             "http://24.199.64.189/api/history",
 #             headers={"Accept": "application/json"},
 #             json=json_data,
 #         ).json()
@@ -277,7 +277,7 @@ def ffxivcraftsim():
         }
 
         craftsim_post_json = requests.post(
-            "http://24.199.64.69/api/v2/craftsim",
+            "http://24.199.64.189/api/v2/craftsim",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -363,7 +363,7 @@ def ffxiv_shopping_list():
         }
 
         shopping_list_json = requests.post(
-            "http://24.199.64.69/api/v2/shoppinglist",
+            "http://24.199.64.189/api/v2/shoppinglist",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -428,7 +428,7 @@ def ffxivbestdeals():
             "filters": [int(request.form.get("filters"))],
         }
         response = requests.post(
-            "http://24.199.64.69/api/bestdeals",
+            "http://24.199.64.189/api/bestdeals",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -476,7 +476,7 @@ def uploadtimers():
     elif request.method == "POST":
         json_data = {}
         response = requests.post(
-            "http://24.199.64.69/api/wow/uploadtimers",
+            "http://24.199.64.189/api/wow/uploadtimers",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -507,7 +507,7 @@ def itemnames():
     elif request.method == "POST":
         json_data = {}
         response = requests.post(
-            "http://24.199.64.69/api/wow/itemnames",
+            "http://24.199.64.189/api/wow/itemnames",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -534,7 +534,7 @@ def petshoppinglist():
         }
 
         response = requests.post(
-            "http://24.199.64.69/api/wow/shoppinglist",
+            "http://24.199.64.189/api/wow/shoppinglist",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -575,7 +575,7 @@ def petmarketshare():
         }
 
         response = requests.post(
-            "http://24.199.64.69/api/wow/petmarketshare",
+            "http://24.199.64.189/api/wow/petmarketshare",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -623,7 +623,7 @@ def petexport():
         }
 
         response = requests.post(
-            "http://24.199.64.69/api/wow/export",
+            "http://24.199.64.189/api/wow/export",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -664,7 +664,7 @@ def regionundercut():
         }
 
         response = requests.post(
-            "http://24.199.64.69/api/wow/regionundercut",
+            "http://24.199.64.189/api/wow/regionundercut",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -725,7 +725,7 @@ def bestdeals():
         }
 
         response = requests.post(
-            "http://24.199.64.69/api/wow/bestdeals",
+            "http://24.199.64.189/api/wow/bestdeals",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
