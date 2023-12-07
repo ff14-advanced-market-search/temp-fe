@@ -44,7 +44,7 @@
             <label class="form-label">
               petID or itemID
             </label>
-            <input name="itemID" type="number" class="form-control" value="3390">
+            <input name="itemID" type="number" class="form-control" value="{{3390|e}}">
             <div class="form-text">
               <a href="/itemnames" target="_blank">This list shows all petIDs and other Dragonflight itemIDs</a>.
               ex: <span style="color: #d97e84;">3390</span> or <span style="color: #d97e84;">194018</span>.
@@ -53,31 +53,31 @@
 
           <div class="mb-3">
             <label class="form-label">populationWP</label>
-            <input name="populationWP" type="number" class="form-control" value="3000">
+            <input name="populationWP" type="number" class="form-control" value="{{3000|e}}">
             <div class="form-text">populationWP. Pick a minimum server population size (via wowprogress). ex: <span style="color: #d97e84;">3000</span>.</div>
           </div>
 
           <div class="mb-3">
             <label class="form-label">populationBlizz</label>
-            <input name="populationBlizz" type="number" class="form-control" value="1">
+            <input name="populationBlizz" type="number" class="form-control" value="{{1|e}}">
             <div class="form-text">populationBlizz. Pick a minimum server population size (via blizzard). only allowed values: 0,1,2,3,4.</div>
           </div>
 
           <div class="mb-3">
             <label class="form-label">rankingWP</label>
-            <input name="rankingWP" type="number" class="form-control" value="90">
+            <input name="rankingWP" type="number" class="form-control" value="{{90|e}}">
             <div class="form-text">rankingWP. Pick a min wowprogress ranking. ex: <span style="color: #d97e84;">90</span>.</div>
           </div>
 
           <div class="mb-3">
             <label class="form-label">minPrice</label>
-            <input name="minPrice" type="number" class="form-control" value="3000">
+            <input name="minPrice" type="number" class="form-control" value="{{3000|e}}">
             <div class="form-text">minPrice. exclude servers with a min price lower than this value. ex: <span style="color: #d97e84;">3000</span>.</div>
           </div>
 
           <div class="mb-3">
             <label class="form-label">maxQuantity</label>
-            <input name="maxQuantity" type="number" class="form-control" value="100">
+            <input name="maxQuantity" type="number" class="form-control" value="{{100|e}}">
             <div class="form-text">maxQuantity. exclude servers with a min price lower than this value. ex: <span style="color: #d97e84;">100</span>.</div>
           </div>
                 

@@ -247,43 +247,43 @@
 
           <div class="mb-3">
             <label class="form-label">sales_per_week</label>
-            <input name="sales_per_week" type="number" class="form-control" value="30">
+            <input name="sales_per_week" type="number" class="form-control" value="{{30|e}}">
             <div class="form-text">Desired number of region wide sales per week in HQ or NQ. ex: <span style="color: #d97e84;">30</span>.</div>
           </div>
 
           <div class="mb-3">
             <label class="form-label">median_sale_price</label>
-            <input name="median_sale_price" type="number" class="form-control" value="100000">
+            <input name="median_sale_price" type="number" class="form-control" value="{{100000|e}}">
             <div class="form-text">Desired minimum regional median sale price in HQ or NQ (filters out items that sell for less than this). ex: <span style="color: #d97e84;">100000</span>.</div>
           </div>
 
           <div class="mb-3">
             <label class="form-label">max_material_cost</label>
-            <input name="max_material_cost" type="number" class="form-control" value="1000000">
+            <input name="max_material_cost" type="number" class="form-control" value="{{1000000|e}}">
             <div class="form-text">Desired maximum crafting cost (lower this if you are poor). ex: <span style="color: #d97e84;">1000000</span>.</div>
           </div>
 
           <div class="mb-3">
             <label class="form-label">stars</label>
-            <input name="stars" type="number" class="form-control" value="-1">
+            <input name="stars" type="number" class="form-control" value="{{-1|e}}">
             <div class="form-text">Minimum recipe stars / difficulty. ex: <span style="color: #d97e84;">2</span>.</div>
           </div>
 
           <div class="mb-3">
             <label class="form-label">lvl_lower_limit</label>
-            <input name="lvl_lower_limit" type="number" class="form-control" value="-1">
+            <input name="lvl_lower_limit" type="number" class="form-control" value="{{-1|e}}">
             <div class="form-text">Minimum recipe lvl_lower_limit. ex: <span style="color: #d97e84;">2</span>.</div>
           </div>
 
           <div class="mb-3">
             <label class="form-label">lvl_upper_limit</label>
-            <input name="lvl_upper_limit" type="number" class="form-control" value="91">
+            <input name="lvl_upper_limit" type="number" class="form-control" value="{{91|e}}">
             <div class="form-text">Maximum recipe lvl_upper_limit. (lower this if you are an omnicrafter with all recipes unlocked) ex: <span style="color: #d97e84;">90</span>.</div>
           </div>
 
           <div class="mb-3">
             <label class="form-label">yields</label>
-            <input name="yields" type="number" class="form-control" value="-1">
+            <input name="yields" type="number" class="form-control" value="{{-1|e}}">
             <div class="form-text">Minimum quantity created per craft. ex: <span style="color: #d97e84;">1</span>.</div>
           </div>
 
