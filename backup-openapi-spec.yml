@@ -12,30 +12,48 @@ paths:
         default:
           description: Default response
       x-name: root_GET
-      x-source: st.py~~32
+      x-source: p.py~~56
     post:
       operationId: root_POST
       responses:
         default:
           description: Default response
       x-name: root_POST
-      x-source: st.py~~32
+      x-source: p.py~~56
     x-name: root
   /bestdeals:
     get:
       operationId: bestdeals_GET
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              x-field-kind: normal
+              x-field-original-type: ""
+              x-field-type: string
+        x-code: ""
       responses:
         default:
           description: Default response
       x-name: bestdeals_GET
-      x-source: p.py~~712
+      x-source: p.py~~744
     post:
       operationId: bestdeals_POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              x-field-kind: normal
+              x-field-original-type: ""
+              x-field-type: string
+        x-code: ""
       responses:
         default:
           description: Default response
       x-name: bestdeals_POST
-      x-source: p.py~~712
+      x-source: p.py~~744
     x-name: bestdeals
   /favicon.ico:
     get:
@@ -44,14 +62,14 @@ paths:
         default:
           description: Default response
       x-name: favicon.ico_GET
-      x-source: p.py~~51
+      x-source: p.py~~61
     post:
       operationId: favicon.ico_POST
       responses:
         default:
           description: Default response
       x-name: favicon.ico_POST
-      x-source: p.py~~51
+      x-source: p.py~~61
     x-name: favicon.ico
   /ffxiv:
     get:
@@ -60,14 +78,14 @@ paths:
         default:
           description: Default response
       x-name: ffxiv_GET
-      x-source: p.py~~133
+      x-source: p.py~~143
     post:
       operationId: ffxiv_POST
       responses:
         default:
           description: Default response
       x-name: ffxiv_POST
-      x-source: p.py~~133
+      x-source: p.py~~143
     x-name: ffxiv
   /ffxiv_itemnames:
     get:
@@ -76,62 +94,116 @@ paths:
         default:
           description: Default response
       x-name: ffxiv_itemnames_GET
-      x-source: p.py~~143
+      x-source: p.py~~153
     post:
       operationId: ffxiv_itemnames_POST
       responses:
         default:
           description: Default response
       x-name: ffxiv_itemnames_POST
-      x-source: p.py~~143
+      x-source: p.py~~153
     x-name: ffxiv_itemnames
   /ffxivbestdeals:
     get:
       operationId: ffxivbestdeals_GET
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              x-field-kind: normal
+              x-field-original-type: ""
+              x-field-type: string
+        x-code: ""
       responses:
         default:
           description: Default response
       x-name: ffxivbestdeals_GET
-      x-source: p.py~~417
+      x-source: p.py~~435
     post:
       operationId: ffxivbestdeals_POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              x-field-kind: normal
+              x-field-original-type: ""
+              x-field-type: string
+        x-code: ""
       responses:
         default:
           description: Default response
       x-name: ffxivbestdeals_POST
-      x-source: p.py~~417
+      x-source: p.py~~435
     x-name: ffxivbestdeals
   /ffxivcraftsim:
     get:
       operationId: ffxivcraftsim_GET
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              x-field-kind: normal
+              x-field-original-type: ""
+              x-field-type: string
+        x-code: ""
       responses:
         default:
           description: Default response
       x-name: ffxivcraftsim_GET
-      x-source: p.py~~253
+      x-source: p.py~~267
     post:
       operationId: ffxivcraftsim_POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              x-field-kind: normal
+              x-field-original-type: ""
+              x-field-type: string
+        x-code: ""
       responses:
         default:
           description: Default response
       x-name: ffxivcraftsim_POST
-      x-source: p.py~~253
+      x-source: p.py~~267
     x-name: ffxivcraftsim
   /ffxivshoppinglist:
     get:
       operationId: ffxivshoppinglist_GET
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              x-field-kind: normal
+              x-field-original-type: ""
+              x-field-type: string
+        x-code: ""
       responses:
         default:
           description: Default response
       x-name: ffxivshoppinglist_GET
-      x-source: p.py~~353
+      x-source: p.py~~369
     post:
       operationId: ffxivshoppinglist_POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              x-field-kind: normal
+              x-field-original-type: ""
+              x-field-type: string
+        x-code: ""
       responses:
         default:
           description: Default response
       x-name: ffxivshoppinglist_POST
-      x-source: p.py~~353
+      x-source: p.py~~369
     x-name: ffxivshoppinglist
   /itemnames:
     get:
@@ -140,94 +212,184 @@ paths:
         default:
           description: Default response
       x-name: itemnames_GET
-      x-source: p.py~~503
+      x-source: p.py~~525
     post:
       operationId: itemnames_POST
       responses:
         default:
           description: Default response
       x-name: itemnames_POST
-      x-source: p.py~~503
+      x-source: p.py~~525
     x-name: itemnames
   /petexport:
     get:
       operationId: petexport_GET
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              x-field-kind: normal
+              x-field-original-type: ""
+              x-field-type: string
+        x-code: ""
       responses:
         default:
           description: Default response
       x-name: petexport_GET
-      x-source: p.py~~608
+      x-source: p.py~~636
     post:
       operationId: petexport_POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              x-field-kind: normal
+              x-field-original-type: ""
+              x-field-type: string
+        x-code: ""
       responses:
         default:
           description: Default response
       x-name: petexport_POST
-      x-source: p.py~~608
+      x-source: p.py~~636
     x-name: petexport
   /petmarketshare:
     get:
       operationId: petmarketshare_GET
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              x-field-kind: normal
+              x-field-original-type: ""
+              x-field-type: string
+        x-code: ""
       responses:
         default:
           description: Default response
       x-name: petmarketshare_GET
-      x-source: p.py~~562
+      x-source: p.py~~588
     post:
       operationId: petmarketshare_POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              x-field-kind: normal
+              x-field-original-type: ""
+              x-field-type: string
+        x-code: ""
       responses:
         default:
           description: Default response
       x-name: petmarketshare_POST
-      x-source: p.py~~562
+      x-source: p.py~~588
     x-name: petmarketshare
   /petshoppinglist:
     get:
       operationId: petshoppinglist_GET
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              x-field-kind: normal
+              x-field-original-type: ""
+              x-field-type: string
+        x-code: ""
       responses:
         default:
           description: Default response
       x-name: petshoppinglist_GET
-      x-source: p.py~~524
+      x-source: p.py~~548
     post:
       operationId: petshoppinglist_POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              x-field-kind: normal
+              x-field-original-type: ""
+              x-field-type: string
+        x-code: ""
       responses:
         default:
           description: Default response
       x-name: petshoppinglist_POST
-      x-source: p.py~~524
+      x-source: p.py~~548
     x-name: petshoppinglist
   /pricecheck:
     get:
       operationId: pricecheck_GET
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              x-field-kind: normal
+              x-field-original-type: ""
+              x-field-type: string
+        x-code: ""
       responses:
         default:
           description: Default response
       x-name: pricecheck_GET
-      x-source: p.py~~171
+      x-source: p.py~~183
     post:
       operationId: pricecheck_POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              x-field-kind: normal
+              x-field-original-type: ""
+              x-field-type: string
+        x-code: ""
       responses:
         default:
           description: Default response
       x-name: pricecheck_POST
-      x-source: p.py~~171
+      x-source: p.py~~183
     x-name: pricecheck
   /regionundercut:
     get:
       operationId: regionundercut_GET
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              x-field-kind: normal
+              x-field-original-type: ""
+              x-field-type: string
+        x-code: ""
       responses:
         default:
           description: Default response
       x-name: regionundercut_GET
-      x-source: p.py~~654
+      x-source: p.py~~684
     post:
       operationId: regionundercut_POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              x-field-kind: normal
+              x-field-original-type: ""
+              x-field-type: string
+        x-code: ""
       responses:
         default:
           description: Default response
       x-name: regionundercut_POST
-      x-source: p.py~~654
+      x-source: p.py~~684
     x-name: regionundercut
   /uploadtimers:
     get:
@@ -236,14 +398,14 @@ paths:
         default:
           description: Default response
       x-name: uploadtimers_GET
-      x-source: p.py~~472
+      x-source: p.py~~492
     post:
       operationId: uploadtimers_POST
       responses:
         default:
           description: Default response
       x-name: uploadtimers_POST
-      x-source: p.py~~472
+      x-source: p.py~~492
     x-name: uploadtimers
   /wow:
     get:
@@ -252,14 +414,14 @@ paths:
         default:
           description: Default response
       x-name: wow_GET
-      x-source: p.py~~138
+      x-source: p.py~~148
     post:
       operationId: wow_POST
       responses:
         default:
           description: Default response
       x-name: wow_POST
-      x-source: p.py~~138
+      x-source: p.py~~148
     x-name: wow
 servers:
 - description: Default server
