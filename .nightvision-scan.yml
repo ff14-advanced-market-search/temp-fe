@@ -1,4 +1,4 @@
 https://app.nightvision.net:
-  http://localhost:5000:
-    default-credentials: 1f75a6ea-90f2-446c-a6fc-8cb11a00e8bc
-    project-id: 51edaf77-655e-40e3-9857-8984e5978276
+  http://127.0.0.1:5000:
+    api-id: d79be30b-c07d-47d3-8b37-d017ffea6dd2
+    project-id: d2cea408-a337-490a-b722-f11e2498bd54
