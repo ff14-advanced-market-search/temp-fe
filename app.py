@@ -19,6 +19,8 @@ origins = [
 CORS(app, resources={r"/*": {"origins": origins}})
 # limiter = Limiter(get_remote_address, app=app, default_limits=["1 per second"])
 
+api_address = "167.172.1.143"
+
 # Set the logging level to INFO for the Flask app
 app.logger.setLevel(logging.INFO)
 app.logger.disabled = True
@@ -185,7 +187,7 @@ def ffxiv_pricecheck():
     elif request.method == "POST":
         json_data = json.loads(request.form.get("jsonData"))
         response = requests.post(
-            "http://24.199.64.189/api/pricecheck",
+            f"http://{api_address}/api/pricecheck",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -236,7 +238,7 @@ def ffxiv_pricecheck():
 #         }
 
 #         response = requests.post(
-#             "http://24.199.64.189/api/history",
+#             f"http://{api_address}/api/history",
 #             headers={"Accept": "application/json"},
 #             json=json_data,
 #         ).json()
@@ -289,7 +291,7 @@ def ffxivcraftsim():
         }
 
         craftsim_post_json = requests.post(
-            "http://24.199.64.189/api/v2/craftsim",
+            f"http://{api_address}/api/v2/craftsim",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -377,7 +379,7 @@ def ffxiv_shopping_list():
         }
 
         shopping_list_json = requests.post(
-            "http://24.199.64.189/api/v2/shoppinglist",
+            f"http://{api_address}/api/v2/shoppinglist",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -444,7 +446,7 @@ def ffxivbestdeals():
             "filters": [int(request.form.get("filters"))],
         }
         response = requests.post(
-            "http://24.199.64.189/api/bestdeals",
+            f"http://{api_address}/api/bestdeals",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -494,7 +496,7 @@ def uploadtimers():
     elif request.method == "POST":
         json_data = {}
         response = requests.post(
-            "http://24.199.64.189/api/wow/uploadtimers",
+            f"http://{api_address}/api/wow/uploadtimers",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -527,7 +529,7 @@ def itemnames():
     elif request.method == "POST":
         json_data = {}
         response = requests.post(
-            "http://24.199.64.189/api/wow/itemnames",
+            f"http://{api_address}/api/wow/itemnames",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -556,7 +558,7 @@ def petshoppinglist():
         }
 
         response = requests.post(
-            "http://24.199.64.189/api/wow/shoppinglist",
+            f"http://{api_address}/api/wow/shoppinglist",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -599,7 +601,7 @@ def petmarketshare():
         }
 
         response = requests.post(
-            "http://24.199.64.189/api/wow/petmarketshare",
+            f"http://{api_address}/api/wow/petmarketshare",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -649,7 +651,7 @@ def petexport():
         }
 
         response = requests.post(
-            "http://24.199.64.189/api/wow/export",
+            f"http://{api_address}/api/wow/export",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -692,7 +694,7 @@ def regionundercut():
         }
 
         response = requests.post(
-            "http://24.199.64.189/api/wow/regionundercut",
+            f"http://{api_address}/api/wow/regionundercut",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -755,7 +757,7 @@ def bestdeals():
         }
 
         response = requests.post(
-            "http://24.199.64.189/api/wow/bestdeals",
+            f"http://{api_address}/api/wow/bestdeals",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
