@@ -558,11 +558,17 @@ def megaitemnames():
             json=json_data,
         ).json()
 
-        resp_list = list(response.items())
-        fieldnames = list(resp_list[0].keys())
+        column_order = [
+            "itemID",
+            "desiredPrice",
+            "itemName",
+            "salesPerDay",
+        ]
+        response = [{key: item.get(key) for key in column_order} for item in response]
+        fieldnames = list(response[0].keys())
         return return_safe_html(
             render_template(
-                "megaitemnames.html", results=resp_list, fieldnames=fieldnames, len=len
+                "megaitemnames.html", results=response, fieldnames=fieldnames, len=len
             )
         )
 
