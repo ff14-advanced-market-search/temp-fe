@@ -1,0 +1,66 @@
+{% include '_header.html' %}
+
+<body>
+  {% include '_navbar.html' %}
+  <div class="container-fluid">
+        <!-- results -->
+        <h2>For getting mega alerts item ids and potential prices</h2>
+        <div class="mt-4">
+          {% if request.method == 'POST'%}
+            <table id="proxies" class="display table table-striped table-hover nowrap responsive" style="width: 100%">
+              <thead>
+                <tr>
+                  {% for header in results[0].keys() %}
+                    <th>{{header}}</th>
+                  {% endfor %}
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in results %}
+                  <tr>
+                    {% for index in range(0, len(fieldnames)) %}
+                      <td>{{row[fieldnames[index]]}}</td>
+                    {% endfor %}
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% endif %}
+        </div>
+        <!-- input commands -->
+        <form method="POST" action="/megaitemnames" target="_blank" class="scanform">
+          <hr>
+
+          <div class="mb-3">
+            <label class="form-label">Region</label>
+            <select class="form-select" id="region" name="region">
+              <option value="NA">US</option>
+              <option value="EU">EU</option>
+            </select>
+            <div class="form-text">Pick a region. ex: <span style="color: #d97e84;">US</span></div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">
+              discount percent
+            </label>
+            <input name="discount" type="number" class="form-control" value="{{70|e}}">
+            <div class="form-text">
+              ex: <span style="color: #d97e84;">70</span> or <span style="color: #d97e84;">90</span>.
+            </div>
+          </div>
+                
+          <button type="submit" value="submit" class="btn btn-primary btn-lg">Submit</button>
+        </form>
+
+      </div>
+    </div>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7398832994051812"
+  crossorigin="anonymous">
+  </script>
+ </body>
+ <script type="text/javascript">
+   $('#proxies').DataTable();
+ </script>
+  
+</html>
