@@ -543,6 +543,36 @@ def itemnames():
         )
 
 
+@app.route("/megaitemnames", methods=["GET", "POST"])
+def megaitemnames():
+    if request.method == "GET":
+        return return_safe_html(render_template("megaitemnames.html"))
+    elif request.method == "POST":
+        json_data = {
+            "region": request.form.get("region"),
+            "discount": int(request.form.get("discount")),
+        }
+        response = requests.post(
+            f"http://api.saddlebagexchange.com/api/wow/megaitemnames",
+            headers={"Accept": "application/json"},
+            json=json_data,
+        ).json()
+
+        column_order = [
+            "itemID",
+            "desiredPrice",
+            "itemName",
+            "salesPerDay",
+        ]
+        response = [{key: item.get(key) for key in column_order} for item in response]
+        fieldnames = list(response[0].keys())
+        return return_safe_html(
+            render_template(
+                "megaitemnames.html", results=response, fieldnames=fieldnames, len=len
+            )
+        )
+
+
 @app.route("/petshoppinglist", methods=["GET", "POST"])
 def petshoppinglist():
     if request.method == "GET":
