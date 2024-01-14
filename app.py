@@ -28,7 +28,9 @@ logging.basicConfig(level=logging.INFO)
 # Setup logging for custom errors
 
 # Configure the logger with the custom format
-log_format = "%(levelname)s:\t[%(process)d][%(asctime)s] [%(module)s][%(funcName)s]  %(message)s"
+log_format = (
+    "%(levelname)s:\t[%(process)d][%(asctime)s] [%(module)s][%(funcName)s]  %(message)s"
+)
 formatter = logging.Formatter(log_format)
 
 # Create a handler and set the formatter
@@ -435,7 +437,9 @@ def ffxivbestdeals():
             return f"error no matching results found matching search inputs"
 
         if len(response["data"]) == 0:
-            logger.error(f"No matching results found with seach inputs {json_data} response {response}")
+            logger.error(
+                f"No matching results found with seach inputs {json_data} response {response}"
+            )
             # send generic error message to remove XSS potential
             return f"error no matching results found matching search inputs"
 
@@ -484,7 +488,9 @@ def uploadtimers():
         ).json()
 
         if "data" not in response:
-            logger.error(f"No matching results found with seach inputs {json_data} response {response}")
+            logger.error(
+                f"No matching results found with seach inputs {json_data} response {response}"
+            )
             # send generic error message to remove XSS potential
             return f"error no matching results found matching search inputs"
 
@@ -579,7 +585,9 @@ def petshoppinglist():
         ).json()
 
         if "data" not in response:
-            logger.error(f"Error no matching data with given inputs {json_data} response {response}")
+            logger.error(
+                f"Error no matching data with given inputs {json_data} response {response}"
+            )
             # send generic error message to remove XSS potential
             return f"error no matching results found matching search inputs"
 
@@ -625,7 +633,9 @@ def petmarketshare():
         ).json()
 
         if "data" not in response:
-            logger.error(f"Error no matching data with given inputs {json_data} response {response}")
+            logger.error(
+                f"Error no matching data with given inputs {json_data} response {response}"
+            )
             # send generic error message to remove XSS potential
             return f"error no matching results found matching search inputs"
 
@@ -677,7 +687,9 @@ def petexport():
         ).json()
 
         if "data" not in response:
-            logger.error(f"Error no matching data with given inputs {json_data} response {response}")
+            logger.error(
+                f"Error no matching data with given inputs {json_data} response {response}"
+            )
             # send generic error message to remove XSS potential
             return f"error no matching results found matching search inputs"
         response = response["data"]
@@ -722,7 +734,9 @@ def regionundercut():
         ).json()
 
         if "undercut_list" not in response or "not_found_list" not in response:
-            logger.error(f"Error no matching data with given inputs {json_data} response {response}")
+            logger.error(
+                f"Error no matching data with given inputs {json_data} response {response}"
+            )
             # send generic error message to remove XSS potential
             return f"error no matching results found matching search inputs"
         undercuts = response["undercut_list"]
@@ -739,7 +753,9 @@ def regionundercut():
         undercuts_fieldnames = list(undercuts[0].keys())
 
         if "not_found_list" not in response:
-            logger.error(f"Error no matching data with given inputs {json_data} response {response}")
+            logger.error(
+                f"Error no matching data with given inputs {json_data} response {response}"
+            )
             # send generic error message to remove XSS potential
             return f"error no matching results found matching search inputs"
         not_found = response["not_found_list"]
@@ -789,7 +805,9 @@ def bestdeals():
         ).json()
 
         if "data" not in response:
-            logger.error(f"Error no matching data with given inputs {json_data} response {response}")
+            logger.error(
+                f"Error no matching data with given inputs {json_data} response {response}"
+            )
             # send generic error message to remove XSS potential
             return f"error no matching results found matching search inputs"
         response = response["data"]
