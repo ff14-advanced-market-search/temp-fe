@@ -9,6 +9,7 @@ from flask_limiter.util import get_remote_address
 import requests, logging
 from lxml import html
 
+api_url = "http://api.saddlebagexchange.com/api"
 app = Flask(__name__)
 # Initialize Flask-CORS with your app and specify allowed origins
 origins = [
@@ -23,6 +24,23 @@ limiter = Limiter(get_remote_address, app=app, default_limits=["1 per second"])
 app.logger.setLevel(logging.INFO)
 app.logger.disabled = True
 logging.basicConfig(level=logging.INFO)
+
+# Setup logging for custom errors
+
+# Configure the logger with the custom format
+log_format = (
+    "%(levelname)s:\t[%(process)d][%(asctime)s] [%(module)s][%(funcName)s]  %(message)s"
+)
+formatter = logging.Formatter(log_format)
+
+# Create a handler and set the formatter
+handler = logging.StreamHandler()
+handler.setFormatter(formatter)
+
+# Create the logger and add the handler
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)  # Set the logging level to DEBUG
+logger.addHandler(handler)
 
 
 class CustomLogHandler(logging.StreamHandler):
@@ -185,7 +203,7 @@ def ffxiv_pricecheck():
     elif request.method == "POST":
         json_data = json.loads(request.form.get("jsonData"))
         response = requests.post(
-            "http://api.saddlebagexchange.com/api/pricecheck",
+            f"{api_url}/pricecheck",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -222,46 +240,6 @@ def ffxiv_pricecheck():
         )
 
 
-# @app.route("/ffxivserverhistory", methods=["GET", "POST"])
-# def ffxivserverhistory():
-#     if request.method == "GET":
-#         return return_safe_html(render_template("ffxiv_server_history.html"))
-#     elif request.method == "POST":
-#         json_data = {
-#             "home_server": request.form.get("home_server"),
-#             "item_id": int(request.form.get("item_id")),
-#             "initial_days": 7,
-#             "end_days": 0,
-#             "item_type": "all",
-#         }
-
-#         response = requests.post(
-#             "http://api.saddlebagexchange.com/api/history",
-#             headers={"Accept": "application/json"},
-#             json=json_data,
-#         ).json()
-
-#         if "server_distribution" not in response:
-#             return "Error refresh the page or contact the devs on discord"
-
-#         fixed_response = []
-#         for server, sale_count in response["server_distribution"].items():
-#             fixed_response.append(
-#                 {
-#                     "Server": server,
-#                     "Sale Count": sale_count,
-#                 }
-#             )
-#         fieldnames = list(fixed_response[0].keys())
-
-#         return return_safe_html(render_template(
-#             "ffxiv_server_history.html",
-#             results=fixed_response,
-#             fieldnames=fieldnames,
-#             len=len,
-#         ))
-
-
 @app.route("/ffxivcraftsim", methods=["GET", "POST"])
 def ffxivcraftsim():
     if request.method == "GET":
@@ -289,7 +267,7 @@ def ffxivcraftsim():
         }
 
         craftsim_post_json = requests.post(
-            "http://api.saddlebagexchange.com/api/v2/craftsim",
+            f"{api_url}/v2/craftsim",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -301,7 +279,9 @@ def ffxivcraftsim():
 
 def craftsim_results_table(craftsim_results, html_file_name, json_data={}):
     if "data" not in craftsim_results:
-        return craftsim_results
+        logger.error(str(craftsim_results))
+        # send generic error message to remove XSS potential
+        return f"error no matching results found matching search inputs"
 
     if len(craftsim_results["data"]) == 0:
         if json_data:
@@ -377,7 +357,7 @@ def ffxiv_shopping_list():
         }
 
         shopping_list_json = requests.post(
-            "http://api.saddlebagexchange.com/api/v2/shoppinglist",
+            f"{api_url}/v2/shoppinglist",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -389,7 +369,9 @@ def ffxiv_shopping_list():
 
 def ffxiv_shopping_list_result(shopping_list_results, html_file_name, json_data={}):
     if "data" not in shopping_list_results:
-        return shopping_list_results
+        logger.error(str(shopping_list_results))
+        # send generic error message to remove XSS potential
+        return f"error no matching results found matching search inputs"
 
     if len(shopping_list_results["data"]) == 0:
         if json_data:
@@ -444,16 +426,22 @@ def ffxivbestdeals():
             "filters": [int(request.form.get("filters"))],
         }
         response = requests.post(
-            "http://api.saddlebagexchange.com/api/bestdeals",
+            f"{api_url}/bestdeals",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
 
         if "data" not in response:
-            return response
+            logger.error(str(response))
+            # send generic error message to remove XSS potential
+            return f"error no matching results found matching search inputs"
 
         if len(response["data"]) == 0:
-            return f"No matching results found with seach inputs {json_data}"
+            logger.error(
+                f"No matching results found with seach inputs {json_data} response {response}"
+            )
+            # send generic error message to remove XSS potential
+            return f"error no matching results found matching search inputs"
 
         resp_list = response["data"]
         column_order = [
@@ -494,13 +482,18 @@ def uploadtimers():
     elif request.method == "POST":
         json_data = {}
         response = requests.post(
-            "http://api.saddlebagexchange.com/api/wow/uploadtimers",
+            f"{api_url}/wow/uploadtimers",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
 
         if "data" not in response:
-            return f"Error no matching data with given inputs {response}"
+            logger.error(
+                f"No matching results found with seach inputs {json_data} response {response}"
+            )
+            # send generic error message to remove XSS potential
+            return f"error no matching results found matching search inputs"
+
         response = response["data"]
 
         for row in response:
@@ -527,7 +520,7 @@ def itemnames():
     elif request.method == "POST":
         json_data = {}
         response = requests.post(
-            "http://api.saddlebagexchange.com/api/wow/itemnames",
+            f"{api_url}/wow/itemnames",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -553,7 +546,7 @@ def megaitemnames():
             "discount": int(request.form.get("discount")),
         }
         response = requests.post(
-            f"http://api.saddlebagexchange.com/api/wow/megaitemnames",
+            f"{api_url}/wow/megaitemnames",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -586,13 +579,18 @@ def petshoppinglist():
         }
 
         response = requests.post(
-            "http://api.saddlebagexchange.com/api/wow/shoppinglist",
+            f"{api_url}/wow/shoppinglist",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
 
         if "data" not in response:
-            return f"Error no matching data with given inputs {response}"
+            logger.error(
+                f"Error no matching data with given inputs {json_data} response {response}"
+            )
+            # send generic error message to remove XSS potential
+            return f"error no matching results found matching search inputs"
+
         response = response["data"]
 
         column_order = [
@@ -629,13 +627,17 @@ def petmarketshare():
         }
 
         response = requests.post(
-            "http://api.saddlebagexchange.com/api/wow/petmarketshare",
+            f"{api_url}/wow/petmarketshare",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
 
         if "data" not in response:
-            return f"Error no matching data with given inputs {response}"
+            logger.error(
+                f"Error no matching data with given inputs {json_data} response {response}"
+            )
+            # send generic error message to remove XSS potential
+            return f"error no matching results found matching search inputs"
 
         response = response["data"]
         column_order = [
@@ -679,13 +681,17 @@ def petexport():
         }
 
         response = requests.post(
-            "http://api.saddlebagexchange.com/api/wow/export",
+            f"{api_url}/wow/export",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
 
         if "data" not in response:
-            return f"Error no matching data with given inputs {response}"
+            logger.error(
+                f"Error no matching data with given inputs {json_data} response {response}"
+            )
+            # send generic error message to remove XSS potential
+            return f"error no matching results found matching search inputs"
         response = response["data"]
 
         for row in response:
@@ -722,13 +728,17 @@ def regionundercut():
         }
 
         response = requests.post(
-            "http://api.saddlebagexchange.com/api/wow/regionundercut",
+            f"{api_url}/wow/regionundercut",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
 
         if "undercut_list" not in response or "not_found_list" not in response:
-            return f"Error no matching data with given inputs, did you pick the right server? {response}"
+            logger.error(
+                f"Error no matching data with given inputs {json_data} response {response}"
+            )
+            # send generic error message to remove XSS potential
+            return f"error no matching results found matching search inputs"
         undercuts = response["undercut_list"]
 
         for row in undercuts:
@@ -743,7 +753,11 @@ def regionundercut():
         undercuts_fieldnames = list(undercuts[0].keys())
 
         if "not_found_list" not in response:
-            return f"Error no matching data with given inputs {response}"
+            logger.error(
+                f"Error no matching data with given inputs {json_data} response {response}"
+            )
+            # send generic error message to remove XSS potential
+            return f"error no matching results found matching search inputs"
         not_found = response["not_found_list"]
 
         for row in not_found:
@@ -785,13 +799,17 @@ def bestdeals():
         }
 
         response = requests.post(
-            "http://api.saddlebagexchange.com/api/wow/bestdeals",
+            f"{api_url}/wow/bestdeals",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
 
         if "data" not in response:
-            return f"Error no matching data with given inputs {response}"
+            logger.error(
+                f"Error no matching data with given inputs {json_data} response {response}"
+            )
+            # send generic error message to remove XSS potential
+            return f"error no matching results found matching search inputs"
         response = response["data"]
 
         for row in response:
