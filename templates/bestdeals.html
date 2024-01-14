@@ -1,126 +1,122 @@
-{% include '_header.html' %}
+{% autoescape true %}
+  {% include '_header.html' %}
 
-<body>
-  {% include '_navbar.html' %}
-  <div class="container-fluid">
-        <!-- results -->
-        <h2>For finding the best deals based on discount percent vs TSM Average Price</h2>
-        <div class="alert alert-warning" role="alert">
-          Sort by Highest Discount Percent
-        </div>
-        <div class="mt-4">
-          {% if request.method == 'POST'%}
-            <table id="proxies" class="display table table-striped table-hover nowrap responsive" style="width: 100%">
-              <thead>
+  <body>
+    {% include '_navbar.html' %}
+    <div class="container-fluid">
+      <!-- results -->
+      <h2>For finding the best deals based on discount percent vs TSM Average Price</h2>
+      <div class="alert alert-warning" role="alert">
+        Sort by Highest Discount Percent
+      </div>
+      <div class="mt-4">
+        {% if request.method == 'POST'%}
+          <table id="proxies" class="display table table-striped table-hover nowrap responsive" style="width: 100%">
+            <thead>
+              <tr>
+                {% for header in results[0].keys() %}
+                  <th>{{header}}</th>
+                {% endfor %}
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in results %}
                 <tr>
-                  {% for header in results[0].keys() %}
-                    <th>{{header}}</th>
+                  {% for index in range(0, len(fieldnames)) %}
+                    <td>{{row[fieldnames[index]]}}</td>
                   {% endfor %}
                 </tr>
-              </thead>
-              <tbody>
-                {% for row in results %}
-                  <tr>
-                    {% for index in range(0, len(fieldnames)) %}
-                      <td>{{row[fieldnames[index]]}}</td>
-                    {% endfor %}
-                  </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          {% endif %}
-        </div>
-        <!-- input commands -->
-        <form method="POST" action="/bestdeals" target="_blank" class="scanform">
-          <hr>
-
-          <div class="mb-3">
-            <label class="form-label">Item Type</label>
-            <select class="form-select" id="type" name="type">
-                <option value="df">Dragonflight Only</option>
-                <option value="pets">Pets Only</option>
-                <option value="legacy">Legacy Only</option>
-                <option value="all">All</option>
-            </select>
-            <div class="form-text">Search for deals on all items, Pets, Dragonflight, or Legacy items? ex: <span style="color: #d97e84;">All</span></div>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">Region</label>
-            <select class="form-select" id="region" name="region">
-                <option value="NA">US</option>
-                <option value="EU">EU</option>
-            </select>
-            <div class="form-text">Pick a region. ex: <span style="color: #d97e84;">US</span></div>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">Discount Percent</label>
-            <input class="form-control" name="discount" type="number" value="90">
-            <div class="form-text">Discount Percent ex: <span style="color: #d97e84;">90</span></div>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">Minimum TSM Average Price</label>
-            <input class="form-control" name="minPrice" type="number" value="3000">
-            <div class="form-text">Minimum TSM Average Price ex: <span style="color: #d97e84;">1000</span></div>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">Sales Per Day</label>
-            <input class="form-control" name="salesPerDay" value="1">
-            <div class="form-text">Sales Per Day ex: <span style="color: #d97e84;">10</span></div>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">Item Category</label>
-            <select class="form-select" id="item_class" name="item_class">
-                <option value="-1">All</option>
-                <option value="0">Consumable</option>
-                <option value="1">Container</option>
-                <option value="2">Weapon</option>
-                <option value="3">Gem</option>
-                <option value="4">Armor</option>
-                <option value="7">Tradegoods</option>
-                <option value="8">Item Enhancement</option>
-                <option value="9">Recipe</option>
-                <option value="12">Quest Item</option>
-                <option value="15">Miscellaneous</option>
-                <option value="16">Glyph</option>
-                <option value="17">Battle Pet</option>
-                <option value="19">Profession</option>
-            </select>
-            <div class="form-text">Pick a category. ex: <span style="color: #d97e84;">Armor</span></div>
-          </div>
-
-          <button type="submit" value="submit" class="btn btn-primary btn-lg">Submit</button>
-        </form>
-
+              {% endfor %}
+            </tbody>
+          </table>
+        {% endif %}
       </div>
+      <!-- input commands -->
+      <form method="POST" action="/bestdeals" target="_blank" class="scanform">
+        <hr>
+
+        <div class="mb-3">
+          <label class="form-label">Item Type</label>
+          <select class="form-select" id="type" name="type">
+              <option value="df">Dragonflight Only</option>
+              <option value="pets">Pets Only</option>
+              <option value="legacy">Legacy Only</option>
+              <option value="all">All</option>
+          </select>
+          <div class="form-text">Search for deals on all items, Pets, Dragonflight, or Legacy items? ex: <span style="color: #d97e84;">All</span></div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Region</label>
+          <select class="form-select" id="region" name="region">
+              <option value="NA">US</option>
+              <option value="EU">EU</option>
+          </select>
+          <div class="form-text">Pick a region. ex: <span style="color: #d97e84;">US</span></div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Discount Percent</label>
+          <input class="form-control" name="discount" type="number" value="90">
+          <div class="form-text">Discount Percent ex: <span style="color: #d97e84;">90</span></div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Minimum TSM Average Price</label>
+          <input class="form-control" name="minPrice" type="number" value="3000">
+          <div class="form-text">Minimum TSM Average Price ex: <span style="color: #d97e84;">1000</span></div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Sales Per Day</label>
+          <input class="form-control" name="salesPerDay" value="1">
+          <div class="form-text">Sales Per Day ex: <span style="color: #d97e84;">10</span></div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Item Category</label>
+          <select class="form-select" id="item_class" name="item_class">
+              <option value="-1">All</option>
+              <option value="0">Consumable</option>
+              <option value="1">Container</option>
+              <option value="2">Weapon</option>
+              <option value="3">Gem</option>
+              <option value="4">Armor</option>
+              <option value="7">Tradegoods</option>
+              <option value="8">Item Enhancement</option>
+              <option value="9">Recipe</option>
+              <option value="12">Quest Item</option>
+              <option value="15">Miscellaneous</option>
+              <option value="16">Glyph</option>
+              <option value="17">Battle Pet</option>
+              <option value="19">Profession</option>
+          </select>
+          <div class="form-text">Pick a category. ex: <span style="color: #d97e84;">Armor</span></div>
+        </div>
+
+        <button type="submit" value="submit" class="btn btn-primary btn-lg">Submit</button>
+      </form>
+
     </div>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7398832994051812"
-     crossorigin="anonymous"></script>
-  </body>
-  <script type="text/javascript">
-    // convert the content of col 6 in #proxies into a clickable <a> tag
-    // 6 : link
-    $('#proxies').DataTable(
-      {
-        "columnDefs": [
-          {
-            "targets": [ 6 ],
-            "render": function ( data, type, row ) {
-              return '<a href="' + data + '" target="_blank">' + data + '</a>';
-            }
+  </div>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7398832994051812"
+   crossorigin="anonymous"></script>
+</body>
+<script type="text/javascript">
+  // convert the content of col 6 in #proxies into a clickable <a> tag
+  // 6 : link
+  $('#proxies').DataTable(
+    {
+      "columnDefs": [
+        {
+          "targets": [ 6 ],
+          "render": function ( data, type, row ) {
+            return '<a href="' + data + '" target="_blank">' + data + '</a>';
           }
-        ]
-      }
-    );  </script>
-  
+        }
+      ]
+    }
+  );
+</script>
 </html>
-
-
-
-
-
-
+{% endautoescape %}
