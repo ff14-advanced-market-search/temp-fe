@@ -9,6 +9,7 @@ from flask_limiter.util import get_remote_address
 import requests, logging
 from lxml import html
 
+api_url = "http://api.saddlebagexchange.com/api"
 app = Flask(__name__)
 # Initialize Flask-CORS with your app and specify allowed origins
 origins = [
@@ -185,7 +186,7 @@ def ffxiv_pricecheck():
     elif request.method == "POST":
         json_data = json.loads(request.form.get("jsonData"))
         response = requests.post(
-            "http://api.saddlebagexchange.com/api/pricecheck",
+            f"{api_url}/pricecheck",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -236,7 +237,7 @@ def ffxiv_pricecheck():
 #         }
 
 #         response = requests.post(
-#             "http://api.saddlebagexchange.com/api/history",
+#             f"{api_url/history",
 #             headers={"Accept": "application/json"},
 #             json=json_data,
 #         ).json()
@@ -289,7 +290,7 @@ def ffxivcraftsim():
         }
 
         craftsim_post_json = requests.post(
-            "http://api.saddlebagexchange.com/api/v2/craftsim",
+            f"{api_url}/v2/craftsim",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -377,7 +378,7 @@ def ffxiv_shopping_list():
         }
 
         shopping_list_json = requests.post(
-            "http://api.saddlebagexchange.com/api/v2/shoppinglist",
+            f"{api_url}/v2/shoppinglist",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -444,7 +445,7 @@ def ffxivbestdeals():
             "filters": [int(request.form.get("filters"))],
         }
         response = requests.post(
-            "http://api.saddlebagexchange.com/api/bestdeals",
+            f"{api_url}/bestdeals",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -494,7 +495,7 @@ def uploadtimers():
     elif request.method == "POST":
         json_data = {}
         response = requests.post(
-            "http://api.saddlebagexchange.com/api/wow/uploadtimers",
+            f"{api_url}/wow/uploadtimers",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -527,7 +528,7 @@ def itemnames():
     elif request.method == "POST":
         json_data = {}
         response = requests.post(
-            "http://api.saddlebagexchange.com/api/wow/itemnames",
+            f"{api_url}/wow/itemnames",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -553,7 +554,7 @@ def megaitemnames():
             "discount": int(request.form.get("discount")),
         }
         response = requests.post(
-            f"http://api.saddlebagexchange.com/api/wow/megaitemnames",
+            f"{api_url}/wow/megaitemnames",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -586,7 +587,7 @@ def petshoppinglist():
         }
 
         response = requests.post(
-            "http://api.saddlebagexchange.com/api/wow/shoppinglist",
+            f"{api_url}/wow/shoppinglist",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -629,7 +630,7 @@ def petmarketshare():
         }
 
         response = requests.post(
-            "http://api.saddlebagexchange.com/api/wow/petmarketshare",
+            f"{api_url}/wow/petmarketshare",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -679,7 +680,7 @@ def petexport():
         }
 
         response = requests.post(
-            "http://api.saddlebagexchange.com/api/wow/export",
+            f"{api_url}/wow/export",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -722,7 +723,7 @@ def regionundercut():
         }
 
         response = requests.post(
-            "http://api.saddlebagexchange.com/api/wow/regionundercut",
+            f"{api_url}/wow/regionundercut",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
@@ -785,7 +786,7 @@ def bestdeals():
         }
 
         response = requests.post(
-            "http://api.saddlebagexchange.com/api/wow/bestdeals",
+            f"{api_url}/wow/bestdeals",
             headers={"Accept": "application/json"},
             json=json_data,
         ).json()
