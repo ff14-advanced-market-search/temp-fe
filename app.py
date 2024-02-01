@@ -1,4 +1,4 @@
-import json
+import json, os
 
 from flask import Flask, send_from_directory
 from flask import render_template, make_response
@@ -9,7 +9,8 @@ from flask_limiter.util import get_remote_address
 import requests, logging
 from lxml import html
 
-api_url = "http://api.saddlebagexchange.com/api"
+# Get API URL from environment variable or use default if not set
+api_url = os.getenv('API_URL', 'http://api.saddlebagexchange.com/api')
 app = Flask(__name__)
 # Initialize Flask-CORS with your app and specify allowed origins
 origins = [
