@@ -1,0 +1,977 @@
+components: {}
+info:
+  title: temp-fe
+  version: "0.1"
+openapi: 3.0.0
+paths:
+  /:
+    get:
+      operationId: root_GET
+      responses:
+        default:
+          description: Default response
+      x-name: root_GET
+      x-source: app.py~~77
+    head:
+      operationId: root_HEAD
+      responses:
+        default:
+          description: Default response
+      x-name: root_HEAD
+      x-source: test.py~~32
+    options:
+      operationId: root_OPTIONS
+      responses:
+        default:
+          description: Default response
+      x-name: root_OPTIONS
+      x-source: test.py~~32
+    post:
+      operationId: root_POST
+      responses:
+        default:
+          description: Default response
+      x-name: root_POST
+      x-source: app.py~~77
+    x-name: root
+  /bestdeals:
+    get:
+      operationId: bestdeals_GET
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                discount:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                item_class:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                minPrice:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                region:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                salesPerDay:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                type:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+              type: object
+              x-field-kind: normal
+              x-field-original-type: object
+              x-field-type: object
+        x-code: ""
+      responses:
+        default:
+          description: Default response
+      x-name: bestdeals_GET
+      x-source: app.py~~791
+    post:
+      operationId: bestdeals_POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                discount:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                item_class:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                minPrice:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                region:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                salesPerDay:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                type:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+              type: object
+              x-field-kind: normal
+              x-field-original-type: object
+              x-field-type: object
+        x-code: ""
+      responses:
+        default:
+          description: Default response
+      x-name: bestdeals_POST
+      x-source: app.py~~791
+    x-name: bestdeals
+  /favicon.ico:
+    get:
+      operationId: favicon.ico_GET
+      responses:
+        default:
+          description: Default response
+      x-name: favicon.ico_GET
+      x-source: app.py~~82
+    post:
+      operationId: favicon.ico_POST
+      responses:
+        default:
+          description: Default response
+      x-name: favicon.ico_POST
+      x-source: app.py~~82
+    x-name: favicon.ico
+  /ffxiv:
+    get:
+      operationId: ffxiv_GET
+      responses:
+        default:
+          description: Default response
+      x-name: ffxiv_GET
+      x-source: app.py~~164
+    post:
+      operationId: ffxiv_POST
+      responses:
+        default:
+          description: Default response
+      x-name: ffxiv_POST
+      x-source: app.py~~164
+    x-name: ffxiv
+  /ffxiv_itemnames:
+    get:
+      operationId: ffxiv_itemnames_GET
+      responses:
+        default:
+          description: Default response
+      x-name: ffxiv_itemnames_GET
+      x-source: app.py~~174
+    post:
+      operationId: ffxiv_itemnames_POST
+      responses:
+        default:
+          description: Default response
+      x-name: ffxiv_itemnames_POST
+      x-source: app.py~~174
+    x-name: ffxiv_itemnames
+  /ffxivbestdeals:
+    get:
+      operationId: ffxivbestdeals_GET
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                discount:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                filters:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                home_server:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                maxBuyPrice:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                medianPrice:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                salesAmount:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+              type: object
+              x-field-kind: normal
+              x-field-original-type: object
+              x-field-type: object
+        x-code: ""
+      responses:
+        default:
+          description: Default response
+      x-name: ffxivbestdeals_GET
+      x-source: app.py~~420
+    post:
+      operationId: ffxivbestdeals_POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                discount:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                filters:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                home_server:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                maxBuyPrice:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                medianPrice:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                salesAmount:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+              type: object
+              x-field-kind: normal
+              x-field-original-type: object
+              x-field-type: object
+        x-code: ""
+      responses:
+        default:
+          description: Default response
+      x-name: ffxivbestdeals_POST
+      x-source: app.py~~420
+    x-name: ffxivbestdeals
+  /ffxivcraftsim:
+    get:
+      operationId: ffxivcraftsim_GET
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                cost_metric:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                filters:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                hide_expert_recipes:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                home_server:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                job:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                lvl_lower_limit:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                lvl_upper_limit:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                max_material_cost:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                median_sale_price:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                revenue_metric:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                sales_per_week:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                stars:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                yields:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+              type: object
+              x-field-kind: normal
+              x-field-original-type: object
+              x-field-type: object
+        x-code: ""
+      responses:
+        default:
+          description: Default response
+      x-name: ffxivcraftsim_GET
+      x-source: app.py~~248
+    post:
+      operationId: ffxivcraftsim_POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                cost_metric:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                filters:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                hide_expert_recipes:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                home_server:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                job:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                lvl_lower_limit:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                lvl_upper_limit:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                max_material_cost:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                median_sale_price:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                revenue_metric:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                sales_per_week:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                stars:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                yields:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+              type: object
+              x-field-kind: normal
+              x-field-original-type: object
+              x-field-type: object
+        x-code: ""
+      responses:
+        default:
+          description: Default response
+      x-name: ffxivcraftsim_POST
+      x-source: app.py~~248
+    x-name: ffxivcraftsim
+  /ffxivshoppinglist:
+    get:
+      operationId: ffxivshoppinglist_GET
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                home_server:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                region_wide:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                shopping_list:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+              type: object
+              x-field-kind: normal
+              x-field-original-type: object
+              x-field-type: object
+        x-code: ""
+      responses:
+        default:
+          description: Default response
+      x-name: ffxivshoppinglist_GET
+      x-source: app.py~~352
+    post:
+      operationId: ffxivshoppinglist_POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                home_server:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                region_wide:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                shopping_list:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+              type: object
+              x-field-kind: normal
+              x-field-original-type: object
+              x-field-type: object
+        x-code: ""
+      responses:
+        default:
+          description: Default response
+      x-name: ffxivshoppinglist_POST
+      x-source: app.py~~352
+    x-name: ffxivshoppinglist
+  /itemnames:
+    get:
+      operationId: itemnames_GET
+      responses:
+        default:
+          description: Default response
+      x-name: itemnames_GET
+      x-source: app.py~~521
+    post:
+      operationId: itemnames_POST
+      responses:
+        default:
+          description: Default response
+      x-name: itemnames_POST
+      x-source: app.py~~521
+    x-name: itemnames
+  /megaitemnames:
+    get:
+      operationId: megaitemnames_GET
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                discount:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                region:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+              type: object
+              x-field-kind: normal
+              x-field-original-type: object
+              x-field-type: object
+        x-code: ""
+      responses:
+        default:
+          description: Default response
+      x-name: megaitemnames_GET
+      x-source: app.py~~544
+    post:
+      operationId: megaitemnames_POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                discount:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                region:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+              type: object
+              x-field-kind: normal
+              x-field-original-type: object
+              x-field-type: object
+        x-code: ""
+      responses:
+        default:
+          description: Default response
+      x-name: megaitemnames_POST
+      x-source: app.py~~544
+    x-name: megaitemnames
+  /petexport:
+    get:
+      operationId: petexport_GET
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                itemID:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                maxQuantity:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                minPrice:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                populationBlizz:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                populationWP:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                rankingWP:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                region:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+              type: object
+              x-field-kind: normal
+              x-field-original-type: object
+              x-field-type: object
+        x-code: ""
+      responses:
+        default:
+          description: Default response
+      x-name: petexport_GET
+      x-source: app.py~~671
+    post:
+      operationId: petexport_POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                itemID:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                maxQuantity:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                minPrice:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                populationBlizz:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                populationWP:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                rankingWP:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                region:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+              type: object
+              x-field-kind: normal
+              x-field-original-type: object
+              x-field-type: object
+        x-code: ""
+      responses:
+        default:
+          description: Default response
+      x-name: petexport_POST
+      x-source: app.py~~671
+    x-name: petexport
+  /petmarketshare:
+    get:
+      operationId: petmarketshare_GET
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                homeRealmName:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                minPrice:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                region:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                salesPerDay:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+              type: object
+              x-field-kind: normal
+              x-field-original-type: object
+              x-field-type: object
+        x-code: ""
+      responses:
+        default:
+          description: Default response
+      x-name: petmarketshare_GET
+      x-source: app.py~~619
+    post:
+      operationId: petmarketshare_POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                homeRealmName:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                minPrice:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                region:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                salesPerDay:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+              type: object
+              x-field-kind: normal
+              x-field-original-type: object
+              x-field-type: object
+        x-code: ""
+      responses:
+        default:
+          description: Default response
+      x-name: petmarketshare_POST
+      x-source: app.py~~619
+    x-name: petmarketshare
+  /petshoppinglist:
+    get:
+      operationId: petshoppinglist_GET
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                maxPurchasePrice:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                petID:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                region:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+              type: object
+              x-field-kind: normal
+              x-field-original-type: object
+              x-field-type: object
+        x-code: ""
+      responses:
+        default:
+          description: Default response
+      x-name: petshoppinglist_GET
+      x-source: app.py~~574
+    post:
+      operationId: petshoppinglist_POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                maxPurchasePrice:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                petID:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                region:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+              type: object
+              x-field-kind: normal
+              x-field-original-type: object
+              x-field-type: object
+        x-code: ""
+      responses:
+        default:
+          description: Default response
+      x-name: petshoppinglist_POST
+      x-source: app.py~~574
+    x-name: petshoppinglist
+  /pricecheck:
+    get:
+      operationId: pricecheck_GET
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                jsonData:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+              type: object
+              x-field-kind: normal
+              x-field-original-type: object
+              x-field-type: object
+        x-code: ""
+      responses:
+        default:
+          description: Default response
+      x-name: pricecheck_GET
+      x-source: app.py~~204
+    post:
+      operationId: pricecheck_POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                jsonData:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+              type: object
+              x-field-kind: normal
+              x-field-original-type: object
+              x-field-type: object
+        x-code: ""
+      responses:
+        default:
+          description: Default response
+      x-name: pricecheck_POST
+      x-source: app.py~~204
+    x-name: pricecheck
+  /regionundercut:
+    get:
+      operationId: regionundercut_GET
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                addonData:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                homeRealmID:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                region:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+              type: object
+              x-field-kind: normal
+              x-field-original-type: object
+              x-field-type: object
+        x-code: ""
+      responses:
+        default:
+          description: Default response
+      x-name: regionundercut_GET
+      x-source: app.py~~723
+    post:
+      operationId: regionundercut_POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                addonData:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                homeRealmID:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+                region:
+                  type: string
+                  x-field-kind: normal
+                  x-field-original-type: builtin.str
+                  x-field-type: string
+              type: object
+              x-field-kind: normal
+              x-field-original-type: object
+              x-field-type: object
+        x-code: ""
+      responses:
+        default:
+          description: Default response
+      x-name: regionundercut_POST
+      x-source: app.py~~723
+    x-name: regionundercut
+  /uploadtimers:
+    get:
+      operationId: uploadtimers_GET
+      responses:
+        default:
+          description: Default response
+      x-name: uploadtimers_GET
+      x-source: app.py~~483
+    post:
+      operationId: uploadtimers_POST
+      responses:
+        default:
+          description: Default response
+      x-name: uploadtimers_POST
+      x-source: app.py~~483
+    x-name: uploadtimers
+  /wow:
+    get:
+      operationId: wow_GET
+      responses:
+        default:
+          description: Default response
+      x-name: wow_GET
+      x-source: app.py~~169
+    post:
+      operationId: wow_POST
+      responses:
+        default:
+          description: Default response
+      x-name: wow_POST
+      x-source: app.py~~169
+    x-name: wow
+servers:
+- description: Default server
+  # url: http://127.0.0.1:5000
+  # url: https://temp.saddlebagexchange.com/
+  url: https://firing-range.saddlebagexchange.com/
