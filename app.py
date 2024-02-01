@@ -19,7 +19,11 @@ origins = [
     "https://temp.saddlebagexchange.com",
 ]
 CORS(app, resources={r"/*": {"origins": origins}})
-limiter = Limiter(get_remote_address, app=app, default_limits=["1 per second"])
+
+# Check for NO_RATE_LIMIT environment variable
+if 'NO_RATE_LIMIT' not in os.environ:
+    # Apply rate limit if NO_RATE_LIMIT is not set
+    limiter = Limiter(get_remote_address, app=app, default_limits=["1 per second"])
 
 # Set the logging level to INFO for the Flask app
 app.logger.setLevel(logging.INFO)
