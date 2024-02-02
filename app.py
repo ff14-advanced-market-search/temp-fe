@@ -10,7 +10,8 @@ import requests, logging
 from lxml import html
 
 # Get API URL from environment variable or use default if not set
-api_url = os.getenv('API_URL', 'http://api.saddlebagexchange.com/api')
+api_url = os.getenv('TEMP_API_URL', 'http://api.saddlebagexchange.com/api')
+
 app = Flask(__name__)
 # Initialize Flask-CORS with your app and specify allowed origins
 origins = [
@@ -21,7 +22,8 @@ origins = [
 CORS(app, resources={r"/*": {"origins": origins}})
 
 # Check for NO_RATE_LIMIT environment variable
-if 'NO_RATE_LIMIT' not in os.environ:
+NO_RATE_LIMIT = os.getenv('NO_RATE_LIMIT', False)
+if not NO_RATE_LIMIT:
     # Apply rate limit if NO_RATE_LIMIT is not set
     limiter = Limiter(get_remote_address, app=app, default_limits=["1 per second"])
 
@@ -68,6 +70,9 @@ def str_to_bool(bool_str):
 
 
 def return_safe_html(input_string):
+    # disable for security testing
+    if NO_RATE_LIMIT:
+        return input_string
     document_root = html.fromstring(input_string)
     cleaned_html = html.tostring(document_root, pretty_print=True)
     # if `cleaned_html` differs from `input_string`, the input may contain malicious content.
@@ -593,6 +598,8 @@ def petshoppinglist():
             logger.error(
                 f"Error no matching data with given inputs {json_data} response {response}"
             )
+            if NO_RATE_LIMIT:
+                return f"Error no matching data with given inputs {json_data} response {response}"
             # send generic error message to remove XSS potential
             return f"error no matching results found matching search inputs"
 
@@ -641,6 +648,8 @@ def petmarketshare():
             logger.error(
                 f"Error no matching data with given inputs {json_data} response {response}"
             )
+            if NO_RATE_LIMIT:
+                return f"Error no matching data with given inputs {json_data} response {response}"
             # send generic error message to remove XSS potential
             return f"error no matching results found matching search inputs"
 
@@ -695,6 +704,8 @@ def petexport():
             logger.error(
                 f"Error no matching data with given inputs {json_data} response {response}"
             )
+            if NO_RATE_LIMIT:
+                return f"Error no matching data with given inputs {json_data} response {response}"
             # send generic error message to remove XSS potential
             return f"error no matching results found matching search inputs"
         response = response["data"]
@@ -742,6 +753,8 @@ def regionundercut():
             logger.error(
                 f"Error no matching data with given inputs {json_data} response {response}"
             )
+            if NO_RATE_LIMIT:
+                return f"Error no matching data with given inputs {json_data} response {response}"
             # send generic error message to remove XSS potential
             return f"error no matching results found matching search inputs"
         undercuts = response["undercut_list"]
@@ -813,6 +826,8 @@ def bestdeals():
             logger.error(
                 f"Error no matching data with given inputs {json_data} response {response}"
             )
+            if NO_RATE_LIMIT:
+                return f"Error no matching data with given inputs {json_data} response {response}"
             # send generic error message to remove XSS potential
             return f"error no matching results found matching search inputs"
         response = response["data"]
