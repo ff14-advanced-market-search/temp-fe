@@ -10,7 +10,7 @@ import requests, logging
 from lxml import html
 
 # Get API URL from environment variable or use default if not set
-api_url = os.getenv('TEMP_API_URL', 'http://api.saddlebagexchange.com/api')
+api_url = os.getenv("TEMP_API_URL", "http://api.saddlebagexchange.com/api")
 
 app = Flask(__name__)
 # Initialize Flask-CORS with your app and specify allowed origins
@@ -22,7 +22,7 @@ origins = [
 CORS(app, resources={r"/*": {"origins": origins}})
 
 # Check for NO_RATE_LIMIT environment variable
-NO_RATE_LIMIT = os.getenv('NO_RATE_LIMIT', False)
+NO_RATE_LIMIT = os.getenv("NO_RATE_LIMIT", False)
 if not NO_RATE_LIMIT:
     # Apply rate limit if NO_RATE_LIMIT is not set
     limiter = Limiter(get_remote_address, app=app, default_limits=["1 per second"])
