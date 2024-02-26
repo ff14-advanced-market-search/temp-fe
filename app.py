@@ -143,23 +143,23 @@ def add_security_headers(response):
     # Add other security headers
     response.headers["X-Frame-Options"] = "same-origin"
     response.headers["X-Content-Type-Options"] = "nosniff"
-    response.headers[
-        "Strict-Transport-Security"
-    ] = "max-age=31536000; includeSubDomains;"
+    response.headers["Strict-Transport-Security"] = (
+        "max-age=31536000; includeSubDomains;"
+    )
     response.headers["Referrer-Policy"] = "no-referrer-when-downgrade"
     response.headers["Cross-Origin-Resource-Policy"] = "same-origin"
     response.headers["Cross-Origin-Opener-Policy"] = "same-origin"
     response.headers["X-XSS-Protection"] = "0; mode=block"
 
-    response.headers[
-        "Content-Security-Policy-Report-Only"
-    ] = "default-src 'self'; script-src 'self' https://cdn.example.com; style-src 'self' https://cdn.example.com; img-src 'self' data: https://cdn.example.com;"
+    response.headers["Content-Security-Policy-Report-Only"] = (
+        "default-src 'self'; script-src 'self' https://cdn.example.com; style-src 'self' https://cdn.example.com; img-src 'self' data: https://cdn.example.com;"
+    )
     ## this is causing issues remove from the sting above
     # report-uri /csp-report-endpoint;
 
-    response.headers[
-        "Permissions-Policy"
-    ] = "geolocation=(), camera=(), microphone=(), fullscreen=(), autoplay=(), payment=(), encrypted-media=(), midi=(), accelerometer=(), gyroscope=(), magnetometer=()"
+    response.headers["Permissions-Policy"] = (
+        "geolocation=(), camera=(), microphone=(), fullscreen=(), autoplay=(), payment=(), encrypted-media=(), midi=(), accelerometer=(), gyroscope=(), magnetometer=()"
+    )
 
     # this one breaks the tiny chocobo icon
     # response.headers["Cross-Origin-Embedder-Policy"] = "require-corp"
