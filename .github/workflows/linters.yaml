@@ -6,13 +6,15 @@ on:
   pull_request:
     branches:
       - main
-      - dev
+  push:
+    branches:
+      - main
 
 jobs:
   # TODO: Fix Bandit Vulns
   "Bandit":
     runs-on: ubuntu-latest
-    container: python:3.10
+    container: python:3.11
 
     steps:
       - uses: actions/checkout@v2
@@ -25,7 +27,7 @@ jobs:
 
   "Black":
     runs-on: ubuntu-latest
-    container: python:3.10
+    container: python:3.11
 
     steps:
       - uses: actions/checkout@v2
